@@ -52,7 +52,9 @@ public class CarController : MonoBehaviour
 
     private void Accelarate()
     {
-        frontTireJoint.motor.
+        JointMotor2D motor = new JointMotor2D();
+        motor.motorSpeed = moveInput * speed * Time.fixedDeltaTime;
+        frontTireJoint.motor = motor;
     }
 
     private void Deccelarate()
