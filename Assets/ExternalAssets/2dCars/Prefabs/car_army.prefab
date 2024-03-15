@@ -135,9 +135,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.7603043, y: -0.24250163}
-      - {x: 1.760207, y: -0.24226812}
-      - {x: 1.755, y: -0.04}
+    - - {x: 1.8106132, y: -0.24312758}
+      - {x: 1.8106132, y: -0.2431273}
+      - {x: 1.8170791, y: -0.2274861}
+      - {x: 1.8170786, y: -0.22748636}
+      - {x: 1.8153825, y: 0.008478511}
       - {x: 1.5749999, y: 0.049999997}
       - {x: 1.495, y: 0.06}
       - {x: 1.405, y: 0.11}
@@ -185,9 +187,9 @@ PolygonCollider2D:
       - {x: 1.4258666, y: -0.12647717}
       - {x: 1.5088744, y: -0.14589156}
       - {x: 1.5764709, y: -0.18599348}
-      - {x: 1.6626258, y: -0.26193693}
-      - {x: 1.6980973, y: -0.24279124}
-  m_UseDelaunayMesh: 0
+      - {x: 1.707406, y: -0.25092244}
+      - {x: 1.7562171, y: -0.2473779}
+  m_UseDelaunayMesh: 1
 --- !u!50 &333206790732981338
 Rigidbody2D:
   serializedVersion: 4
@@ -213,7 +215,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!235 &1909625218749775485
 WheelJoint2D:
@@ -230,11 +232,11 @@ WheelJoint2D:
   m_BreakTorque: Infinity
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 1.35, y: -0.507}
+  m_Anchor: {x: 1.3500001, y: -0.66299987}
   m_ConnectedAnchor: {x: 0.000000029802322, y: -0.00000002354053}
   m_Suspension:
-    m_DampingRatio: 0.35
-    m_Frequency: 3
+    m_DampingRatio: 1
+    m_Frequency: 20
     m_Angle: 90
   m_UseMotor: 0
   m_Motor:
@@ -255,11 +257,11 @@ WheelJoint2D:
   m_BreakTorque: Infinity
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: -1.175, y: -0.432}
+  m_Anchor: {x: -1.175, y: -0.652}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_Suspension:
-    m_DampingRatio: 0.35
-    m_Frequency: 3
+    m_DampingRatio: 1
+    m_Frequency: 20
     m_Angle: 90
   m_UseMotor: 0
   m_Motor:
@@ -281,7 +283,8 @@ MonoBehaviour:
   backTireRb: {fileID: 6789284611104282344}
   carRb: {fileID: 333206790732981338}
   speed: 150
-  rotationSpeed: 300
+  airRotationSpeed: 50
+  txtKPH: {fileID: 0}
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +312,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 126426}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.35, y: -0.507, z: 0}
+  m_LocalPosition: {x: 1.35, y: -0.6629999, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8623134}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -429,7 +432,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.0000038146973, y: -0.0000009536743}
   serializedVersion: 2
-  m_Radius: 0.49
+  m_Radius: 0.6
 --- !u!1 &182638
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +460,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.175, y: -0.432, z: 0}
+  m_LocalPosition: {x: -1.175, y: -0.652, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8688393}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -577,4 +580,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.0000009536743}
   serializedVersion: 2
-  m_Radius: 0.49
+  m_Radius: 0.6
