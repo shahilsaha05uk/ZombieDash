@@ -8,6 +8,10 @@ using UnityEngine.Serialization;
 
 public abstract class BaseCar : MonoBehaviour
 {
+    public delegate void FOnCarStatusUpdateSignature(FHudValues hudValues);
+
+    public FOnCarStatusUpdateSignature OnCarStatusUpdate;
+    
     private Controller PC;
     protected PlayerInputMappingContext mPlayerInput;
 
@@ -24,9 +28,19 @@ public abstract class BaseCar : MonoBehaviour
     [SerializeField] private float mDragValueWhenMoving;
     [Space(5)]
     [SerializeField] private float mRotateSpeed = 300f;
+
+    [Space(10)] [Header("Car Feature Modification")] 
+    [Space(5)] [Header("Fuel")] 
+    [SerializeField] private float mTotalFuel = 10f;
+    [SerializeField] private float mCurrentFuel = 10f;
+    [SerializeField] private float mFuelDecreaseRate = 0.1f;
+    [SerializeField] private float mFuelDecreaseInterval = 0.01f;
+    [SerializeField] private double mFuelTolerance;
+    private bool mShouldConsumeFuel = false;
+    
     
     [Space(5)]
-    [SerializeField] private FHudValues mCarValues;
+    [SerializeField] private FHudValues mHudValues;
     
     private float mSpeedRate;
     private float mRotationInput;
@@ -34,7 +48,14 @@ public abstract class BaseCar : MonoBehaviour
 
     [Space(10)][Header("Development")]
     [SerializeField] private float mHudUpdateTimeInterval = 0.1f;
-    [FormerlySerializedAs("mPositionTollerance")] [SerializeField] private double mInvokeTollerance;
+    [SerializeField] private float mInvokeTolerance = 1f;
+    private Coroutine mPlayerHudCoroutine;
+
+    private void Start()
+    {
+        mCurrentFuel = mTotalFuel;
+        
+    }
 
     // On Spawn
     public void Possess(Controller controller)
@@ -42,6 +63,8 @@ public abstract class BaseCar : MonoBehaviour
         PC = controller;
         
         SetupInputComponent();
+
+        mPlayerHudCoroutine = StartCoroutine(HudUpdater());
     }
 
     private void SetupInputComponent()
@@ -71,12 +94,17 @@ public abstract class BaseCar : MonoBehaviour
         {
             yield return timeInterval;
 
-            float distanceDifference = Vector2.Distance(mCarValues.position, transform.position);
-            float speedDifference = Mathf.Abs(mCarValues.speed - carRb.velocity.magnitude);
-            if (Math.Abs(mCarValues.position - transform.position.magnitude) > mInvokeTollerance || // Checking the distance
-                Math.Abs(mCarValues.speed - carRb.velocity.magnitude) > mInvokeTollerance)          // Checking the car Speed
+            float distanceDifference = Vector2.Distance(mHudValues.position, transform.position);
+            float speedDifference = Mathf.Abs(mHudValues.speed - carRb.velocity.magnitude);
+            float fuelDifference = mCurrentFuel - mHudValues.fuel;
+            
+            if (distanceDifference > mInvokeTolerance || 
+                speedDifference > mInvokeTolerance || 
+                fuelDifference > mFuelTolerance)
             {
                 //TODO: Invoke the event
+                Debug.Log("Invoke the event to update the HUD");
+                OnCarStatusUpdate?.Invoke(mHudValues);
             }
         }
     }
@@ -89,10 +117,13 @@ public abstract class BaseCar : MonoBehaviour
         if (mMoveInput == 0f) {
             mSpeedRate = mDecelarationRate;
             carRb.drag = mDragValueWhenStopping;
+            mShouldConsumeFuel = false;
         }
         else {
             mSpeedRate = mAccelarationRate;
             carRb.drag = mDragValueWhenMoving;
+            mShouldConsumeFuel = true;
+            StartCoroutine(UpdateFuel());
         }
     }
     
@@ -109,16 +140,30 @@ public abstract class BaseCar : MonoBehaviour
         backTireRb.AddTorque(torqueVal);
         
         // Updating the Car Values
-        mCarValues.position = transform.position.magnitude;
-        mCarValues.speed = carRb.velocity.magnitude;
+        /*
+        float currentDistance = Mathf.Abs(flag.transform.position.x - player.transform.position.x);
+        float progress = 1 - (currentDistance / totalDistance);
+        mPlayerProgress.value = progress;
+
+        */
+        
+        mHudValues.UpdatePosition(transform.position);
+        mHudValues.speed = carRb.velocity.magnitude;
     }
 
     private void Rotate()
     {
         carRb.AddTorque(-mRotationInput * mRotateSpeed * Time.fixedDeltaTime);
     }
-    
-    // Getters
-    public FHudValues GetStatus() { return mCarValues; }
 
+    private IEnumerator UpdateFuel()
+    {
+        WaitForSeconds timeInterval = new WaitForSeconds(mFuelDecreaseInterval);
+        while (mCurrentFuel > 0f && mShouldConsumeFuel)
+        {
+            mCurrentFuel -= mFuelDecreaseRate;
+            mHudValues.fuel = 1 - (mCurrentFuel / mTotalFuel);
+            yield return timeInterval;
+        }
+    }
 }

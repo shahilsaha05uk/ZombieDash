@@ -28,11 +28,9 @@ public class PlayerHUD : BaseWidget
 
     private void Start()
     {
-        /*
         mFuelMeter.maxValue = 1;
         mFuelMeter.minValue = 0;
         mFuelMeter.value = 1;
-        */
         //totalDistance = Mathf.Abs(flag.transform.position.x - startPos.transform.position.x);
     }
 
@@ -50,8 +48,9 @@ public class PlayerHUD : BaseWidget
         //mFuelMeter.value -= 0.0001f;
     }
 
-    public void UpdateCarStatus(FHudValues getStatus)
+    public void UpdateCarStatus(FHudValues hudStatus)
     {
-        txtKPH.text = ((int)(getStatus.speed * 3.6f)).ToString();
+        txtKPH.text = ((int)(hudStatus.speed * 3.6f)).ToString();
+        mFuelMeter.value = hudStatus.fuel;
     }
 }

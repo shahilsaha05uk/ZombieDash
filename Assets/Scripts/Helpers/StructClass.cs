@@ -14,17 +14,16 @@ namespace StructClass
     {
         public float speed;
         public float positionMag;
+        public float positionMagNormalized;
         public float boost;
         public float fuel;
         public Vector2 position;
-        
-        public FHudValues()
+
+        public void UpdatePosition(Vector2 pos)
         {
-            speed = 0f;
-            positionMag = 0f;
-            boost = 0f;
-            fuel = 0f;
-            position = Vector2.zero;
+            position = pos;
+            positionMag = pos.magnitude;
+            //positionMagNormalized = 
         }
     }
 }
