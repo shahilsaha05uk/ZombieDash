@@ -1,0 +1,104 @@
+{
+    "name": "PlayerInputMappingContext",
+    "maps": [
+        {
+            "name": "Move",
+            "id": "d12b9ff3-b6bd-4ebe-b120-626d90a88390",
+            "actions": [
+                {
+                    "name": "Right/Left",
+                    "type": "Button",
+                    "id": "1097dc85-4ec9-4260-aa28-0d59a498bb2f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Roll",
+                    "type": "Button",
+                    "id": "a8d5456a-b620-423a-99b9-09b40fff588c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "4465ace5-c857-4ef8-a5ab-8d285297a5f1",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right/Left",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "ed4706d1-ef11-44a1-8786-6b5b92469216",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerInput",
+                    "action": "Right/Left",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "02bdb2c7-23e0-496b-82da-e0c149e54011",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerInput",
+                    "action": "Right/Left",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "a172baac-54bf-408c-8ddc-17de31da9948",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "e4e52311-fe7f-4512-b773-b5797007e06f",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "06ca4b29-8ea0-4984-a1e7-9a55917b0452",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PlayerInput",
+            "bindingGroup": "PlayerInput",
+            "devices": []
+        }
+    ]
+}
