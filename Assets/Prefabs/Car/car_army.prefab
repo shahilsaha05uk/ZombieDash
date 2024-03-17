@@ -295,12 +295,18 @@ MonoBehaviour:
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
   carRb: {fileID: 333206790732981338}
-  mRotateSpeed: 2000
-  mPlayerHUD: {fileID: 0}
   mAccelarationRate: 10000
   mDecelarationRate: 12000
   mDragValueWhenStopping: 3
   mDragValueWhenMoving: 0.1
+  mRotateSpeed: 2000
+  mTotalFuel: 10
+  mCurrentFuel: 10
+  mFuelDecreaseRate: 0.001
+  mFuelDecreaseInterval: 0.01
+  mFuelTolerance: 0.001
+  mHudUpdateTimeInterval: 0.1
+  mInvokeTolerance: 0.1
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0

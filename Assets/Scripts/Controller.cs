@@ -24,6 +24,7 @@ public class Controller : MonoBehaviour
     
     private FLocationPoints mFLocations;
 
+    
 
     //private Coroutine mPlayerHudCor;
     private void Start()
@@ -62,10 +63,9 @@ public class Controller : MonoBehaviour
         // Spawn the player
         Transform spawnTransform = GameManager.GetPlayerStart().transform;
         mCar = Instantiate(mCarPrefab, spawnTransform);
-        mCar.Possess(this);
+        mCar.OnCarStatusUpdate += UpdateHUD;
         CameraSetup();
-
-        //mPlayerHudCor = StartCoroutine(PlayerHudUpdater());
+        mCar.Possess(this);
     }
 
     private void CameraSetup()
@@ -78,13 +78,10 @@ public class Controller : MonoBehaviour
             mVirtualCamera.Follow = mVirtualCamera.LookAt = mCar.transform;
         }
     }
-
-    /*private IEnumerator PlayerHudUpdater()
+    
+    // HUD Methods
+    private void UpdateHUD(FHudValues hudValues)
     {
-        while (true)
-        {
-            mPlayerHUD.UpdateCarStatus(mCar.GetStatus());
-            yield return new WaitForFixedUpdate();
-        }
-    }*/
+        mPlayerHUD.UpdateCarStatus(hudValues);
+    }
 }
