@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1909625218749775485}
   - component: {fileID: 2064304931169375897}
   - component: {fileID: 5197225978563351239}
+  - component: {fileID: -3201138244935720356}
   m_Layer: 0
   m_Name: car_army
   m_TagString: Untagged
@@ -203,7 +204,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 2
-  m_LinearDrag: 0
+  m_LinearDrag: 0.5
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -240,7 +241,7 @@ WheelJoint2D:
     m_Angle: 90
   m_UseMotor: 0
   m_Motor:
-    m_MotorSpeed: 0
+    m_MotorSpeed: 100
     m_MaximumMotorForce: 10000
 --- !u!235 &2064304931169375897
 WheelJoint2D:
@@ -265,7 +266,7 @@ WheelJoint2D:
     m_Angle: 90
   m_UseMotor: 0
   m_Motor:
-    m_MotorSpeed: 0
+    m_MotorSpeed: 100
     m_MaximumMotorForce: 10000
 --- !u!114 &5197225978563351239
 MonoBehaviour:
@@ -274,17 +275,32 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107512}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfbb4b56bdf54eb4da0e88780f254a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3201138244935720356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 510c28999eddeaa418c695bf6e232ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
   carRb: {fileID: 333206790732981338}
-  speed: 150
-  airRotationSpeed: 50
-  txtKPH: {fileID: 0}
+  mRotateSpeed: 2000
+  mPlayerHUD: {fileID: 0}
+  mAccelarationRate: 10000
+  mDecelarationRate: 12000
+  mDragValueWhenStopping: 3
+  mDragValueWhenMoving: 0.1
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +400,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.5
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -532,7 +548,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.5
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}

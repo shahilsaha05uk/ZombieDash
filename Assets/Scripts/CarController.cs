@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
+    /*
     [SerializeField] private Rigidbody2D frontTireRb;
     [SerializeField] private Rigidbody2D backTireRb;
     [SerializeField] private Rigidbody2D carRb;
@@ -15,10 +16,12 @@ public class CarController : MonoBehaviour
     private float rotationInput;
 
     private bool bShouldRotate = false;
+    */
     //TODO: Add controls for rotation as well
 
     void Update()
     {
+        /*
         moveInput = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.M))
@@ -47,10 +50,11 @@ public class CarController : MonoBehaviour
         {
             mPlayerHUD.DecreaseFuel();
         }
+    */
     }
 
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         Accelarate();
 
@@ -69,5 +73,5 @@ public class CarController : MonoBehaviour
     private void RotateCar()
     {
         carRb.AddTorque(rotationInput * airRotationSpeed * Time.fixedDeltaTime);
-    }
+    }*/
 }
