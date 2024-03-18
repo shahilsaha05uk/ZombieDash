@@ -5,6 +5,7 @@ using EnumHelper;
 using StructClass;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerHUD : BaseWidget
@@ -13,8 +14,9 @@ public class PlayerHUD : BaseWidget
    // public GameObject flag;
    // public GameObject player;
 
-    public Slider mPlayerProgress;
-    public Slider mFuelMeter;
+    [SerializeField] private Slider mPlayerProgress;
+    [SerializeField] private Slider mFuelMeter;
+    [SerializeField] private Slider mBoostMeter;
     
     [SerializeField]private TextMeshProUGUI txtKPH;
 
@@ -31,6 +33,10 @@ public class PlayerHUD : BaseWidget
         mFuelMeter.maxValue = 1;
         mFuelMeter.minValue = 0;
         mFuelMeter.value = 1;
+        
+        mBoostMeter.maxValue = 1;
+        mBoostMeter.minValue = 0;
+        mBoostMeter.value = 1;
         //totalDistance = Mathf.Abs(flag.transform.position.x - startPos.transform.position.x);
     }
 
@@ -43,14 +49,10 @@ public class PlayerHUD : BaseWidget
     */
     }
 
-    public void DecreaseFuel()
-    {
-        //mFuelMeter.value -= 0.0001f;
-    }
-
     public void UpdateCarStatus(FHudValues hudStatus)
     {
         txtKPH.text = ((int)(hudStatus.speed * 3.6f)).ToString();
         mFuelMeter.value = hudStatus.fuel;
+        mBoostMeter.value = hudStatus.nitro;
     }
 }

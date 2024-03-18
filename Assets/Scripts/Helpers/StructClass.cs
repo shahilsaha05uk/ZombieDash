@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StructClass
 {
@@ -12,18 +13,29 @@ namespace StructClass
 
     public struct FHudValues
     {
+        
+        public float fuel{ get; private set; }
+        public float fuelNormalized { get; private set; }
+        
+        
         public float speed;
         public float positionMag;
         public float positionMagNormalized;
-        public float boost;
-        public float fuel;
+        public float nitro;
         public Vector2 position;
+        public float totalFuel;
 
         public void UpdatePosition(Vector2 pos)
         {
             position = pos;
             positionMag = pos.magnitude;
             //positionMagNormalized = 
+        }
+
+        public void UpdateFuel(float Value)
+        {
+            fuel = Value;
+            fuelNormalized = fuel = 1 - (fuel / totalFuel);
         }
     }
 }
