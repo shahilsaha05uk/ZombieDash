@@ -63,7 +63,7 @@ public class Controller : MonoBehaviour
 
         // Spawn the player
         Transform spawnTransform = GameManager.GetPlayerStart().transform;
-        mCar = Instantiate(mCarPrefab, spawnTransform);
+        mCar = Instantiate(mCarPrefab, spawnTransform.position, spawnTransform.rotation);
         mCar.OnComponentUpdated += UpdateHUD;
         
         CameraSetup();

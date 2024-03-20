@@ -22,15 +22,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Nitro",
-                    "type": "Value",
-                    "id": "460572d1-aae8-4cf0-839e-bcc57476845b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -99,10 +90,27 @@
                     "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
+                }
+            ]
+        },
+        {
+            "name": "Trigger",
+            "id": "0bcf416a-7b08-42d1-b913-342fdd6ab99f",
+            "actions": [
+                {
+                    "name": "Nitro",
+                    "type": "Value",
+                    "id": "d181dcca-a3bf-40f1-9859-2814b103bd04",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "c11dfe10-d3b6-4a5e-b12c-0ac06f74c02c",
+                    "id": "00344b7a-2f46-4709-bd1b-8539132d6627",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",

@@ -15,13 +15,6 @@ public class CarComponent : MonoBehaviour
     public delegate void FOnCarComponentUpdate(ECarComponent carComponent, float Value);
     public FOnCarComponentUpdate OnComponentUpdated;
     
-    [Space(10)][Header("Development")]
-    [SerializeField] private float mHudUpdateTimeInterval = 0.1f;
-    [SerializeField] private Rigidbody2D carRb;
-
-    [Space(5)]
-    //[SerializeField] private FHudValues mHudValues;
-
     [Space(10)] [Header("Car Feature Modification")] 
     [HideInInspector] public float mCurrentFuel = 1f;
     [HideInInspector] public float mCurrentNitro = 1f;
@@ -29,39 +22,11 @@ public class CarComponent : MonoBehaviour
     [Space(5)] [Header("Fuel")] 
     [SerializeField] private float mFuelDecreaseRate = 0.1f;
     [SerializeField] private float mFuelDecreaseInterval = 0.01f;
-    [SerializeField] private float mFuelTolerance = 0.001f;
                      private bool mShouldConsumeFuel = false;
     
     [Space(5)] [Header("Nitro")]
-    [SerializeField] private float mNitroDecreaseRate = 0.1f;
-    [SerializeField] private float mNitroDecreaseInterval = 0.01f;
-    [SerializeField] private float mNitroTolerance = 0.001f;
-                     private bool mShouldConsumeNitro = false;
-    
+    private bool mShouldConsumeNitro = false;
 
-    private IEnumerator HudUpdater()
-    {
-        WaitForSeconds timeInterval = new WaitForSeconds(mHudUpdateTimeInterval);
-        while (true)
-        {
-            yield return timeInterval;
-
-            /*
-            float distanceDifference = Vector2.Distance(mHudValues.position, transform.position);
-            float speedDifference = Mathf.Abs(mHudValues.speed - carRb.velocity.magnitude);
-            float fuelDifference = mCurrentFuel - mHudValues.fuel;
-            
-            if (distanceDifference > mInvokeTolerance || 
-                speedDifference > mInvokeTolerance || 
-                fuelDifference > mFuelTolerance)
-            {
-                //TODO: Invoke the event
-                Debug.Log("Invoke the event to update the HUD");
-               // OnCarStatusUpdate?.Invoke(mHudValues);
-            }
-        */
-        }
-    }
 
     public void StartFuelConsumption()
     {
@@ -74,6 +39,7 @@ public class CarComponent : MonoBehaviour
         mShouldConsumeFuel = false;
     }
 
+    /*
     public void StartNitroConsumption()
     {
         mShouldConsumeNitro = true;
@@ -84,6 +50,7 @@ public class CarComponent : MonoBehaviour
     {
         mShouldConsumeNitro = false;
     }
+    */
 
     private IEnumerator UpdateFuel()
     {
@@ -105,17 +72,21 @@ public class CarComponent : MonoBehaviour
         }
     }
 
-    private IEnumerator UpdateNitro()
+    public void UpdateNitro()
     {
-        WaitForSeconds timeInterval = new WaitForSeconds(mNitroDecreaseInterval);
-        while (mCurrentNitro > 0f && mShouldConsumeNitro)
+        if (mCurrentNitro >= 0f)
         {
             mCurrentNitro -= mFuelDecreaseRate;
             OnComponentUpdated?.Invoke(ECarComponent.Nitro, mCurrentNitro);
             DebugUI.OnNitroUpdate.Invoke(mCurrentNitro);
-
-            yield return timeInterval;
         }
+        else
+        {
+            //TODO: Call for the Game Update
+            OnRunningOutOfResources?.Invoke(ECarComponent.Nitro);
+            Debug.Log("Out of Nitro");
+        }
+
     }
 
 }
