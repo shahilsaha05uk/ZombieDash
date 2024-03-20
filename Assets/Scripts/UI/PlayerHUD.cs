@@ -49,10 +49,20 @@ public class PlayerHUD : BaseWidget
     */
     }
 
-    public void UpdateCarStatus(FHudValues hudStatus)
+    public void UpdateCarStatus(FHudValues hudStatus, ECarComponent ComponentToUpdate = ECarComponent.All_Comp)
     {
-        //txtKPH.text = ((int)(hudStatus.speed * 3.6f)).ToString();
-        mFuelMeter.value = hudStatus.fuel;
-        mBoostMeter.value = hudStatus.nitro;
+        switch (ComponentToUpdate)
+        {
+            case ECarComponent.All_Comp:
+                mFuelMeter.value = hudStatus.fuel;
+                mBoostMeter.value = hudStatus.nitro;
+                break;
+            case ECarComponent.Fuel:
+                mFuelMeter.value = hudStatus.fuel;
+                break;
+            case ECarComponent.Nitro:
+                mBoostMeter.value = hudStatus.nitro;
+                break;
+        }
     }
 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1909625218749775485}
   - component: {fileID: 2064304931169375897}
   - component: {fileID: -3201138244935720356}
+  - component: {fileID: -4919455347906476232}
   m_Layer: 0
   m_Name: car_army
   m_TagString: Untagged
@@ -289,19 +290,31 @@ MonoBehaviour:
   mDragValueWhenStopping: 1
   mDragValueWhenMoving: 0.1
   mRotateSpeed: 100
-  mTotalFuel: 10
-  mCurrentFuel: 10
+  mFuelTolerance: 0.1
+  mMaxSpeed: 100
+  mComponent: {fileID: -4919455347906476232}
+--- !u!114 &-4919455347906476232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fc402559c18fe54a950b71dc8eed56a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mHudUpdateTimeInterval: 0.1
+  carRb: {fileID: 333206790732981338}
+  mCurrentFuel: 1
+  mCurrentNitro: 1
   mFuelDecreaseRate: 0.001
   mFuelDecreaseInterval: 0.01
   mFuelTolerance: 0.1
-  mTotalNitro: 10
-  mCurrentNitro: 10
-  mNitroDecreaseRate: 0.1
+  mNitroDecreaseRate: 0.001
   mNitroDecreaseInterval: 0.01
-  mNitroTolerance: 0
-  mMaxSpeed: 0
-  mHudUpdateTimeInterval: 0.1
-  mInvokeTolerance: 0.1
+  mNitroTolerance: 0.001
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0
