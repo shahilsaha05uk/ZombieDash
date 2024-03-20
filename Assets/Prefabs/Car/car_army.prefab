@@ -304,7 +304,12 @@ MonoBehaviour:
   mCurrentFuel: 10
   mFuelDecreaseRate: 0.001
   mFuelDecreaseInterval: 0.01
-  mFuelTolerance: 0.001
+  mFuelTolerance: 0.1
+  mTotalNitro: 10
+  mCurrentNitro: 10
+  mNitroDecreaseRate: 0.1
+  mNitroDecreaseInterval: 0.01
+  mNitroTolerance: 0
   mHudUpdateTimeInterval: 0.1
   mInvokeTolerance: 0.1
 --- !u!1 &126426

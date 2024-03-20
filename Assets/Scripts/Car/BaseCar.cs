@@ -38,6 +38,13 @@ public abstract class BaseCar : MonoBehaviour
     [SerializeField] private double mFuelTolerance;
     private bool mShouldConsumeFuel = false;
     
+    [Space(5)] [Header("Nitro")]
+    [SerializeField] private float mTotalNitro = 10f;
+    [SerializeField] private float mCurrentNitro = 10f;
+    [SerializeField] private float mNitroDecreaseRate = 0.1f;
+    [SerializeField] private float mNitroDecreaseInterval = 0.01f;
+    [SerializeField] private double mNitroTolerance;
+    private bool mShouldConsumeNitro = false;
     
     [Space(5)]
     [SerializeField] private FHudValues mHudValues;
@@ -54,7 +61,10 @@ public abstract class BaseCar : MonoBehaviour
     private void Start()
     {
         mCurrentFuel = mTotalFuel;
-        
+        mCurrentNitro = mTotalNitro;
+
+        mHudValues.nitro = mCurrentNitro;
+        mHudValues.totalFuel = mTotalFuel;
     }
 
     // On Spawn
@@ -76,14 +86,29 @@ public abstract class BaseCar : MonoBehaviour
         
         mPlayerInput.Move.Roll.started += Roll;
         mPlayerInput.Move.Roll.canceled += Roll;
+
+        mPlayerInput.Move.Nitro.started += Nitro;
+        mPlayerInput.Move.Nitro.canceled += Nitro;
         
         mPlayerInput.Enable();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Accelarate();
         Rotate();
+        
+        mHudValues.UpdatePosition(transform.position);
+        mHudValues.speed = carRb.velocity.magnitude;
+        mHudValues.UpdateFuel(mCurrentFuel);
+        // Updating the Car Values
+        /*
+        float currentDistance = Mathf.Abs(flag.transform.position.x - player.transform.position.x);
+        float progress = 1 - (currentDistance / totalDistance);
+        mPlayerProgress.value = progress;
+
+        */
+
     }
     
     // Updaters
@@ -108,11 +133,11 @@ public abstract class BaseCar : MonoBehaviour
             }
         }
     }
-    
+
     // Control Bindings
-    private void Move(InputAction.CallbackContext obj)
+    private void Move(InputAction.CallbackContext InputValue)
     {
-        mMoveInput = obj.ReadValue<float>();
+        mMoveInput = InputValue.ReadValue<float>();
 
         if (mMoveInput == 0f) {
             mSpeedRate = mDecelarationRate;
@@ -127,28 +152,24 @@ public abstract class BaseCar : MonoBehaviour
         }
     }
     
-    private void Roll(InputAction.CallbackContext obj)
+    private void Roll(InputAction.CallbackContext InputValue)
     {
-        mRotationInput = obj.ReadValue<float>();
+        mRotationInput = InputValue.ReadValue<float>();
     }
 
+    private void Nitro(InputAction.CallbackContext InputValue)
+    {
+        mShouldConsumeNitro = InputValue.ReadValueAsButton();
+
+        if (mShouldConsumeNitro) StartCoroutine(UpdateNitro());
+    }
+    
     // Action Methods
     private void Accelarate()
     {
         float torqueVal = -mMoveInput * mSpeedRate * Time.fixedDeltaTime;
         frontTireRb.AddTorque(torqueVal);
         backTireRb.AddTorque(torqueVal);
-        
-        // Updating the Car Values
-        /*
-        float currentDistance = Mathf.Abs(flag.transform.position.x - player.transform.position.x);
-        float progress = 1 - (currentDistance / totalDistance);
-        mPlayerProgress.value = progress;
-
-        */
-        
-        mHudValues.UpdatePosition(transform.position);
-        mHudValues.speed = carRb.velocity.magnitude;
     }
 
     private void Rotate()
@@ -162,8 +183,21 @@ public abstract class BaseCar : MonoBehaviour
         while (mCurrentFuel > 0f && mShouldConsumeFuel)
         {
             mCurrentFuel -= mFuelDecreaseRate;
-            mHudValues.fuel = 1 - (mCurrentFuel / mTotalFuel);
+            mHudValues.UpdateFuel(mCurrentFuel);
+            
             yield return timeInterval;
         }
+    }
+
+    private IEnumerator UpdateNitro()
+    {
+        WaitForSeconds timeInterval = new WaitForSeconds(mNitroDecreaseInterval);
+        while (mCurrentNitro > 0f && mShouldConsumeNitro)
+        {
+            mCurrentNitro -= mFuelDecreaseRate;
+            mHudValues.nitro = 1 - (mCurrentNitro / mTotalNitro);
+            yield return timeInterval;
+        }
+
     }
 }
