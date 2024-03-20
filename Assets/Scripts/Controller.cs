@@ -12,6 +12,7 @@ public class Controller : MonoBehaviour
 
     public FOnRequestUISignature OnRequestUI;
 
+
     [SerializeField] private Car mCarPrefab;
     [SerializeField] private Camera mMainCameraPrefab;
     [SerializeField] private CinemachineVirtualCamera mVirtualCameraPrefab;
@@ -63,7 +64,8 @@ public class Controller : MonoBehaviour
         // Spawn the player
         Transform spawnTransform = GameManager.GetPlayerStart().transform;
         mCar = Instantiate(mCarPrefab, spawnTransform);
-        mCar.OnCarStatusUpdate += UpdateHUD;
+        mCar.OnComponentUpdated += UpdateHUD;
+        
         CameraSetup();
         mCar.Possess(this);
     }
@@ -80,8 +82,9 @@ public class Controller : MonoBehaviour
     }
     
     // HUD Methods
-    private void UpdateHUD(FHudValues hudValues)
+    private void UpdateHUD(ECarComponent carComponent, FHudValues hudValues)
     {
+        Debug.Log("Sending updates to the player hud");
         mPlayerHUD.UpdateCarStatus(hudValues);
     }
 }

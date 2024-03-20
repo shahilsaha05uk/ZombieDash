@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 333206790732981338}
   - component: {fileID: 1909625218749775485}
   - component: {fileID: 2064304931169375897}
-  - component: {fileID: 5197225978563351239}
   - component: {fileID: -3201138244935720356}
+  - component: {fileID: -4919455347906476232}
   m_Layer: 0
   m_Name: car_army
   m_TagString: Untagged
@@ -203,8 +203,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
-  m_LinearDrag: 0.5
+  m_Mass: 1
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -268,18 +268,6 @@ WheelJoint2D:
   m_Motor:
     m_MotorSpeed: 100
     m_MaximumMotorForce: 10000
---- !u!114 &5197225978563351239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107512}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfbb4b56bdf54eb4da0e88780f254a5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-3201138244935720356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,26 +280,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510c28999eddeaa418c695bf6e232ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mFrontWheel: {fileID: 1909625218749775485}
+  mRearWheel: {fileID: 2064304931169375897}
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
   carRb: {fileID: 333206790732981338}
-  mAccelarationRate: 10000
-  mDecelarationRate: 12000
-  mDragValueWhenStopping: 3
+  mAccelarationRate: 1
+  mDecelerationRate: 5
+  mDragValueWhenStopping: 1
   mDragValueWhenMoving: 0.1
-  mRotateSpeed: 2000
-  mTotalFuel: 10
-  mCurrentFuel: 10
+  mRotateSpeed: 100
+  mFuelTolerance: 0.1
+  mMaxSpeed: 100
+  mComponent: {fileID: -4919455347906476232}
+--- !u!114 &-4919455347906476232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fc402559c18fe54a950b71dc8eed56a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mHudUpdateTimeInterval: 0.1
+  carRb: {fileID: 333206790732981338}
+  mCurrentFuel: 1
+  mCurrentNitro: 1
   mFuelDecreaseRate: 0.001
   mFuelDecreaseInterval: 0.01
   mFuelTolerance: 0.1
-  mTotalNitro: 10
-  mCurrentNitro: 10
-  mNitroDecreaseRate: 0.1
+  mNitroDecreaseRate: 0.001
   mNitroDecreaseInterval: 0.01
-  mNitroTolerance: 0
-  mHudUpdateTimeInterval: 0.1
-  mInvokeTolerance: 0.1
+  mNitroTolerance: 0.001
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0
