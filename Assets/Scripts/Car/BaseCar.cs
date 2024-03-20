@@ -8,6 +8,12 @@ using UnityEngine.Serialization;
 
 public abstract class BaseCar : MonoBehaviour
 {
+    [Header("Debugging Methods")] 
+    public WheelJoint2D mFrontWheel;
+    public WheelJoint2D mRearWheel;
+    
+    //public DebugUI mDebugUI;
+
     public delegate void FOnCarStatusUpdateSignature(FHudValues hudValues);
 
     public FOnCarStatusUpdateSignature OnCarStatusUpdate;
@@ -15,14 +21,16 @@ public abstract class BaseCar : MonoBehaviour
     private Controller PC;
     protected PlayerInputMappingContext mPlayerInput;
 
+    
+    [Space(20)]
     [SerializeField] private Rigidbody2D frontTireRb;
     [SerializeField] private Rigidbody2D backTireRb;
     [SerializeField] private Rigidbody2D carRb;
     
     
     [Space(5)] [Header("Car Engine Manipulation")]
-    [SerializeField] private float mAccelarationRate = 150f;
-    [SerializeField] private float mDecelarationRate = 300f;
+    [SerializeField] private float mAccelarationRate = 20f;
+    [FormerlySerializedAs("mDecelarationRate")] [SerializeField] private float mDecelerationRate = 300f;
     [Space(5)]
     [SerializeField] private float mDragValueWhenStopping;
     [SerializeField] private float mDragValueWhenMoving;
@@ -49,6 +57,7 @@ public abstract class BaseCar : MonoBehaviour
     [Space(5)]
     [SerializeField] private FHudValues mHudValues;
     
+    [SerializeField] private float mMaxSpeed;
     private float mSpeedRate;
     private float mRotationInput;
     private float mMoveInput;
@@ -58,6 +67,10 @@ public abstract class BaseCar : MonoBehaviour
     [SerializeField] private float mInvokeTolerance = 1f;
     private Coroutine mPlayerHudCoroutine;
 
+    private void Awake()
+    {
+        
+    }
     private void Start()
     {
         mCurrentFuel = mTotalFuel;
@@ -96,6 +109,7 @@ public abstract class BaseCar : MonoBehaviour
     private void Update()
     {
         Accelarate();
+        Decelarate();
         Rotate();
         
         mHudValues.UpdatePosition(transform.position);
@@ -108,6 +122,9 @@ public abstract class BaseCar : MonoBehaviour
         mPlayerProgress.value = progress;
 
         */
+        float speed = carRb.velocity.magnitude * 3.6f;
+        int speedInt = Mathf.RoundToInt(speed);
+        DebugUI.OnSpeedUpdate?.Invoke(speedInt);
 
     }
     
@@ -138,9 +155,11 @@ public abstract class BaseCar : MonoBehaviour
     private void Move(InputAction.CallbackContext InputValue)
     {
         mMoveInput = InputValue.ReadValue<float>();
-
+        
+        DebugUI.OnMoveInputUpdate?.Invoke(mMoveInput);
+        
         if (mMoveInput == 0f) {
-            mSpeedRate = mDecelarationRate;
+            mSpeedRate = mDecelerationRate;
             carRb.drag = mDragValueWhenStopping;
             mShouldConsumeFuel = false;
         }
@@ -150,6 +169,8 @@ public abstract class BaseCar : MonoBehaviour
             mShouldConsumeFuel = true;
             StartCoroutine(UpdateFuel());
         }
+        
+        DebugUI.OnSpeedRateUpdate?.Invoke(mSpeedRate);
     }
     
     private void Roll(InputAction.CallbackContext InputValue)
@@ -167,9 +188,19 @@ public abstract class BaseCar : MonoBehaviour
     // Action Methods
     private void Accelarate()
     {
-        float torqueVal = -mMoveInput * mSpeedRate * Time.fixedDeltaTime;
+        float torqueVal = -mMoveInput * mSpeedRate;
+        Debug.Log(torqueVal);
         frontTireRb.AddTorque(torqueVal);
         backTireRb.AddTorque(torqueVal);
+    }
+
+    private void Decelarate()
+    {
+        //TODO: Come back to this problem later
+        if (mMoveInput != 0 || carRb.velocity.magnitude < 0.1f) return;
+
+        mFrontWheel.breakTorque = mDecelerationRate;
+        mRearWheel.breakTorque = mDecelerationRate;
     }
 
     private void Rotate()

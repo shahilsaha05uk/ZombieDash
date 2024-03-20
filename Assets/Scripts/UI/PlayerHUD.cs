@@ -51,7 +51,7 @@ public class PlayerHUD : BaseWidget
 
     public void UpdateCarStatus(FHudValues hudStatus)
     {
-        txtKPH.text = ((int)(hudStatus.speed * 3.6f)).ToString();
+        //txtKPH.text = ((int)(hudStatus.speed * 3.6f)).ToString();
         mFuelMeter.value = hudStatus.fuel;
         mBoostMeter.value = hudStatus.nitro;
     }
