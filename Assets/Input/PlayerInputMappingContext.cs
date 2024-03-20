@@ -44,15 +44,6 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Nitro"",
-                    ""type"": ""Value"",
-                    ""id"": ""460572d1-aae8-4cf0-839e-bcc57476845b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -121,10 +112,27 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
                     ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
+                }
+            ]
+        },
+        {
+            ""name"": ""Trigger"",
+            ""id"": ""0bcf416a-7b08-42d1-b913-342fdd6ab99f"",
+            ""actions"": [
+                {
+                    ""name"": ""Nitro"",
+                    ""type"": ""Value"",
+                    ""id"": ""d181dcca-a3bf-40f1-9859-2814b103bd04"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""c11dfe10-d3b6-4a5e-b12c-0ac06f74c02c"",
+                    ""id"": ""00344b7a-2f46-4709-bd1b-8539132d6627"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -148,7 +156,9 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
         m_Move = asset.FindActionMap("Move", throwIfNotFound: true);
         m_Move_RightLeft = m_Move.FindAction("Right/Left", throwIfNotFound: true);
         m_Move_Roll = m_Move.FindAction("Roll", throwIfNotFound: true);
-        m_Move_Nitro = m_Move.FindAction("Nitro", throwIfNotFound: true);
+        // Trigger
+        m_Trigger = asset.FindActionMap("Trigger", throwIfNotFound: true);
+        m_Trigger_Nitro = m_Trigger.FindAction("Nitro", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -212,14 +222,12 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
     private List<IMoveActions> m_MoveActionsCallbackInterfaces = new List<IMoveActions>();
     private readonly InputAction m_Move_RightLeft;
     private readonly InputAction m_Move_Roll;
-    private readonly InputAction m_Move_Nitro;
     public struct MoveActions
     {
         private @PlayerInputMappingContext m_Wrapper;
         public MoveActions(@PlayerInputMappingContext wrapper) { m_Wrapper = wrapper; }
         public InputAction @RightLeft => m_Wrapper.m_Move_RightLeft;
         public InputAction @Roll => m_Wrapper.m_Move_Roll;
-        public InputAction @Nitro => m_Wrapper.m_Move_Nitro;
         public InputActionMap Get() { return m_Wrapper.m_Move; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -235,9 +243,6 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
             @Roll.started += instance.OnRoll;
             @Roll.performed += instance.OnRoll;
             @Roll.canceled += instance.OnRoll;
-            @Nitro.started += instance.OnNitro;
-            @Nitro.performed += instance.OnNitro;
-            @Nitro.canceled += instance.OnNitro;
         }
 
         private void UnregisterCallbacks(IMoveActions instance)
@@ -248,9 +253,6 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
             @Roll.started -= instance.OnRoll;
             @Roll.performed -= instance.OnRoll;
             @Roll.canceled -= instance.OnRoll;
-            @Nitro.started -= instance.OnNitro;
-            @Nitro.performed -= instance.OnNitro;
-            @Nitro.canceled -= instance.OnNitro;
         }
 
         public void RemoveCallbacks(IMoveActions instance)
@@ -268,6 +270,52 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
         }
     }
     public MoveActions @Move => new MoveActions(this);
+
+    // Trigger
+    private readonly InputActionMap m_Trigger;
+    private List<ITriggerActions> m_TriggerActionsCallbackInterfaces = new List<ITriggerActions>();
+    private readonly InputAction m_Trigger_Nitro;
+    public struct TriggerActions
+    {
+        private @PlayerInputMappingContext m_Wrapper;
+        public TriggerActions(@PlayerInputMappingContext wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Nitro => m_Wrapper.m_Trigger_Nitro;
+        public InputActionMap Get() { return m_Wrapper.m_Trigger; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(TriggerActions set) { return set.Get(); }
+        public void AddCallbacks(ITriggerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_TriggerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_TriggerActionsCallbackInterfaces.Add(instance);
+            @Nitro.started += instance.OnNitro;
+            @Nitro.performed += instance.OnNitro;
+            @Nitro.canceled += instance.OnNitro;
+        }
+
+        private void UnregisterCallbacks(ITriggerActions instance)
+        {
+            @Nitro.started -= instance.OnNitro;
+            @Nitro.performed -= instance.OnNitro;
+            @Nitro.canceled -= instance.OnNitro;
+        }
+
+        public void RemoveCallbacks(ITriggerActions instance)
+        {
+            if (m_Wrapper.m_TriggerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ITriggerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_TriggerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_TriggerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public TriggerActions @Trigger => new TriggerActions(this);
     private int m_PlayerInputSchemeIndex = -1;
     public InputControlScheme PlayerInputScheme
     {
@@ -281,6 +329,9 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
     {
         void OnRightLeft(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
+    }
+    public interface ITriggerActions
+    {
         void OnNitro(InputAction.CallbackContext context);
     }
 }
