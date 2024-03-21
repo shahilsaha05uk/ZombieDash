@@ -21,15 +21,16 @@ public class Card : MonoBehaviour
     [SerializeField] private Button btn;
     [SerializeField] private TextMeshProUGUI cost;
 
-    private FUpgradeStruct mCurrentUpgrade;
     private void Awake()
     {
+        
         btn.interactable = (UpgradeAsset != null && UpgradeAsset.isUpgradeAvailable());
         btn.onClick.AddListener(OnCardButtonClick);
     }
 
     private void OnCardButtonClick()
     {
+        FUpgradeStruct mCurrentUpgrade;
         if(UpgradeAsset.GetNextUpgrade(out mCurrentUpgrade)) OnUpgradeButtonClick?.Invoke(cardPart, mCurrentUpgrade);
         btn.interactable = UpgradeAsset.isUpgradeAvailable();
     }
