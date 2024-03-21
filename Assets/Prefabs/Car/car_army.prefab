@@ -315,7 +315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mCurrentFuel: 1
   mCurrentNitro: 1
-  mFuelDecreaseRate: 0.0001
+  mFuelDecreaseRate: 0.001
   mFuelDecreaseInterval: 0.01
 --- !u!1 &126426
 GameObject:

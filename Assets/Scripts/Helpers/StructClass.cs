@@ -31,4 +31,12 @@ namespace StructClass
             }
         }
     }
+
+    [System.Serializable]
+    public struct FUpgradeStruct
+    {
+        public int id;
+        public int cost;
+        public float Value;
+    }
 }

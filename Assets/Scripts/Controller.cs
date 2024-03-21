@@ -25,9 +25,6 @@ public class Controller : MonoBehaviour
     
     private FLocationPoints mFLocations;
 
-    
-
-    //private Coroutine mPlayerHudCor;
     private void Start()
     {
         // Setting up the Locations
@@ -86,5 +83,20 @@ public class Controller : MonoBehaviour
     {
         Debug.Log("Sending updates to the player hud");
         mPlayerHUD.UpdateCarStatus(hudValues);
+    }
+
+    public void OpenUpgradeUI()
+    {
+        UpgradeUI upgradeUI = OnRequestUI?.Invoke(EUI.UPGRADE).GetWidgetAs<UpgradeUI>();
+        if (upgradeUI != null)
+        {
+            upgradeUI.OnUpgradeClick += UpgradeCar;
+            upgradeUI.AddToViewport();
+        }
+    }
+
+    private void UpgradeCar(ECarComponent carcomp, FUpgradeStruct upgradestruct)
+    {
+        
     }
 }
