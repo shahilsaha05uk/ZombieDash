@@ -22,9 +22,9 @@ public class DA_UpgradeAsset : ScriptableObject
         return false;
     }
 
-    public bool isUpgradeAvailable()
-    {
-        return (count < UpgradeList.Count);
-    }
+    public FUpgradeStruct GetCurrentUpgrade() { return UpgradeList[count - 1];}
+
+    public bool isUpgradeAvailable(){ return (count < UpgradeList.Count); }
+
 }
 
