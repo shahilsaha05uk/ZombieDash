@@ -111,7 +111,7 @@ public abstract class BaseCar : MonoBehaviour
         if(resource == ECarComponent.Fuel) mPlayerInput.Move.Disable();
         if(resource == ECarComponent.Nitro) mPlayerInput.Trigger.Disable();
     */
-        PC.OpenUpgradeUI();
+        //PC.OpenUpgradeUI();
     }
 
     private void OnCarComponentUpdate(ECarComponent carComponent, float value)
@@ -221,12 +221,18 @@ public abstract class BaseCar : MonoBehaviour
             if (!bApplyToDrag) carRb.drag = mDragValueWhenBoosting;
             else carRb.angularDrag = mDragValueWhenBoosting;
 
+            /*
             frontTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
             backTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
+            */
             while (bApplyNitro)
             {
+                frontTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
+                backTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
+                /*
                 frontTireRb.AddForce(Vector2.right * (Time.deltaTime * mNitroForce), ForceMode2D.Force);
                 backTireRb.AddForce(Vector2.right * (Time.deltaTime * mNitroForce), ForceMode2D.Force);
+                */
                 mComponent.UpdateNitro();
                 yield return mTimeInterval;
             }
