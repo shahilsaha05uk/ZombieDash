@@ -6,45 +6,32 @@ using EnumHelper;
 using StructClass;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    public delegate void FOnUpgradeButtonClickSignature(ECarComponent carComp, FUpgradeStruct upgradeStruct);
+    public delegate void FOnUpgradeButtonClickSignature(ECarPart carComp, FUpgradeStruct upgradeStruct);
 
     public FOnUpgradeButtonClickSignature OnUpgradeButtonClick;
     
-    [SerializeField] private ECarComponent CardComponent;
+    [FormerlySerializedAs("CardComponent")] [SerializeField] private ECarPart cardPart;
     [SerializeField] private DA_UpgradeAsset UpgradeAsset;
     
     [SerializeField] private Button btn;
     [SerializeField] private TextMeshProUGUI cost;
-    
-    private List<FUpgradeStruct> UpgradeList;
+
+    private FUpgradeStruct mCurrentUpgrade;
     private void Awake()
     {
-        if (UpgradeAsset)
-        {
-            UpgradeList = new();
-            UpgradeList = UpgradeAsset.UpgradeList;
-            btn.interactable = (UpgradeList.Count > 0);
-            btn.onClick.AddListener(OnCardButtonClick);
-        }
-        else
-        {
-            btn.interactable = false;
-        }
+        btn.interactable = (UpgradeAsset != null && UpgradeAsset.isUpgradeAvailable());
+        btn.onClick.AddListener(OnCardButtonClick);
     }
-
 
     private void OnCardButtonClick()
     {
-        //TODO: On Button Click
-        FUpgradeStruct up = GetNextUpgrade();
-        OnUpgradeButtonClick?.Invoke(CardComponent, up);
-
-        btn.interactable = (UpgradeList.Count > 0);
-
+        if(UpgradeAsset.GetNextUpgrade(out mCurrentUpgrade)) OnUpgradeButtonClick?.Invoke(cardPart, mCurrentUpgrade);
+        btn.interactable = UpgradeAsset.isUpgradeAvailable();
     }
 
     private void UpdateCost(int value)
@@ -52,10 +39,4 @@ public class Card : MonoBehaviour
         cost.text = value.ToString();
     }
 
-    private FUpgradeStruct GetNextUpgrade()
-    {
-        FUpgradeStruct up = (UpgradeList.Count > 0) ? UpgradeList[0] : default;
-        UpgradeList.RemoveAt(0);
-        return up;
-    }
 }

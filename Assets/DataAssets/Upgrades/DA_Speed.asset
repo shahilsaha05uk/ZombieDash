@@ -17,6 +17,3 @@ MonoBehaviour:
   - id: 1
     cost: 20
     Value: 3000
-  - id: 2
-    cost: 40
-    Value: 3100

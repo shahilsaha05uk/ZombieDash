@@ -18,14 +18,14 @@ namespace StructClass
         public float fuel;
         public float nitro;
 
-        public void UpdateValue(ECarComponent CarComp, float Value)
+        public void UpdateValue(ECarPart CarComp, float Value)
         {
             switch (CarComp)
             {
-                case ECarComponent.Fuel:
+                case ECarPart.Fuel:
                     fuel = Value;
                     break;
-                case ECarComponent.Nitro:
+                case ECarPart.Nitro:
                     nitro = Value;
                     break;
             }

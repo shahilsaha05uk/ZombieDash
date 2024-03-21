@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510c28999eddeaa418c695bf6e232ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mNitroImpulse: 1
+  mNitroImpulse: 0.1
   mNitroForce: 2500
   mNitroTimeInterval: 0.01
   mDragValueWhenBoosting: 0
@@ -316,7 +316,7 @@ MonoBehaviour:
   mCurrentFuel: 1
   mCurrentNitro: 1
   mFuelDecreaseRate: 0.001
-  mFuelDecreaseInterval: 0.01
+  mNitroDecreaseRate: 0.001
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0

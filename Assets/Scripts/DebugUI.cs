@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using EnumHelper;
 using TMPro;
 using UnityEngine;
 
@@ -8,13 +10,11 @@ public class DebugUI : MonoBehaviour
     public delegate void FOnMoveInputUpdate(float Value);
     public static FOnMoveInputUpdate OnMoveInputUpdate;
 
+    public delegate void FOnValueUpdate(float Value, ECarPart partType);
+    public static FOnValueUpdate OnValueUpdate;
+    
     public delegate void FOnSpeedUpdate(int Value);
     public static FOnSpeedUpdate OnSpeedUpdate;
-    public delegate void FOnFuelUpdate(float Value);
-    public static FOnFuelUpdate OnFuelUpdate;
-    public delegate void FOnNitroUpdate(float Value);
-    public static FOnNitroUpdate OnNitroUpdate;
-
     public delegate void FOnMessageUpdate(string Value);
     public static FOnMessageUpdate OnMessageUpdate;
 
@@ -31,30 +31,36 @@ public class DebugUI : MonoBehaviour
 
     private void Awake()
     {
+        OnValueUpdate += UpdatePartValue;
+        
         OnMessageUpdate += UpdateMessage;
         OnMoveInputUpdate += UpdateMoveText;
         OnSpeedUpdate += UpdateSpeedText;
         OnSpeedRateUpdate += UpdateSpeedRateText;
 
-        OnFuelUpdate += UpdateFuelText;
-        OnNitroUpdate += UpdateNitroText;
     }
+
+    private void UpdatePartValue(float value, ECarPart parttype)
+    {
+        string formattedValue;
+        switch (parttype)
+        {
+            case ECarPart.Fuel:
+                formattedValue = value.ToString("F2");
+                mFuel.text = "Fuel: " + formattedValue;
+                break;
+            
+            case ECarPart.Nitro:
+                formattedValue = value.ToString("F2");
+                mNitro.text = "Nitro: " + formattedValue;
+                break;
+        }
+    }
+
 
     private void UpdateMessage(string value = "")
     {
         mMessage.text = value;
-    }
-
-    private void UpdateNitroText(float value)
-    {
-        string formattedValue = value.ToString("F2");
-        mNitro.text = "Nitro: " + formattedValue;
-    }
-
-    private void UpdateFuelText(float value)
-    {
-        string formattedValue = value.ToString("F2");
-        mFuel.text = "Fuel: " + formattedValue;
     }
 
     private void UpdateSpeedRateText(float value)
