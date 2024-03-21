@@ -2,7 +2,7 @@
 {
     public enum EUI
     {
-        MAIN_MENU, SETTINGS, ACHIEVEMENTS, PLAYERHUD
+        MAIN_MENU, UPGRADE, SETTINGS, ACHIEVEMENTS, PLAYERHUD
     }
 
     public enum ECarComponent

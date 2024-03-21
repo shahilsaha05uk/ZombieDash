@@ -111,6 +111,7 @@ public abstract class BaseCar : MonoBehaviour
         if(resource == ECarComponent.Fuel) mPlayerInput.Move.Disable();
         if(resource == ECarComponent.Nitro) mPlayerInput.Trigger.Disable();
     */
+        PC.OpenUpgradeUI();
     }
 
     private void OnCarComponentUpdate(ECarComponent carComponent, float value)
