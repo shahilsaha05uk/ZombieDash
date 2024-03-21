@@ -5,88 +5,66 @@ using EnumHelper;
 using StructClass;
 using UnityEngine;
 
+
+[System.Serializable]
+public struct FCarPart
+{
+    public float current;
+    public float decreaseRate;
+}
 public class CarComponent : MonoBehaviour
 {
     /*NOTE: Every Value needs to be NORMALIZED!!!*/
     
-    public delegate void FOnRunningOutOfResourceSignature(ECarComponent resource);
+    public delegate void FOnRunningOutOfResourceSignature(ECarPart resource);
     public FOnRunningOutOfResourceSignature OnRunningOutOfResources;
-
-    public delegate void FOnCarComponentUpdate(ECarComponent carComponent, float Value);
+    public delegate void FOnCarComponentUpdate(ECarPart carPart, float Value);
     public FOnCarComponentUpdate OnComponentUpdated;
     
-    [Space(10)] [Header("Car Feature Modification")] 
-    [HideInInspector] public float mCurrentFuel = 1f;
-    [HideInInspector] public float mCurrentNitro = 1f;
-    
-    [Space(5)] [Header("Fuel")] 
+    [Space(5)] [Header("Value Rate")] 
     [SerializeField] private float mFuelDecreaseRate = 0.1f;
-    [SerializeField] private float mFuelDecreaseInterval = 0.01f;
-                     private bool mShouldConsumeFuel = false;
-    
-    [Space(5)] [Header("Nitro")]
-    private bool mShouldConsumeNitro = false;
+    [SerializeField] private float mNitroDecreaseRate = 0.1f;
 
+    private IDictionary<ECarPart, FCarPart> mCurrentPartValueMap;
 
-    public void StartFuelConsumption()
+    private void Awake()
     {
-        mShouldConsumeFuel = true;
-        StartCoroutine(UpdateFuel());
-    }
-
-    public void StopFuelConsumption()
-    {
-        mShouldConsumeFuel = false;
-    }
-
-    /*
-    public void StartNitroConsumption()
-    {
-        mShouldConsumeNitro = true;
-        StartCoroutine(UpdateNitro());
-    }
-
-    public void StopNitroConsumption()
-    {
-        mShouldConsumeNitro = false;
-    }
-    */
-
-    private IEnumerator UpdateFuel()
-    {
-        WaitForSeconds timeInterval = new WaitForSeconds(mFuelDecreaseInterval);
-        while (mCurrentFuel >= 0.0f && mShouldConsumeFuel)
+        mCurrentPartValueMap = new Dictionary<ECarPart, FCarPart>()
         {
-            mCurrentFuel -= mFuelDecreaseRate;
-            OnComponentUpdated?.Invoke(ECarComponent.Fuel, mCurrentFuel);
-            DebugUI.OnFuelUpdate?.Invoke(mCurrentFuel);
+            { ECarPart.Fuel, new FCarPart() { current = 1f, decreaseRate = mFuelDecreaseRate } },
+            { ECarPart.Nitro, new FCarPart() { current = 1f, decreaseRate = mNitroDecreaseRate } }
+        };
+    }
 
-            yield return timeInterval;
+    public void UpdateValue(ECarPart partType)
+    {
+        FCarPart part = mCurrentPartValueMap[partType];
+        if (part.current >= 0.0f)
+        {
+            part.current -= part.decreaseRate;
+            mCurrentPartValueMap[partType] = part;
         }
-        OnComponentUpdated?.Invoke(ECarComponent.Fuel, mCurrentFuel);
-        if (mCurrentFuel <= 0.0f)
+        else OnRunningOutOfResources?.Invoke(partType);
+        DebugUI.OnValueUpdate?.Invoke(part.current, partType);
+        OnComponentUpdated?.Invoke(partType, part.current);
+    }
+
+    public float GetCurrentPartValue(ECarPart PartType, out bool isValid)
+    {
+        isValid = (mCurrentPartValueMap.TryGetValue(PartType, out var value));
+        return value.current;
+    }
+
+    public void UpgradePart(ECarPart carcomp, FUpgradeStruct upgradestruct)
+    {
+        switch (carcomp)
         {
-            //TODO: Call for the Game Update
-            OnRunningOutOfResources?.Invoke(ECarComponent.Fuel);
-            Debug.Log("Out of Fuel");
+            case ECarPart.Fuel:
+                mFuelDecreaseRate = upgradestruct.Value;
+                break;
+            case ECarPart.Nitro:
+                mNitroDecreaseRate = upgradestruct.Value;
+                break;
         }
     }
-
-    public void UpdateNitro()
-    {
-        if (mCurrentNitro >= 0f)
-        {
-            mCurrentNitro -= mFuelDecreaseRate;
-            OnComponentUpdated?.Invoke(ECarComponent.Nitro, mCurrentNitro);
-            DebugUI.OnNitroUpdate.Invoke(mCurrentNitro);
-        }
-        else
-        {
-            //TODO: Call for the Game Update
-            OnRunningOutOfResources?.Invoke(ECarComponent.Nitro);
-            Debug.Log("Out of Nitro");
-        }
-
-    }
-
 }

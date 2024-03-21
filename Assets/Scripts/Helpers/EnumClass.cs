@@ -5,7 +5,7 @@
         MAIN_MENU, UPGRADE, SETTINGS, ACHIEVEMENTS, PLAYERHUD
     }
 
-    public enum ECarComponent
+    public enum ECarPart
     {
         All_Comp, Fuel, Nitro
     }

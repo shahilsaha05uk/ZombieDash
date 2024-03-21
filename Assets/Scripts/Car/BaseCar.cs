@@ -19,7 +19,7 @@ public abstract class BaseCar : MonoBehaviour
     [SerializeField] private bool bApplyToDrag;
 
 
-    public delegate void FOnCarComponentUpdate(ECarComponent carComponent, FHudValues hudValues);
+    public delegate void FOnCarComponentUpdate(ECarPart carPart, FHudValues hudValues);
     public FOnCarComponentUpdate OnComponentUpdated;
 
     // Privates
@@ -29,6 +29,7 @@ public abstract class BaseCar : MonoBehaviour
     private float mMoveInput;
     private Controller PC;
     protected PlayerInputMappingContext mPlayerInput;
+    
 
     [Space(20)][Header("References")]
     [SerializeField] private Rigidbody2D frontTireRb;
@@ -41,6 +42,7 @@ public abstract class BaseCar : MonoBehaviour
     [Space(5)] [Header("Car Engine Manipulation")]
     public FHudValues mHudValues;
     public JointMotor2D motor2D;
+    private bool bConsumeFuel;
 
     [Space(5)]
     [SerializeField] private float mAccelarationRate = 20f;
@@ -71,10 +73,13 @@ public abstract class BaseCar : MonoBehaviour
         SetupInputComponent();
         mComponent.OnComponentUpdated += OnCarComponentUpdate;
         mComponent.OnRunningOutOfResources += OnResourcesOver;
-        mHudValues.nitro = mComponent.mCurrentNitro;
-        mHudValues.fuel = mComponent.mCurrentFuel;
+
+        float fuel = mComponent.GetCurrentPartValue(ECarPart.Fuel, out var fuelValid);
+        if(fuelValid) mHudValues.fuel = fuel;
+        float nitro = mComponent.GetCurrentPartValue(ECarPart.Nitro, out var nitroValid);
+        if(nitroValid) mHudValues.nitro = nitro;
         
-        OnComponentUpdated.Invoke(ECarComponent.All_Comp, mHudValues);
+        OnComponentUpdated.Invoke(ECarPart.All_Comp, mHudValues);
     }
     
     private void SetupInputComponent()
@@ -97,13 +102,11 @@ public abstract class BaseCar : MonoBehaviour
     {
         carRb.mass = mCarMass;
         
-        Accelarate();
-        Decelarate();
         Rotate();
     }
     
     // Event Binded Methods
-    private void OnResourcesOver(ECarComponent resource)
+    private void OnResourcesOver(ECarPart resource)
     {
         /*
         string s = "Out of " + resource;
@@ -111,21 +114,22 @@ public abstract class BaseCar : MonoBehaviour
         if(resource == ECarComponent.Fuel) mPlayerInput.Move.Disable();
         if(resource == ECarComponent.Nitro) mPlayerInput.Trigger.Disable();
     */
-        //PC.OpenUpgradeUI();
+        mPlayerInput.Move.Disable();
+        PC.OpenUpgradeUI();
     }
 
-    private void OnCarComponentUpdate(ECarComponent carComponent, float value)
+    private void OnCarComponentUpdate(ECarPart carPart, float value)
     {
         float tollerance = 0, hudVal = 0;
         
-        switch (carComponent) {
-            case ECarComponent.Fuel:
+        switch (carPart) {
+            case ECarPart.Fuel:
                 
                 tollerance = mFuelTolerance;
                 hudVal = mHudValues.fuel;
                 break;
             
-            case ECarComponent.Nitro:
+            case ECarPart.Nitro:
                 tollerance = mNitroTolerance;
                 hudVal = mHudValues.nitro;
                 break;
@@ -133,8 +137,8 @@ public abstract class BaseCar : MonoBehaviour
         
         var difference = Mathf.Abs(value - hudVal);
         if (difference > tollerance || value <= 0.0f) {
-            OnComponentUpdated.Invoke(carComponent, mHudValues);
-            mHudValues.UpdateValue(carComponent, value);
+            OnComponentUpdated.Invoke(carPart, mHudValues);
+            mHudValues.UpdateValue(carPart, value);
         }
     }
 
@@ -147,12 +151,14 @@ public abstract class BaseCar : MonoBehaviour
         if (mMoveInput == 0f) {
             mSpeedRate = mDecelerationRate;
             carRb.drag = mDragValueWhenStopping;
-            mComponent.StopFuelConsumption();
+            bConsumeFuel = false;
+            StartCoroutine(Decelarate());
         }
         else {
             mSpeedRate = mAccelarationRate;
             carRb.drag = mDragValueWhenMoving;
-            mComponent.StartFuelConsumption();
+            bConsumeFuel = true;
+            StartCoroutine(Accelarate());
         }
         
         DebugUI.OnMoveInputUpdate?.Invoke(mMoveInput);
@@ -179,31 +185,45 @@ public abstract class BaseCar : MonoBehaviour
     }
     
     // Action Methods
-    private void Accelarate()
+    private IEnumerator Accelarate()
     {
-        // Calculate the current velocity
-        float currentVelocity = carRb.velocity.magnitude;
+        WaitForSeconds timeInterval = new WaitForSeconds(0.002f);
+        while (bConsumeFuel)
+        {
+            // Calculate the current velocity
+            float currentVelocity = carRb.velocity.magnitude;
 
-        // Calculate the torque based on the difference between the current velocity and the desired limit
-        float torqueVal = Mathf.Clamp(mMaxSpeed - currentVelocity, 0f, 1f) * mAccelarationRate;
-        
-        // Apply torque to accelerate
-        frontTireRb.AddTorque(-mMoveInput * torqueVal);
-        backTireRb.AddTorque(-mMoveInput * torqueVal);
+            // Calculate the torque based on the difference between the current velocity and the desired limit
+            float torqueVal = Mathf.Clamp(mMaxSpeed - currentVelocity, 0f, 1f) * mAccelarationRate;
 
-        carRb.velocity = Vector2.ClampMagnitude(carRb.velocity, mMaxSpeed);
-        
-        float speed = carRb.velocity.magnitude * 3.6f;
-        int speedInt = Mathf.RoundToInt(speed);
-        DebugUI.OnSpeedUpdate?.Invoke(speedInt);
+            // Apply torque to accelerate
+            frontTireRb.AddTorque(-mMoveInput * torqueVal);
+            backTireRb.AddTorque(-mMoveInput * torqueVal);
+
+            carRb.velocity = Vector2.ClampMagnitude(carRb.velocity, mMaxSpeed);
+
+            float speed = currentVelocity * 3.6f;
+            int speedInt = Mathf.RoundToInt(speed);
+            DebugUI.OnSpeedUpdate?.Invoke(speedInt);
+
+            mComponent.UpdateValue(ECarPart.Fuel);
+            yield return timeInterval;
+        }
     }
 
-    private void Decelarate()
+    private IEnumerator Decelarate()
     {
-        if (mMoveInput != 0 || carRb.velocity.magnitude < 0.1f) return;
+        WaitForSeconds timeInterval = new WaitForSeconds(0.002f);
 
-        mFrontWheel.breakTorque = mDecelerationRate;
-        mRearWheel.breakTorque = mDecelerationRate;
+        while (carRb.velocity.magnitude > 0.1f)
+        {
+            mFrontWheel.breakTorque = mDecelerationRate;
+            mRearWheel.breakTorque = mDecelerationRate;
+
+            yield return timeInterval;
+        }
+
+        carRb.velocity = Vector2.zero;
     }
 
     private void Rotate()
@@ -233,13 +253,23 @@ public abstract class BaseCar : MonoBehaviour
                 frontTireRb.AddForce(Vector2.right * (Time.deltaTime * mNitroForce), ForceMode2D.Force);
                 backTireRb.AddForce(Vector2.right * (Time.deltaTime * mNitroForce), ForceMode2D.Force);
                 */
-                mComponent.UpdateNitro();
+                mComponent.UpdateValue(ECarPart.Nitro);
+
                 yield return mTimeInterval;
             }
 
         }
         if (!bApplyToDrag) carRb.drag = mDragValueStopBoosting;
         else carRb.angularDrag = mDragValueStopBoosting;
+    }
+    
+    
+    public void Upgrade(ECarPart carcomp, FUpgradeStruct upgradestruct)
+    {
+        //mComponent.UpgradePart(carcomp, upgradestruct);
+        string s = "Upgraded " + carcomp;
+        Debug.Log(s);
+        DebugUI.OnMessageUpdate.Invoke(s);
     }
 }
 

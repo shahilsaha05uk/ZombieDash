@@ -239,7 +239,7 @@ RectTransform:
   - {fileID: 2268636575104691835}
   - {fileID: 2969210528554980488}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -360,8 +360,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mUiType: 1
+  btnPlay: {fileID: 906002850103671889}
   mSpeedCard: {fileID: 3462757956600674264}
-  mNitroCard: {fileID: 4956874518786014791}
+  mNitroCard: {fileID: 2288165012306218868}
 --- !u!1 &5371759488094797980
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,10 +533,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2493386925600591065}
-  - {fileID: 4956874518786014790}
+  - {fileID: 960757407270351989}
   - {fileID: 8185568161468737158}
   - {fileID: 3861554336698288953}
-  - {fileID: 3049017159782990899}
+  - {fileID: 7192064071325175298}
   m_Father: {fileID: 3681028109810102228}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1451,7 +1452,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
---- !u!224 &3049017159782990899 stripped
+--- !u!224 &7192064071325175298 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5304977411329247792, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
   m_PrefabInstance: {fileID: 3049017159782990898}
@@ -1794,17 +1795,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6560454827423412529, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
+      propertyPath: cardPart
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
---- !u!224 &4956874518786014790 stripped
+--- !u!224 &960757407270351989 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5304977411329247792, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
   m_PrefabInstance: {fileID: 4956874518786014789}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4956874518786014791 stripped
+--- !u!114 &2288165012306218868 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6560454827423412529, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
   m_PrefabInstance: {fileID: 4956874518786014789}
@@ -1974,6 +1979,10 @@ PrefabInstance:
     - target: {fileID: 6202978761653270804, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560454827423412529, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
+      propertyPath: cardPart
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6560454827423412529, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: UpgradeAsset

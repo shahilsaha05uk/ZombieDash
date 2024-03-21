@@ -79,9 +79,8 @@ public class Controller : MonoBehaviour
     }
     
     // HUD Methods
-    private void UpdateHUD(ECarComponent carComponent, FHudValues hudValues)
+    private void UpdateHUD(ECarPart carPart, FHudValues hudValues)
     {
-        Debug.Log("Sending updates to the player hud");
         mPlayerHUD.UpdateCarStatus(hudValues);
     }
 
@@ -95,8 +94,8 @@ public class Controller : MonoBehaviour
         }
     }
 
-    private void UpgradeCar(ECarComponent carcomp, FUpgradeStruct upgradestruct)
+    private void UpgradeCar(ECarPart carcomp, FUpgradeStruct upgradestruct)
     {
-        
+        mCar.Upgrade(carcomp, upgradestruct);
     }
 }

@@ -7,6 +7,24 @@ using UnityEngine;
 public class DA_UpgradeAsset : ScriptableObject
 {
     public string UpgradeName;
-    public List<FUpgradeStruct> UpgradeList;
+    [SerializeField] private List<FUpgradeStruct> UpgradeList;
+    private int count = 0;
+    public bool GetNextUpgrade(out FUpgradeStruct upgrade)
+    {
+        upgrade = default;
+        if (UpgradeList != null && isUpgradeAvailable())
+        {
+            upgrade = UpgradeList[count];
+            count++;
+
+            return true;
+        }
+        return false;
+    }
+
+    public bool isUpgradeAvailable()
+    {
+        return (count < UpgradeList.Count);
+    }
 }
 
