@@ -280,24 +280,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510c28999eddeaa418c695bf6e232ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mNitroImpulse: 2
+  mNitroImpulse: 15
   mNitroForce: 2500
   mNitroTimeInterval: 0.01
-  mDragValueWhenBoosting: 0.3
+  mDragValueWhenBoosting: 0
   mCarMass: 1
-  mDragValueStopBoosting: 0.3
+  mDragValueStopBoosting: 0
   bApplyToDrag: 0
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
   carRb: {fileID: 333206790732981338}
   mFrontWheel: {fileID: 1909625218749775485}
   mRearWheel: {fileID: 2064304931169375897}
-  mAccelarationRate: 2
-  mDecelerationRate: 5
+  mAccelarationRate: 100
+  mDecelerationRate: 8
   mDragValueWhenStopping: 1
   mDragValueWhenMoving: 0.3
-  mRotateSpeed: 500
-  mMaxSpeed: 100
+  mRotateSpeed: 1000
+  mMaxSpeed: 2000
   mFuelTolerance: 0.001
   mNitroTolerance: 0.001
   mComponent: {fileID: -4919455347906476232}
