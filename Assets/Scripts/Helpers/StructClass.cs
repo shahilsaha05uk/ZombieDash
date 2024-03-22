@@ -33,7 +33,7 @@ namespace StructClass
     }
 
     [System.Serializable]
-    public struct FUpgradeStruct
+    public class Upgrade
     {
         public int id;
         public int cost;

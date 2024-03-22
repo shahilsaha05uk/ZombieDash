@@ -7,6 +7,6 @@
 
     public enum ECarPart
     {
-        All_Comp, Fuel, Nitro
+        All_Comp, Fuel, Nitro, Speed
     }
 }

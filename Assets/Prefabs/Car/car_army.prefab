@@ -292,12 +292,12 @@ MonoBehaviour:
   carRb: {fileID: 333206790732981338}
   mFrontWheel: {fileID: 1909625218749775485}
   mRearWheel: {fileID: 2064304931169375897}
-  mAccelarationRate: 100
+  mAccelarationRate: 600
   mDecelerationRate: 8
   mDragValueWhenStopping: 1
   mDragValueWhenMoving: 0.3
   mRotateSpeed: 1000
-  mMaxSpeed: 2000
+  mMaxSpeed: 5000
   mFuelTolerance: 0.001
   mNitroTolerance: 0.001
   mComponent: {fileID: -4919455347906476232}
@@ -313,10 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc402559c18fe54a950b71dc8eed56a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCurrentFuel: 1
-  mCurrentNitro: 1
-  mFuelDecreaseRate: 0.001
-  mNitroDecreaseRate: 0.001
+  mFuelDecreaseRate: 0.0001
+  mNitroDecreaseRate: 0.01
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0

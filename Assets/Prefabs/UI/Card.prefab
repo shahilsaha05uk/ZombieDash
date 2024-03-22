@@ -117,7 +117,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 503904731760675539}
   m_OnClick:
     m_PersistentCalls:
@@ -443,6 +443,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74733d34f83144c47af52d24b213f2ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardPart: 0
+  UpgradeAsset: {fileID: 0}
+  UpgradeList: []
   btn: {fileID: 3074761420374230472}
   cost: {fileID: 1932411343655856794}
 --- !u!1 &5336208010981484296

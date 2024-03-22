@@ -361,8 +361,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mUiType: 1
   btnPlay: {fileID: 906002850103671889}
-  mSpeedCard: {fileID: 3462757956600674264}
+  mFuelCard: {fileID: 3462757956600674264}
   mNitroCard: {fileID: 2288165012306218868}
+  mSpeedCard: {fileID: 7137221272039497095}
 --- !u!1 &5371759488094797980
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,7 +1488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3177842560558930750, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_Name
-      value: Card (2)
+      value: crdSpeed
       objectReference: {fileID: 0}
     - target: {fileID: 4792943318064082743, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1621,11 +1622,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6560454827423412529, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
+      propertyPath: cardPart
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560454827423412529, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
+      propertyPath: UpgradeAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: c00416b485c331f41b9f033b211f66a1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
+--- !u!114 &7137221272039497095 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6560454827423412529, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
+  m_PrefabInstance: {fileID: 4037452904780999862}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74733d34f83144c47af52d24b213f2ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8185568161468737158 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5304977411329247792, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
@@ -1846,7 +1866,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3177842560558930750, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_Name
-      value: crdSpeed
+      value: crdFuel
       objectReference: {fileID: 0}
     - target: {fileID: 4792943318064082743, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1879,6 +1899,10 @@ PrefabInstance:
     - target: {fileID: 4816446609781685764, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051904757917127506, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
+      propertyPath: m_text
+      value: Fuel
       objectReference: {fileID: 0}
     - target: {fileID: 5304977411329247792, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_Pivot.x

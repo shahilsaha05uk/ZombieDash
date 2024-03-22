@@ -55,7 +55,7 @@ public class CarComponent : MonoBehaviour
         return value.current;
     }
 
-    public void UpgradePart(ECarPart carcomp, FUpgradeStruct upgradestruct)
+    public void UpgradePart(ECarPart carcomp, Upgrade upgradestruct)
     {
         switch (carcomp)
         {

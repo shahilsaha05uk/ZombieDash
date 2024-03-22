@@ -172,15 +172,9 @@ public abstract class BaseCar : MonoBehaviour
 
     private void Nitro(InputAction.CallbackContext InputValue)
     {
-        bApplyNitro = InputValue.ReadValueAsButton();
-        if (bApplyNitro)
+        if ((bApplyNitro = InputValue.ReadValueAsButton()) == true)
         {
-            bApplyNitro = true;
             StartCoroutine(Boost());
-        }
-        else
-        {
-            bApplyNitro = false;
         }
     }
     
@@ -241,18 +235,10 @@ public abstract class BaseCar : MonoBehaviour
             if (!bApplyToDrag) carRb.drag = mDragValueWhenBoosting;
             else carRb.angularDrag = mDragValueWhenBoosting;
 
-            /*
-            frontTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
-            backTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
-            */
             while (bApplyNitro)
             {
                 frontTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
                 backTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
-                /*
-                frontTireRb.AddForce(Vector2.right * (Time.deltaTime * mNitroForce), ForceMode2D.Force);
-                backTireRb.AddForce(Vector2.right * (Time.deltaTime * mNitroForce), ForceMode2D.Force);
-                */
                 mComponent.UpdateValue(ECarPart.Nitro);
 
                 yield return mTimeInterval;
@@ -263,46 +249,17 @@ public abstract class BaseCar : MonoBehaviour
         else carRb.angularDrag = mDragValueStopBoosting;
     }
     
-    
-    public void Upgrade(ECarPart carcomp, FUpgradeStruct upgradestruct)
+    public void Upgrade(ECarPart carcomp, Upgrade upgradestruct)
     {
+        if (carcomp == ECarPart.Speed)
+        {
+            mMaxSpeed = upgradestruct.Value;
+            string s = "Upgraded " + carcomp;
+            Debug.Log(s);
+            DebugUI.OnMessageUpdate.Invoke(s);
+
+        }
+        
         //mComponent.UpgradePart(carcomp, upgradestruct);
-        string s = "Upgraded " + carcomp;
-        Debug.Log(s);
-        DebugUI.OnMessageUpdate.Invoke(s);
     }
 }
-
-/*
- 
-     
-     Accelaration Original:
-
-        float torqueVal = -mMoveInput * mSpeedRate;
-        
-        frontTireRb.AddTorque(torqueVal);
-        backTireRb.AddTorque(torqueVal);
-
-     -----------------------------------------------
-     private IEnumerator HudUpdater()
-    {
-        WaitForSeconds timeInterval = new WaitForSeconds(mHudUpdateTimeInterval);
-        while (true)
-        {
-            yield return timeInterval;
-
-            /*
-            float distanceDifference = Vector2.Distance(mHudValues.position, transform.position);
-            float speedDifference = Mathf.Abs(mHudValues.speed - carRb.velocity.magnitude);
-            float fuelDifference = mCurrentFuel - mHudValues.fuel;
-            
-            if (distanceDifference > mInvokeTolerance || 
-                speedDifference > mInvokeTolerance || 
-                fuelDifference > mFuelTolerance)
-            {
-                //TODO: Invoke the event
-                Debug.Log("Invoke the event to update the HUD");
-               // OnCarStatusUpdate?.Invoke(mHudValues);
-            }
-*/
-        
