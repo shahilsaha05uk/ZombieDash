@@ -94,7 +94,7 @@ public class Controller : MonoBehaviour
         }
     }
 
-    private void UpgradeCar(ECarPart carcomp, FUpgradeStruct upgradestruct)
+    private void UpgradeCar(ECarPart carcomp, Upgrade upgradestruct)
     {
         mCar.Upgrade(carcomp, upgradestruct);
     }
