@@ -1,47 +1,48 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Numerics;
 using EnumHelper;
 using StructClass;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
+using Vector2 = UnityEngine.Vector2;
 
 public abstract class BaseCar : MonoBehaviour
 {
     [Header("Debugging Values")] 
-    [SerializeField] private float mNitroImpulse = 100f;
-    [SerializeField] private float mNitroForce = 100f;
-    [SerializeField][Range(0,1)] private float mNitroTimeInterval;
-    [SerializeField][Range(0,5)] private float mDragValueWhenBoosting;
-    [SerializeField][Range(0.1f, 10)] private int mCarMass;
-    [SerializeField][Range(0,5)] private float mDragValueStopBoosting;
-    [SerializeField] private bool bApplyToDrag;
+    [SerializeField][Range(0.1f, 10)] private int mDefaultCarMass;
 
+    [SerializeField] private float mNitroImpulse = 100f;
+    [SerializeField][Range(0,1)] private float mNitroTimeInterval;
 
     public delegate void FOnCarComponentUpdate(ECarPart carPart, FHudValues hudValues);
     public FOnCarComponentUpdate OnComponentUpdated;
 
     // Privates
     private Coroutine mPlayerHudCoroutine;
-    private float mSpeedRate;
     private float mRotationInput;
     private float mMoveInput;
+
+    private ECarState mCarState;
+
+    private Vector2 mCurrentVelocity;
+    private float mCurrentVelocityMag;
+
     private Controller PC;
     protected PlayerInputMappingContext mPlayerInput;
     
 
     [Space(20)][Header("References")]
     [SerializeField] private Rigidbody2D frontTireRb;
+    [SerializeField] private GameObject mNitro;
+
     [SerializeField] private Rigidbody2D backTireRb;
     [SerializeField] private Rigidbody2D carRb;
-    public WheelJoint2D mFrontWheel;
-    public WheelJoint2D mRearWheel;
-
     
     [Space(5)] [Header("Car Engine Manipulation")]
     public FHudValues mHudValues;
-    public JointMotor2D motor2D;
     private bool bConsumeFuel;
     private bool bIsFuelOver;
 
@@ -50,9 +51,6 @@ public abstract class BaseCar : MonoBehaviour
     [SerializeField] private float mDecelerationRate = 300f;
     private bool bApplyNitro;
     private bool bIsNitroOver;
-    [Space(5)]
-    [SerializeField] private float mDragValueWhenStopping;
-    [SerializeField] private float mDragValueWhenMoving;
     
     [Space(5)]
     [SerializeField] private float mRotateSpeed = 300f;
@@ -66,16 +64,22 @@ public abstract class BaseCar : MonoBehaviour
     [Space(10)][Header("Car Components")]
     [SerializeField] private CarComponent mComponent;
 
+    [SerializeField] private float mGroundClearance;
+    [SerializeField] private bool bIsOnGround;
+    private bool bLastGroundCheck;
+    [SerializeField] private LayerMask mGroundLayer;
 
 
     // On Spawn
     public void Possess(Controller controller)
     {
-        PC = controller;
+        mMoveInput = 0f;
 
+        PC = controller;
+        mCarState = ECarState.Idle;
         SetupInputComponent();
         mComponent.OnComponentUpdated += OnCarComponentUpdate;
-        mComponent.OnRunningOutOfResources += OnResourcesOver;
+        mComponent.OnRunningOutOfResources += OnRunningOutOfResourcesOver;
 
         float fuel = mComponent.GetCurrentPartValue(ECarPart.Fuel, out var fuelValid);
         if(fuelValid) mHudValues.fuel = fuel;
@@ -103,21 +107,128 @@ public abstract class BaseCar : MonoBehaviour
 
     private void FixedUpdate()
     {
-        carRb.mass = mCarMass;
+        // Ground Check
+        Vector2 position = transform.position;
+        Vector2 direction = Vector2.down;
+        Debug.DrawRay(position, direction * mGroundClearance, Color.cyan, Time.fixedDeltaTime);
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, mGroundClearance, mGroundLayer);
+        bIsOnGround = (hit.collider != null);
+        
+        //TODO: if not on ground
+        if (bIsOnGround != bLastGroundCheck)
+        {
+            bLastGroundCheck = bIsOnGround;
+
+            if (bIsOnGround)
+            {
+                //mRotateSpeed = mRotationSpeedOnGround;
+            }
+            else
+            {
+                //mRotateSpeed = mRotationSpeedInAir;
+            }
+        }
+        
         
         Rotate();
+
+        mCurrentVelocity = new Vector2(carRb.velocity.x, 0f);
+        mCurrentVelocityMag = mCurrentVelocity.magnitude;
+
+        int speedInt = Mathf.RoundToInt(mCurrentVelocityMag);
+        DebugUI.OnSpeedUpdate?.Invoke(speedInt);
+
+        if(mMoveInput > 0) Accelarate();
+        else Decelarate();
     }
     
-    // Event Binded Methods
-    private IEnumerator OnResourcesOver(ECarPart resource)
+    // Control Bindings
+    private void Move(InputAction.CallbackContext InputValue)
     {
-        /*
-        string s = "Out of " + resource;
-        DebugUI.OnMessageUpdate?.Invoke(s);
-        if(resource == ECarComponent.Fuel) mPlayerInput.Move.Disable();
-        if(resource == ECarComponent.Nitro) mPlayerInput.Trigger.Disable();
-    */
+        mMoveInput = InputValue.ReadValue<float>();
+        
+        if (mMoveInput != 0f) {
+            bConsumeFuel = true;
+        }
+        else {
+            bConsumeFuel = false;
+        }
+        
+        DebugUI.OnMoveInputUpdate?.Invoke(mMoveInput);
+    }
+    
+    private void Roll(InputAction.CallbackContext InputValue)
+    {
+        mRotationInput = InputValue.ReadValue<float>();
+    }
 
+    private void Nitro(InputAction.CallbackContext InputValue)
+    {
+        if ((bApplyNitro = InputValue.ReadValueAsButton()) == true)
+        {
+            StartCoroutine(Boost());
+        }
+        else
+        {
+            carRb.mass = mDefaultCarMass;
+        }
+    }
+    
+    // Action Methods
+    private void Accelarate()
+    {
+        if (bConsumeFuel && !bIsFuelOver)
+        {
+            float torqueVal = Mathf.Clamp(mMaxSpeed - mCurrentVelocityMag, 0f, mMaxSpeed) * mAccelarationRate;
+
+            mComponent.UpdateValue(ECarPart.Fuel);
+
+            if (bIsOnGround)
+            {
+                frontTireRb.AddTorque(-mMoveInput * torqueVal);
+                backTireRb.AddTorque(-mMoveInput * torqueVal);
+            }
+
+            carRb.AddForce(Vector2.right * (mExtraForce * mMoveInput), ForceMode2D.Force);
+            DebugUI.OnMessageUpdate("Accelarating");
+        }
+    }
+
+    private void Decelarate()
+    {
+        if(mCurrentVelocityMag > 0f){
+            carRb.AddForce(-carRb.velocity * mDecelerationRate); // Decelerate immediately
+        } 
+
+        DebugUI.OnMessageUpdate("Decelarating");
+    }
+
+    private void Rotate()
+    {
+        carRb.AddTorque(-mRotationInput * mRotateSpeed * Time.fixedDeltaTime);
+    }
+
+    private IEnumerator Boost()
+    {
+        if (bApplyNitro && !bIsNitroOver)
+        {
+            WaitForSeconds mTimeInterval = new WaitForSeconds(mNitroTimeInterval);
+
+            Vector2 nitroThrustPos = mNitro.transform.up * -1f;;
+            while (bApplyNitro)
+            {
+                carRb.AddForce(nitroThrustPos * mNitroImpulse, ForceMode2D.Force);
+                mComponent.UpdateValue(ECarPart.Nitro);
+
+                yield return mTimeInterval;
+            }
+        }
+        
+    }
+    
+        // Event Binded Methods
+    private void OnRunningOutOfResourcesOver(ECarPart resource)
+    {
         switch (resource)
         {
             case ECarPart.Fuel:
@@ -127,12 +238,18 @@ public abstract class BaseCar : MonoBehaviour
                 bIsNitroOver = true;
                 break;
         }
+        
+        StartCoroutine(OnResourcesOver());
+    }
 
+    private IEnumerator OnResourcesOver()
+    {
         if (bIsFuelOver && bIsNitroOver)
         {
             mPlayerInput.Move.Disable();
+            yield return new WaitForSeconds(5);
+
             PC.OpenUpgradeUI();
-            
         }
     }
 
@@ -161,112 +278,7 @@ public abstract class BaseCar : MonoBehaviour
     }
 
     
-    // Control Bindings
-    private void Move(InputAction.CallbackContext InputValue)
-    {
-        mMoveInput = InputValue.ReadValue<float>();
-        
-        if (mMoveInput == 0f) {
-            mSpeedRate = mDecelerationRate;
-            carRb.drag = mDragValueWhenStopping;
-            bConsumeFuel = false;
-            StartCoroutine(Decelarate());
-        }
-        else {
-            mSpeedRate = mAccelarationRate;
-            carRb.drag = mDragValueWhenMoving;
-            bConsumeFuel = true;
-            StartCoroutine(Accelarate());
-        }
-        
-        DebugUI.OnMoveInputUpdate?.Invoke(mMoveInput);
-        //DebugUI.OnSpeedRateUpdate?.Invoke(mSpeedRate);
-    }
-    
-    private void Roll(InputAction.CallbackContext InputValue)
-    {
-        mRotationInput = InputValue.ReadValue<float>();
-    }
 
-    private void Nitro(InputAction.CallbackContext InputValue)
-    {
-        if ((bApplyNitro = InputValue.ReadValueAsButton()) == true)
-        {
-            StartCoroutine(Boost());
-        }
-    }
-    
-    // Action Methods
-    private IEnumerator Accelarate()
-    {
-        WaitForSeconds timeInterval = new WaitForSeconds(0.002f);
-        while (bConsumeFuel && !bIsFuelOver)
-        {
-            // Calculate the current velocity
-            float currentVelocity = carRb.velocity.magnitude * 3.6f;
-
-            // Calculate the torque based on the difference between the current velocity and the desired limit
-            float torqueVal = Mathf.Clamp(mMaxSpeed - currentVelocity, 0f, mMaxSpeed) * mAccelarationRate;
-
-            // Apply torque to accelerate
-            frontTireRb.AddTorque(-mMoveInput * torqueVal);
-            backTireRb.AddTorque(-mMoveInput * torqueVal);
-
-            carRb.velocity = Vector2.ClampMagnitude(carRb.velocity, mMaxSpeed);
-            carRb.AddForce(Vector2.right * mExtraForce, ForceMode2D.Force);
-            //float speed = currentVelocity * 3.6f;
-            int speedInt = Mathf.RoundToInt(currentVelocity);
-            DebugUI.OnSpeedUpdate?.Invoke(speedInt);
-
-            mComponent.UpdateValue(ECarPart.Fuel);
-            yield return timeInterval;
-        }
-    }
-
-    private IEnumerator Decelarate()
-    {
-        WaitForSeconds timeInterval = new WaitForSeconds(0.002f);
-
-        while (carRb.velocity.magnitude > 0.1f)
-        {
-            mFrontWheel.breakTorque = mDecelerationRate;
-            mRearWheel.breakTorque = mDecelerationRate;
-
-            yield return timeInterval;
-        }
-
-        carRb.velocity = Vector2.zero;
-    }
-
-    private void Rotate()
-    {
-        carRb.AddTorque(-mRotationInput * mRotateSpeed * Time.fixedDeltaTime);
-    }
-
-    private IEnumerator Boost()
-    {
-        if (bApplyNitro && !bIsNitroOver)
-        {
-            WaitForSeconds mTimeInterval = new WaitForSeconds(mNitroTimeInterval);
-            carRb.drag = mDragValueWhenBoosting;
-            
-            if (!bApplyToDrag) carRb.drag = mDragValueWhenBoosting;
-            else carRb.angularDrag = mDragValueWhenBoosting;
-
-            while (bApplyNitro)
-            {
-                frontTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
-                backTireRb.AddForce(Vector2.right * mNitroImpulse, ForceMode2D.Impulse);
-                mComponent.UpdateValue(ECarPart.Nitro);
-
-                yield return mTimeInterval;
-            }
-
-        }
-        if (!bApplyToDrag) carRb.drag = mDragValueStopBoosting;
-        else carRb.angularDrag = mDragValueStopBoosting;
-    }
-    
     public void Upgrade(ECarPart carcomp, Upgrade upgradestruct)
     {
         if (carcomp == ECarPart.Speed)

@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2064318775700377499
 Camera:
@@ -66,10 +66,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 1034.6
   field of view: 60
   orthographic: 1
-  orthographic size: 13.608618
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
