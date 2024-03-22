@@ -9,4 +9,8 @@
     {
         All_Comp, Fuel, Nitro, Speed
     }
+
+    public enum ECarState{
+        Accelarating, Decelarating, Idle
+    }
 }

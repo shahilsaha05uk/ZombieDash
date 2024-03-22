@@ -37,17 +37,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "ed4706d1-ef11-44a1-8786-6b5b92469216",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PlayerInput",
-                    "action": "Right/Left",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "positive",
                     "id": "02bdb2c7-23e0-496b-82da-e0c149e54011",
                     "path": "<Keyboard>/d",
