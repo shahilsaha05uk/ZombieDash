@@ -16,7 +16,7 @@ MonoBehaviour:
   UpgradeList:
   - id: 1
     cost: 20
-    Value: 1500
+    Value: 0.9
   - id: 2
     cost: 40
-    Value: 2000
+    Value: 1.5
