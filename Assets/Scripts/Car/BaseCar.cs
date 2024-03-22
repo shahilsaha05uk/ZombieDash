@@ -43,11 +43,13 @@ public abstract class BaseCar : MonoBehaviour
     public FHudValues mHudValues;
     public JointMotor2D motor2D;
     private bool bConsumeFuel;
+    private bool bIsFuelOver;
 
     [Space(5)]
     [SerializeField] private float mAccelarationRate = 20f;
     [SerializeField] private float mDecelerationRate = 300f;
     private bool bApplyNitro;
+    private bool bIsNitroOver;
     [Space(5)]
     [SerializeField] private float mDragValueWhenStopping;
     [SerializeField] private float mDragValueWhenMoving;
@@ -55,6 +57,7 @@ public abstract class BaseCar : MonoBehaviour
     [Space(5)]
     [SerializeField] private float mRotateSpeed = 300f;
     [SerializeField] private float mMaxSpeed;
+    [SerializeField] private float mExtraForce = 0.5f;
 
     [Space(5)] [Header("Tolerance Properties")]
     [SerializeField] private float mFuelTolerance;
@@ -106,7 +109,7 @@ public abstract class BaseCar : MonoBehaviour
     }
     
     // Event Binded Methods
-    private void OnResourcesOver(ECarPart resource)
+    private IEnumerator OnResourcesOver(ECarPart resource)
     {
         /*
         string s = "Out of " + resource;
@@ -114,8 +117,23 @@ public abstract class BaseCar : MonoBehaviour
         if(resource == ECarComponent.Fuel) mPlayerInput.Move.Disable();
         if(resource == ECarComponent.Nitro) mPlayerInput.Trigger.Disable();
     */
-        mPlayerInput.Move.Disable();
-        PC.OpenUpgradeUI();
+
+        switch (resource)
+        {
+            case ECarPart.Fuel:
+                bIsFuelOver = true;
+                break;
+            case ECarPart.Nitro:
+                bIsNitroOver = true;
+                break;
+        }
+
+        if (bIsFuelOver && bIsNitroOver)
+        {
+            mPlayerInput.Move.Disable();
+            PC.OpenUpgradeUI();
+            
+        }
     }
 
     private void OnCarComponentUpdate(ECarPart carPart, float value)
@@ -162,7 +180,7 @@ public abstract class BaseCar : MonoBehaviour
         }
         
         DebugUI.OnMoveInputUpdate?.Invoke(mMoveInput);
-        DebugUI.OnSpeedRateUpdate?.Invoke(mSpeedRate);
+        //DebugUI.OnSpeedRateUpdate?.Invoke(mSpeedRate);
     }
     
     private void Roll(InputAction.CallbackContext InputValue)
@@ -182,22 +200,22 @@ public abstract class BaseCar : MonoBehaviour
     private IEnumerator Accelarate()
     {
         WaitForSeconds timeInterval = new WaitForSeconds(0.002f);
-        while (bConsumeFuel)
+        while (bConsumeFuel && !bIsFuelOver)
         {
             // Calculate the current velocity
-            float currentVelocity = carRb.velocity.magnitude;
+            float currentVelocity = carRb.velocity.magnitude * 3.6f;
 
             // Calculate the torque based on the difference between the current velocity and the desired limit
-            float torqueVal = Mathf.Clamp(mMaxSpeed - currentVelocity, 0f, 1f) * mAccelarationRate;
+            float torqueVal = Mathf.Clamp(mMaxSpeed - currentVelocity, 0f, mMaxSpeed) * mAccelarationRate;
 
             // Apply torque to accelerate
             frontTireRb.AddTorque(-mMoveInput * torqueVal);
             backTireRb.AddTorque(-mMoveInput * torqueVal);
 
             carRb.velocity = Vector2.ClampMagnitude(carRb.velocity, mMaxSpeed);
-
-            float speed = currentVelocity * 3.6f;
-            int speedInt = Mathf.RoundToInt(speed);
+            carRb.AddForce(Vector2.right * mExtraForce, ForceMode2D.Force);
+            //float speed = currentVelocity * 3.6f;
+            int speedInt = Mathf.RoundToInt(currentVelocity);
             DebugUI.OnSpeedUpdate?.Invoke(speedInt);
 
             mComponent.UpdateValue(ECarPart.Fuel);
@@ -227,7 +245,7 @@ public abstract class BaseCar : MonoBehaviour
 
     private IEnumerator Boost()
     {
-        if (bApplyNitro)
+        if (bApplyNitro && !bIsNitroOver)
         {
             WaitForSeconds mTimeInterval = new WaitForSeconds(mNitroTimeInterval);
             carRb.drag = mDragValueWhenBoosting;
@@ -253,7 +271,7 @@ public abstract class BaseCar : MonoBehaviour
     {
         if (carcomp == ECarPart.Speed)
         {
-            mMaxSpeed = upgradestruct.Value;
+            mExtraForce = upgradestruct.Value;
             string s = "Upgraded " + carcomp;
             Debug.Log(s);
             DebugUI.OnMessageUpdate.Invoke(s);

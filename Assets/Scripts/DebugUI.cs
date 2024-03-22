@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using EnumHelper;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DebugUI : MonoBehaviour
 {
@@ -18,14 +19,14 @@ public class DebugUI : MonoBehaviour
     public delegate void FOnMessageUpdate(string Value);
     public static FOnMessageUpdate OnMessageUpdate;
 
-    public delegate void FOnSpeedRateUpdate(float Value);
-    public static FOnSpeedRateUpdate OnSpeedRateUpdate;
+    public delegate void FUpdateMaxSpeed(float Value);
+    public static FUpdateMaxSpeed UpdateMaxSpeed;
 
 
     [SerializeField] private TextMeshProUGUI mMessage;
     [SerializeField] private TextMeshProUGUI mMoveInput;
     [SerializeField] private TextMeshProUGUI mSpeed;
-    [SerializeField] private TextMeshProUGUI mSpeedRate;
+    [FormerlySerializedAs("mSpeedRate")] [SerializeField] private TextMeshProUGUI mMaxSpeed;
     [SerializeField] private TextMeshProUGUI mFuel;
     [SerializeField] private TextMeshProUGUI mNitro;
 
@@ -36,7 +37,7 @@ public class DebugUI : MonoBehaviour
         OnMessageUpdate += UpdateMessage;
         OnMoveInputUpdate += UpdateMoveText;
         OnSpeedUpdate += UpdateSpeedText;
-        OnSpeedRateUpdate += UpdateSpeedRateText;
+        UpdateMaxSpeed += UpdateMaxSpeedText;
 
     }
 
@@ -63,9 +64,9 @@ public class DebugUI : MonoBehaviour
         mMessage.text = value;
     }
 
-    private void UpdateSpeedRateText(float value)
+    private void UpdateMaxSpeedText(float value)
     {
-        mSpeedRate.text = "Speed Rate: " + value;
+        mMaxSpeed.text = "Max Speed: " + value;
     }
 
     private void UpdateSpeedText(int value)
