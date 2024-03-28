@@ -74,7 +74,7 @@ public class Controller : MonoBehaviour
         if (mVirtualCameraPrefab)
         {
             mVirtualCamera = Instantiate(mVirtualCameraPrefab);
-            mVirtualCamera.Follow = mVirtualCamera.LookAt = mCar.transform;
+            mVirtualCamera.Follow = mCar.transform;
         }
     }
     
