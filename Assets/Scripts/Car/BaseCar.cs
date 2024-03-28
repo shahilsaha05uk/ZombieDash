@@ -214,9 +214,10 @@ public abstract class BaseCar : MonoBehaviour
         {
             WaitForSeconds mTimeInterval = new WaitForSeconds(mNitroTimeInterval);
 
-            Vector2 nitroThrustPos = mNitro.transform.up * -1f;;
+            Vector2 nitroThrustPos = mNitro.transform.right * -1f;
             while (bApplyNitro)
             {
+
                 carRb.AddForce(nitroThrustPos * mNitroImpulse, ForceMode2D.Force);
                 mComponent.UpdateValue(ECarPart.Nitro);
 
