@@ -8,4 +8,40 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo01.unity
+    guid: 5b9b8a8386179aa46ac0b5569597b7a4
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo01_mobile.unity
+    guid: 58431af3c0be7aa4aacf40e629aa0025
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo02.unity
+    guid: b96cfdb43e8cedb4b873adf7eb1f7379
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo02_mobile.unity
+    guid: 0f770d677e0bf214c8d705a5e00988be
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo03.unity
+    guid: d3d5121a1fb82ac41a0254c669dd44a5
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo03_mobile.unity
+    guid: a7544cc720320624bb35ee5b1091887e
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo04.unity
+    guid: e22e136e5a44f1e429cc99ec2bc19f55
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo04_mobile.unity
+    guid: 6fd531c63eadf594fb327d59a49ded2a
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo05.unity
+    guid: 034378261c7a88c4d961ed1e6df54fe1
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo05_mobile.unity
+    guid: 21a7305eee8b8954bac84c66eb4e1f4a
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo_extra.unity
+    guid: 2baa1eb20f10b4e4ea5c2144bd27ed92
+  - enabled: 1
+    path: Assets/ExternalAssets/Smoke & Ember FX/Demo/Scenes/smoke_demo_extra_mobile.unity
+    guid: 2c634d9c6983e424bb71a1670ae61a5d
   m_configObjects: {}
