@@ -13,4 +13,8 @@
     public enum ECarState{
         Accelarating, Decelarating, Idle
     }
+
+    public enum ELevel {
+        NONE, MENU, GAME, SubLevel1, SubLevel2
+    }
 }
