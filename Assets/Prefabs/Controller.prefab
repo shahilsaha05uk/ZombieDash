@@ -47,5 +47,5 @@ MonoBehaviour:
   mCarPrefab: {fileID: -3201138244935720356, guid: 00cf0747dfebf7645994bfd59d90a70b, type: 3}
   mMainCameraPrefab: {fileID: 2064318775700377499, guid: 2780c1f645788454c8429c602dec26fd, type: 3}
   mVirtualCameraPrefab: {fileID: 5520608137330912916, guid: 2125f5cef16109c4b8038afe530f622e, type: 3}
-  mCamera: {fileID: 2064318775700377499, guid: 2780c1f645788454c8429c602dec26fd, type: 3}
+  mCamera: {fileID: 0}
   mVirtualCamera: {fileID: 5520608137330912916, guid: 2125f5cef16109c4b8038afe530f622e, type: 3}

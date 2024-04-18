@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class APlayerStart : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public ParticleSystem ParticleSystem;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        StartCoroutine(StartParticle());
+    }
+    IEnumerator StartParticle()
+    {
+        while (true)
+        {
+            ParticleSystem.Play();
+
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

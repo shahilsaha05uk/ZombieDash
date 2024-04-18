@@ -13,19 +13,26 @@ public class MainMenu : BaseWidget
     
     [SerializeField] private Button mPlayButton;
     [SerializeField] private Button mSettingsButton;
-    private void Awake()
+
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         mUiType = EUI.MAIN_MENU;
         mPlayButton.onClick.AddListener(OnPlayButtonClick);
         mSettingsButton.onClick.AddListener(OnSettingsButtonClick);
+
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        canvas.worldCamera = Camera.main;
     }
-    
+
     private void OnPlayButtonClick()
     {
         OnPlayButtonClicked?.Invoke();
         OnPlayButtonClicked = null;
         
-        DestroyWidget();
+        DestroyWidget(true);
     }
     private void OnSettingsButtonClick()
     {
