@@ -6,21 +6,25 @@ using UnityEngine;
 
 public class UIManager : ParentManager
 {
-    [SerializedDictionary("UI Enum", "UI Object Ref")]
-    [SerializeField]private SerializedDictionary<EUI, BaseWidget> mWidgetClass;
+    [SerializeField]private SO_LevelUIList mWidgetList;
 
+    public static UIManager Instance;
     private IDictionary<EUI, BaseWidget> mWidgetInstanceRef;
+
+    [SerializeField] private Transform mCanvas;
 
     private void Awake()
     {
+        if(Instance == null) Instance = this;
+
         mWidgetInstanceRef = new Dictionary<EUI, BaseWidget>();
     }
 
-    public BaseWidget InitialiseWidget(EUI WidgetToInitialise, bool bAddToViewport = false)
+    public BaseWidget InitialiseWidget(EUI WidgetToInitialise, bool bAddToViewport = true)
     {
         if (!mWidgetInstanceRef.TryGetValue(WidgetToInitialise, out var value))
         {
-            BaseWidget widget = Instantiate(mWidgetClass[WidgetToInitialise], transform);
+            BaseWidget widget = Instantiate(mWidgetList.WidgetClass[WidgetToInitialise], mCanvas);
             widget.gameObject.SetActive(bAddToViewport);
             widget.OnWidgetDestroy += OnWidgetDestroy;
             mWidgetInstanceRef.Add(WidgetToInitialise, widget);

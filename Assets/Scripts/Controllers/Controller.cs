@@ -6,13 +6,8 @@ using EnumHelper;
 using StructClass;
 using UnityEngine;
 
-public class Controller : MonoBehaviour
+public class Controller : BaseController
 {
-    public delegate BaseWidget FOnRequestUISignature(EUI ui);
-
-    public FOnRequestUISignature OnRequestUI;
-
-
     [SerializeField] private Car mCarPrefab;
     [SerializeField] private Camera mMainCameraPrefab;
     [SerializeField] private CinemachineVirtualCamera mVirtualCameraPrefab;
@@ -25,6 +20,8 @@ public class Controller : MonoBehaviour
     
     private FLocationPoints mFLocations;
 
+    private bool isUIInitialised;
+
     private void Start()
     {
         // Setting up the Locations
@@ -36,29 +33,40 @@ public class Controller : MonoBehaviour
             mFLocations.Checkpoints.Add(c.transform);
         }
         */
-        
-        if (mMainCameraPrefab) mCamera = Instantiate(mMainCameraPrefab);
-        
-        MainMenu mainMenu = OnRequestUI.Invoke(EUI.MAIN_MENU).GetWidgetAs<MainMenu>();
-        if (mainMenu)
-        {
-            mainMenu.OnPlayButtonClicked += OnStartPlay;
-            mainMenu.AddToViewport();
-        }
     }
 
-    
+    /*    private void OnWidgetInitialised(bool isSuccess)
+        {
+            ELevel l = LevelManager.Instance.mCurrentLevel;
+
+            switch (l)
+            {
+                case ELevel.MENU:
+                    MainMenu mainMenu = UIManager.Instance.GetWidgetRef(EUI.MAIN_MENU).GetWidgetAs<MainMenu>();
+                    if (mainMenu)
+                    {
+                        mainMenu.OnPlayButtonClicked += OnStartPlay;
+                        mainMenu.AddToViewport();
+                    }
+                    break;
+                case ELevel.GAME:
+
+                    break;
+            }
+        }
+    */
     private void OnStartPlay()
     {
         Debug.Log("Start Play");
         
         // get the Player HUD
-        mPlayerHUD = OnRequestUI?.Invoke(EUI.PLAYERHUD).GetWidgetAs<PlayerHUD>();
+       // mPlayerHUD = OnRequestUI?.Invoke(EUI.PLAYERHUD).GetWidgetAs<PlayerHUD>();
+/*        mPlayerHUD = UIManager.Instance.GetWidgetRef(EUI.PLAYERHUD).GetWidgetAs<PlayerHUD>();
         if (mPlayerHUD != null) {
             mPlayerHUD.AddToViewport();
         }
 
-        // Spawn the player
+*/        // Spawn the player
         Transform spawnTransform = GameManager.GetPlayerStart().transform;
         mCar = Instantiate(mCarPrefab, spawnTransform.position, spawnTransform.rotation);
         mCar.OnComponentUpdated += UpdateHUD;
@@ -86,13 +94,14 @@ public class Controller : MonoBehaviour
 
     public void OpenUpgradeUI()
     {
-        UpgradeUI upgradeUI = OnRequestUI?.Invoke(EUI.UPGRADE).GetWidgetAs<UpgradeUI>();
+        //UpgradeUI upgradeUI = OnRequestUI?.Invoke(EUI.UPGRADE).GetWidgetAs<UpgradeUI>();
+/*        UpgradeUI upgradeUI = UIManager.Instance.GetWidgetRef(EUI.UPGRADE).GetWidgetAs<UpgradeUI>();
         if (upgradeUI != null)
         {
             upgradeUI.OnUpgradeClick += UpgradeCar;
             upgradeUI.AddToViewport();
         }
-    }
+*/    }
 
     private void UpgradeCar(ECarPart carcomp, Upgrade upgradestruct)
     {
