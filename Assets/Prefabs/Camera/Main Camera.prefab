@@ -34,7 +34,7 @@ Transform:
   m_Children:
   - {fileID: 2479630396070673697}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2064318775700377499
 Camera:
@@ -67,8 +67,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1034.6
+  near clip plane: 0
+  far clip plane: 9999
   field of view: 60
   orthographic: 1
   orthographic size: 10

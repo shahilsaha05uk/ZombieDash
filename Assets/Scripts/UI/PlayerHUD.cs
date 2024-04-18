@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using EnumHelper;
+using speedometer;
 using StructClass;
 using TMPro;
 using UnityEngine;
@@ -10,17 +11,8 @@ using UnityEngine.UI;
 
 public class PlayerHUD : BaseWidget
 {
-   // public GameObject startPos;
-   // public GameObject flag;
-   // public GameObject player;
-
-    [SerializeField] private Slider mPlayerProgress;
-    [SerializeField] private Slider mFuelMeter;
-    [SerializeField] private Slider mBoostMeter;
-    
-    [SerializeField]private TextMeshProUGUI txtKPH;
-
-
+    [SerializeField] private Speedometer mNitro;
+    [SerializeField] private Speedometer mFuel;
     private float totalDistance;
 
     private void Awake()
@@ -30,38 +22,33 @@ public class PlayerHUD : BaseWidget
 
     private void Start()
     {
-        mFuelMeter.maxValue = 1;
-        mFuelMeter.minValue = 0;
-        mFuelMeter.value = 1;
-        
-        mBoostMeter.maxValue = 1;
-        mBoostMeter.minValue = 0;
-        mBoostMeter.value = 1;
+        /*        mFuelMeter.maxValue = 1;
+                mFuelMeter.minValue = 0;
+                mFuelMeter.value = 1;
+
+                mBoostMeter.maxValue = 1;
+                mBoostMeter.minValue = 0;
+                mBoostMeter.value = 1;
         //totalDistance = Mathf.Abs(flag.transform.position.x - startPos.transform.position.x);
+
+        */
+
     }
 
-    private void Update()
-    {
-        /*
-        float currentDistance = Mathf.Abs(flag.transform.position.x - player.transform.position.x);
-        float progress = 1 - (currentDistance / totalDistance);
-        mPlayerProgress.value = progress;
-    */
-    }
 
-    public void UpdateCarStatus(FHudValues hudStatus, ECarPart partToUpdate = ECarPart.All_Comp)
+    public void UpdateCarStatus(FCarMetrics hudStatus, ECarPart partToUpdate = ECarPart.All_Comp)
     {
         switch (partToUpdate)
         {
             case ECarPart.All_Comp:
-                mFuelMeter.value = hudStatus.fuel;
-                mBoostMeter.value = hudStatus.nitro;
+                mNitro.UpdateValue(hudStatus.nitro);
+                mFuel.UpdateValue(hudStatus.fuel);
                 break;
             case ECarPart.Fuel:
-                mFuelMeter.value = hudStatus.fuel;
+                mFuel.UpdateValue(hudStatus.fuel);
                 break;
             case ECarPart.Nitro:
-                mBoostMeter.value = hudStatus.nitro;
+                mNitro.UpdateValue(hudStatus.nitro);
                 break;
         }
     }

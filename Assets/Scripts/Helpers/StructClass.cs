@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EnumHelper;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -21,22 +22,51 @@ namespace StructClass
         public Transform EndPos;
     }
 
-    public struct FHudValues
+    [System.Serializable]
+    public struct FCarMetrics
     {
         public float fuel;
         public float nitro;
 
-        public void UpdateValue(ECarPart CarComp, float Value)
+        public static void UpdateMetricValue(ref FCarMetrics metricToUpdate, ECarPart partToUpdate, float Value)
         {
-            switch (CarComp)
+            switch (partToUpdate)
             {
                 case ECarPart.Fuel:
-                    fuel = Value;
+                    metricToUpdate.fuel = Value;
                     break;
                 case ECarPart.Nitro:
-                    nitro = Value;
+                    metricToUpdate.nitro = Value;
+                    break;
+                case ECarPart.Speed:
                     break;
             }
+        }
+
+        /*        public void UpdateMetrics(ECarPart part, float Value)
+                {
+                    switch (part)
+                    {
+                        case ECarPart.Fuel:
+                            fuel = Value;
+                            break;
+                        case ECarPart.Nitro:
+                            nitro = Value;
+                            break;
+                        case ECarPart.Speed:
+                            break;
+                    }
+                }*/
+
+        public float getValue(ECarPart CarComp)
+        {
+            float val = 0.0f;
+            switch(CarComp)
+            {
+                case ECarPart.Fuel: val = fuel; break;
+                case ECarPart.Nitro: val = nitro; break;
+            }
+            return val;
         }
     }
 

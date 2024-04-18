@@ -1,70 +1,69 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using EnumHelper;
-using StructClass;
 using UnityEngine;
 
-
-[System.Serializable]
-public struct FCarPart
-{
-    public float current;
-    public float decreaseRate;
-}
-public class CarComponent : MonoBehaviour
+public abstract class CarComponent : MonoBehaviour
 {
     /*NOTE: Every Value needs to be NORMALIZED!!!*/
-    
+
+    [SerializeField] private Car mCarRef;
+
+    [SerializeField] protected Rigidbody2D carRb;
+
+    [SerializeField] protected float mCurrent = 1f;
+    [SerializeField] protected float mDecreaseRate = 0.01f;
+    [SerializeField] protected float mTolerance = 0.01f;
+    [SerializeField] protected float mTimeInterval = 0.001f;
+    [SerializeField] protected ECarPart mPart;
+
     public delegate void FOnRunningOutOfResourceSignature(ECarPart resource);
-    public FOnRunningOutOfResourceSignature OnRunningOutOfResources;
-    public delegate void FOnCarComponentUpdate(ECarPart carPart, float Value);
-    public FOnCarComponentUpdate OnComponentUpdated;
+    public static FOnRunningOutOfResourceSignature OnRunningOutOfResources;
     
-    [Space(5)] [Header("Value Rate")] 
-    [SerializeField] private float mFuelDecreaseRate = 0.1f;
-    [SerializeField] private float mNitroDecreaseRate = 0.1f;
 
-    private IDictionary<ECarPart, FCarPart> mCurrentPartValueMap;
-
-    private void Awake()
+    protected virtual void Start()
     {
-        mCurrentPartValueMap = new Dictionary<ECarPart, FCarPart>()
-        {
-            { ECarPart.Fuel, new FCarPart() { current = 1f, decreaseRate = mFuelDecreaseRate } },
-            { ECarPart.Nitro, new FCarPart() { current = 1f, decreaseRate = mNitroDecreaseRate } }
-        };
+        carRb = GetComponent<Rigidbody2D>();
+        mCarRef.UpdateCarMetrics(mPart, mCurrent);
     }
 
-    public void UpdateValue(ECarPart partType)
+    public virtual void StartComponent()
     {
-        FCarPart part = mCurrentPartValueMap[partType];
-        if (part.current >= 0.0f)
+
+    }
+    public void UpdateValue(EValueUpdateType updateType)
+    {
+        switch (updateType)
         {
-            part.current -= part.decreaseRate;
-            mCurrentPartValueMap[partType] = part;
+            case EValueUpdateType.Increase: break;
+            case EValueUpdateType.Decrease: DecreaseComponentValue(); break;
         }
-        else OnRunningOutOfResources?.Invoke(partType);
-        DebugUI.OnValueUpdate?.Invoke(part.current, partType);
-        OnComponentUpdated?.Invoke(partType, part.current);
+        OnCarComponentUpdate(mPart, mCurrent);
+
+        if (mCurrent <= 0f) PartExhaust();
     }
 
-    public float GetCurrentPartValue(ECarPart PartType, out bool isValid)
+    protected virtual void DecreaseComponentValue()
     {
-        isValid = (mCurrentPartValueMap.TryGetValue(PartType, out var value));
-        return value.current;
-    }
-
-    public void UpgradePart(ECarPart carcomp, Upgrade upgradestruct)
-    {
-        switch (carcomp)
+        if(mCurrent > 0f)
         {
-            case ECarPart.Fuel:
-                mFuelDecreaseRate = upgradestruct.Value;
-                break;
-            case ECarPart.Nitro:
-                mNitroDecreaseRate = upgradestruct.Value;
-                break;
+            mCurrent -= mDecreaseRate;
+        }
+    }
+    private void OnCarComponentUpdate(ECarPart carPart, float value)
+    {
+        float tollerance = mTolerance, hudVal = mCarRef.mCarMetrics.getValue(carPart);
+
+        var difference = Mathf.Abs(value - hudVal);
+        if (difference > tollerance || value <= 0.0f)
+        {
+            mCarRef.UpdateCarMetrics(carPart, value);
+        }
+    }
+
+    protected virtual void PartExhaust()
+    {
+        if(mCurrent <= 0f) {
+
+            OnRunningOutOfResources?.Invoke(mPart);
         }
     }
 }
