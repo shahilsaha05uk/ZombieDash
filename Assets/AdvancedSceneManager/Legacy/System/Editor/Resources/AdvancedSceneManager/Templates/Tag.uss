@@ -1,0 +1,98 @@
+﻿#Tag-template-content{
+    padding: 4px 0 2px 0;
+}
+
+#tag-drag-button {
+    font-size: 18px;
+    margin-right: 0px;
+    margin-left: 2px;
+    margin-top: -1px;
+    padding-bottom: 1px;
+}
+
+.Tag-ColorIndicator {
+    width: 5px;
+    height: 18px;
+    align-self: center;
+    margin-right: 3px;
+}
+
+#Tag-template-content.last {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.Tag-template-header.first {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.Tag-template-header.last {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.Tag-template-header.expanded {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.Tag-template-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: var(--collection-header-bg-color);
+    padding: 2px 4px;
+}
+
+.Tag-template-header-Expand {
+    background-color: transparent;
+    border-width: 0;
+    margin: 0px 2px 0px 3px;
+    width: 22px;
+    font-size: 8px;
+}
+
+.Tag-template-header-Expand:checked {
+    background-color: transparent;
+}
+
+.Tag-template-header-Label {
+    flex-grow: 1;
+    justify-content: center;
+    font-size: 13px;
+    -unity-text-align: middle-left;
+}
+
+.Tag-template-header-Settings {
+    flex-grow: 0;
+    border-radius: 3px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--main-btn-color);
+    font-size: 20px;
+}
+
+.Tag-template-header-Remove {
+    flex-grow: 0;
+    border-width: 0;
+    margin-right: 0px;
+    border-radius: 3px;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+}
+
+.Tag-template-header-Remove:hover {
+    background-color: var(--main-hover-color);
+}
+
+#Tag-template-content {
+    margin-bottom: 10px;
+    padding-left: 28px;
+    background-color: var(--collection-content-bg-color);
+}
+
+#tag-drag-root:hover {
+    background-color: var(--collection-hover-color);
+}

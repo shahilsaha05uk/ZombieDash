@@ -11,8 +11,8 @@ public class sublevel1 : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(1))
         {
-            GameObject tmp = Instantiate(testObject, Vector3.zero, Quaternion.identity);
-            LevelManager.MoveGameObjectToCurrentScene(tmp);
+            //GameObject tmp = Instantiate(testObject, Vector3.zero, Quaternion.identity);
+            //LevelManager.MoveGameObjectToCurrentScene(tmp);
         }
 
     }

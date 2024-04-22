@@ -1,3 +1,4 @@
+using AdvancedSceneManager.Models;
 using AYellowpaper.SerializedCollections;
 using EnumHelper;
 using System.Collections;
@@ -7,9 +8,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="LevelList", menuName = "DataAssets/LevelList", order=1)]
 public class SO_LevelList : ScriptableObject
 {
-    [SerializedDictionary("Level", "Build ID")]
-    [SerializeField] private SerializedDictionary<ELevel, int> LevelList;
+    [SerializedDictionary("Level", "Scene Collection")]
+    [SerializeField] private SerializedDictionary<ELevel, SceneCollection> LevelList;
 
-    public SerializedDictionary<ELevel, int> GetList() { return LevelList; }
-    public int GetBuildId(ELevel level) { return LevelList[level]; }
+    public SceneCollection GetCollection(ELevel level)
+    {
+        return (LevelList != null && LevelList.TryGetValue(level, out var value))? value: null;
+    }
 }

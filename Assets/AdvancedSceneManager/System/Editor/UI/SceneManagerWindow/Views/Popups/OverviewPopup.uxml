@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:ScrollView nested-interaction-kind="ForwardScrolling" vertical-scroller-visibility="AlwaysVisible" horizontal-scroller-visibility="Hidden" style="flex-shrink: 0; flex-grow: 1;">
+        <ui:Foldout text="Unimported scenes" name="foldout-unimported" />
+        <ui:Foldout text="Imported scenes" name="foldout-imported" value="true" />
+    </ui:ScrollView>
+</ui:UXML>

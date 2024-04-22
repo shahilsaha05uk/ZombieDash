@@ -4,21 +4,15 @@ using System.Collections.Generic;
 using EnumHelper;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : ParentManager
 {
-    [Space(10)][Header("Prefabs")]
-    [SerializeField] private Controller mControllerPrefab;
-    
-    [Space(10)][Header("Object References")]
-    [SerializeField] private Controller mController;
+    public static GameManager Instance { get; private set; }
 
-    private void Start()
+    protected override void InitManager()
     {
-        mController = Instantiate(mControllerPrefab);
-    }
-    private void OnDestroy()
-    {
+        base.InitManager();
 
+        if (Instance == null) Instance = this;
     }
 
     public static APlayerStart GetPlayerStart()

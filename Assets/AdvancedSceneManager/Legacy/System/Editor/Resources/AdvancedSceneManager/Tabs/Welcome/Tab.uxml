@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:editor="UnityEditor.UIElements"
+      xmlns:custom="AdvancedSceneManager.Editor"
+      xsi:noNamespaceSchemaLocation="../../../../../../../../../UIElementsSchema/UIElements.xsd">
+
+      <ScrollView name="scroll">
+
+          <VisualElement name="tab-welcome" class="tab active continue-button">
+            <VisualElement name="asm-banner"/>
+            <Label name="label-version" text="1.9" style="width:100%;-unity-text-align:middle-right;font-size:22px"/>
+          </VisualElement>
+
+          <VisualElement name="tab-links" class="tab back-button continue-button">
+        
+            <Label class="header" text="Documentation"/>
+            <Label text="Offline documentation is available in pdf format, but please note that it is not always up-to-date with online version."/>
+            <Button class="link" text="Offline documentation: Assets/AdvancedSceneManager/Documentation/documentation.html"/>
+            <Button class="link" text="Online documentation: https://lazy-solutions.github.io/AdvancedSceneManager"/>
+        
+            <Label class="header" text="Patches"/>
+            <Label text="Patches are smaller updates that are provided in-between the larger asset store updates. It is not required to install these, but it might be good idea if you experience or wish to avoid bugs. They may sometimes include features."/>
+            <Button class="link" text="Patches: https://github.com/Lazy-Solutions/AdvancedSceneManager/releases"/>
+
+            <Label class="header" text="Support"/>
+            <Label text="If you experience any bugs, that have not yet been fixed in a patch, or need help with anything, that is not covered in documentation (or documentation is unclear), feel free to reach out to us at any of the following:"/>
+        
+            <Button class="link" text="Github Issues: https://github.com/Lazy-Solutions/AdvancedSceneManager/issues"/>
+            <Button class="link" text="mailto:support@lazy.solutions"/>
+            <Button class="link" text="https://discord.gg/pnRn6zeFEJ"/>
+
+            <Button style="height: 22px; width: 100%; opacity: 0"/>
+
+          </VisualElement>
+
+          <VisualElement name="tab-profile" class="tab back-button done-button"/>
+
+      </ScrollView>
+
+      <VisualElement name="tab-nav">
+        <Button name="button-back" text="Back"/>
+        <VisualElement class="spacer"/>
+        <Button name="button-continue" text="Continue"/>
+        <Button name="button-done" text="Done"/>
+      </VisualElement>
+
+</UXML>

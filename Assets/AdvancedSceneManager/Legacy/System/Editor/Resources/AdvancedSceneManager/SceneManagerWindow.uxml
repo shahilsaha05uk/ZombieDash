@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML xmlns="UnityEngine.UIElements"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:engine="UnityEngine.UIElements"
+             xmlns:editor="UnityEditor.UIElements"
+             xsi:noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd">
+
+  <VisualElement name="root">
+
+    <VisualElement name="header">
+      <VisualElement name="tabs"/>
+
+      <VisualElement name="Play">
+        <Button name="PlayButton" text="▶" tooltip="Start as build"/>
+      </VisualElement>
+
+      <VisualElement name="Menu">
+        <editor:ToolbarToggle class="StandardButton" name="button-menu" text="≡">
+            <Label name="patch-indicator" text="." style="position: absolute; font-size: 42px; top: -22px; left: 2px; color: rgb(255,0,0);" class="hidden"/>
+        </editor:ToolbarToggle>
+        <Button class="StandardButton" name="button-reload" text="↻" tooltip="Reload assets"/>
+      </VisualElement>
+
+      <VisualElement class="StandardButton" name="SceneHelperButton" tooltip="Drag to gain a reference to scene helper in drag drop">
+        <VisualElement/>
+      </VisualElement>
+
+    </VisualElement>
+
+    <VisualElement name="content">
+      <ScrollView name="scrollview">
+        <VisualElement name="tab-content"/>
+      </ScrollView>
+    </VisualElement>
+
+    <VisualElement name="footer" class="footer">
+      <VisualElement name="footer-left" class="footer-left"/>
+      <VisualElement name="footer-right" class="footer-right"/>
+    </VisualElement>
+
+    <VisualElement name="review" class="hidden">
+        <Button name="link-review" class="link" text="If you like this asset, please take the time to review!"/>
+        <VisualElement class="spacer"/>
+        <Button name="closeReviewPrompt" text="x"/>
+    </VisualElement>
+
+    <VisualElement name="legacy" class="hidden">
+        <Button name="link-legacy" class="link" text="You are running the legacy version of ASM, click here to upgrade to ASM 2.0. This is destructive, and not reversible."/>
+        <VisualElement class="spacer"/>
+        <Button name="closeLegacyPrompt" text="x"/>
+    </VisualElement>
+
+  </VisualElement>
+
+</engine:UXML>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:editor="UnityEditor.UIElements"
+      xsi:noNamespaceSchemaLocation="../../../../../../../../../UIElementsSchema/UIElements.xsd">
+
+  <VisualElement class="Collections-template" name="collection-drag-root">
+
+    <!--Header-->
+    <VisualElement class="Collections-template-header">
+
+      <Label class="Collections-template-header-OpenButton draggable-pointerArea" name="collection-drag-button" text="=" tooltip="Drag and drop to reorder"/>
+
+      <Toggle name="toggleIncludeInBuild" tooltip="Include in build"/>
+
+      <!-- Button to open Collection-->
+      <Button class="Collections-template-header-OpenButton OpenScene playButton" name="openPlay" text="▶" tooltip="Open collection in playmode (hold shift to open scenes tagged DoNotOpen)"/>
+      <Button class="Collections-template-header-OpenButton OpenScene" name="open" text="↪" tooltip="Open collection (hold shift to open scenes tagged DoNotOpen)"/>
+      <Button class="Collections-template-header-OpenButton OpenScene additive" name="openAdditive" text="+" tooltip="Open collection additively (edit mode only, hold shift to open scenes tagged DoNotOpen)"/>
+
+      <editor:ToolbarToggle class="Collections-template-header-Expand" name="Collections-template-expander" text="►"/>
+
+      <!-- Collection name-->
+      <Label class="Collection-template-header-Label" name="Collection-template-header-Label" text="New Collection"/>
+        
+      <Label name="Collection-template-header-Startup" text="Startup"/>
+      <VisualElement class="horizontal" name="Extra-Buttons"/>
+      <!--Button to open collection settings -->
+      <editor:ToolbarToggle class="Collection-template-header-Settings" name="settingsButton" text="⋮" tooltip="Edit properties"/>
+
+      <Button class="Collection-template-header-Add lockable" name="Collection-template-header-Add" text="+" tooltip="Add scene field"/>
+      <Button class="Collection-template-header-Remove lockable" name="Collection-template-header-Remove" text="-" tooltip="Remove collection"/>
+        
+    </VisualElement>
+
+    <Label name="Collections-template-description"/>
+
+    <!--Children-->
+    <VisualElement name="Collections-template-content" class="draggable-hidden collection-template-content">
+      <!-- Scene -->
+    </VisualElement>
+
+  </VisualElement>
+
+</UXML>

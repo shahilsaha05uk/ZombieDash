@@ -1,0 +1,267 @@
+:root {
+    --border-radius: 3px;
+    --button-normal: transparent;
+    --button-hover: rgba(0, 0, 0, 0.15);
+    --button-click: rgba(0, 0, 0, 0.3);
+    --button-checked: rgba(0, 0, 0, 0.15);
+    --button-border: rgba(0, 0, 0, 0.25);
+    --expander-normal: rgba(0, 0, 0, 0.15);
+    --expander-hover: rgb(90, 90, 90);
+    --expander-selected: rgb(110, 110, 110);
+    --expander-selected2: rgb(80, 80, 80);
+}
+
+TemplateContainer {
+    width: 100%;
+}
+
+Label {
+    padding: 0;
+}
+
+Label.trim {
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+Label.wrap {
+    white-space: normal;
+}
+
+.header {
+    font-size: 16px;
+    margin: 12px;
+}
+
+GroupBox {
+    padding: 12px;
+    padding-left: 22px;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+GroupBox Toggle {
+    margin-left: -6px;
+}
+
+GroupBox > .unity-group-box__label {
+    margin-top: 4px;
+    margin-bottom: 10px;
+    margin-left: -6px;
+    font-size: 16px;
+    white-space: normal;
+}
+
+RadioButton {
+    flex-direction: row-reverse;
+}
+
+RadioButtonGroup > .unity-base-field__label {
+    margin-top: 4px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    margin-left: 6px;
+    white-space: normal;
+}
+
+RadioButtonGroup {
+    padding: 8px;
+    border-radius: 3px;
+    flex-direction: column;
+}
+
+#scene-binding > VisualElement > RadioButtonGroup {
+    background-color: transparent;
+    padding: 0;
+}
+
+#unity-radio-button-group__container {
+    flex-direction: column;
+}
+
+RadioButtonGroup.vertical #unity-radio-button-group__container {
+    flex-direction: column;
+}
+
+TextField {
+    margin-bottom: 4px;
+    height: 22px;
+}
+
+TextInput {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.unity-list-view__empty-label {
+    display: none;
+}
+
+TextElement {
+    cursor: text;
+}
+
+#profile:hover {
+    background-color: var(--button-hover);
+}
+
+#list-notifications Button {
+    white-space: normal;
+}
+
+#list-blacklist TextInput {
+    border-width: 0;
+}
+
+#list-blacklist TextField {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#list-blacklist TextField:hover {
+    background-color: var(--button-hover);
+}
+
+#list-blacklist TextField:checked {
+    background-color: var(--button-checked);
+}
+
+EnumField {
+    margin-bottom: 4px;
+    cursor: link;
+}
+
+EnumField .unity-enum-field__input {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+EnumField .unity-enum-field__arrow {
+    margin-left: 4px;
+}
+
+PopupTextElement {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+    text-overflow: ellipsis;
+}
+
+DropdownField {
+    cursor: link;
+}
+
+Label {
+    -unity-text-align: middle-left;
+}
+
+#text-no-items {
+    margin: 2px;
+}
+
+#unity-list-view__reorderable-item__container > TextField {
+    margin: 0;
+    height: 100%;
+}
+
+#unity-list-view__reorderable-handle {
+    padding-left: 5px;
+    padding-top: 9px;
+    width: 10px;
+}
+
+.fontAwesome {
+    -unity-font-definition: url('project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Fonts/Font%20Awesome%206%20Free-Solid-900%20SDF.asset?fileID=11400000&guid=747dc63c4036f3945ba6f469bbed12b3&type=2#Font Awesome 6 Free-Solid-900 SDF');
+}
+
+.fontAwesome.fontAwesomeBrands {
+    -unity-font-definition: url('project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Fonts/Font%20Awesome%206%20Brands-Regular-400%20SDF.asset?fileID=11400000&guid=7d78a08ea8f9eef439d153ab49166236&type=2#Font Awesome 6 Brands-Regular-400 SDF');
+}
+
+.fontAwesome.fontAwesomeRegular {
+    -unity-font-definition: url('project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Fonts/Font%20Awesome%206%20Free-Regular-400%20SDF.asset?fileID=11400000&guid=8091c5c86b03ec640ad6aa7587a50bc6&type=2#Font Awesome 6 Free-Regular-400 SDF');
+}
+
+.cross-scene {
+    padding: 42px;
+}
+
+.cross-scene * {
+    cursor: link;
+}
+
+.cross-scene Foldout {
+    padding: 8px;
+    border-radius: 3px;
+}
+
+.cross-scene #unity-content {
+    margin-top: 8px;
+}
+
+.cross-scene Foldout:checked {
+    background-color: rgb(48, 48, 48);
+}
+
+.cross-scene Foldout:hover {
+    background-color: rgb(32, 32, 32);
+}
+
+.cross-scene Foldout Foldout:checked {
+    background-color: rgb(96, 96, 96);
+}
+
+.cross-scene Foldout Foldout:hover {
+    background-color: rgb(64, 64, 64);
+}
+
+.cross-scene Foldout > Toggle > VisualElement > Label {
+    margin-left: 4px;
+    font-size: 16px;
+}
+
+.cross-scene .errorMessage {
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.cross-scene ObjectField {
+    height: 22px;
+}
+
+.cross-scene Button {
+    background-color: transparent;
+    position: absolute;
+    right: -8px;
+    top: -38px;
+    width: 22px;
+    height: 22px;
+    border-width: 0;
+    opacity: 0.75;
+}
+
+.cross-scene Button:hover {
+    background-color: gray;
+    border-width: 1px;
+}
+
+.list-item {
+    margin-bottom: 12px;
+    margin-right: 12px;
+    font-size: 14px;
+}
+
+Slider #unity-drag-container {
+    margin-top: 7px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+Slider #unity-text-field {
+    margin-top: 4px;
+}

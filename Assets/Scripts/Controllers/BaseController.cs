@@ -1,18 +1,21 @@
+using AdvancedSceneManager.Callbacks;
+using AdvancedSceneManager.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseController : MonoBehaviour
+public class BaseController : MonoBehaviour, ICollectionOpenAsync
 {
-    // Start is called before the first frame update
-    void Start()
+    IEnumerator ICollectionOpenAsync.OnCollectionOpen(SceneCollection collection)
     {
-        
+        while (!collection.activeScene.isOpen) { yield return null; }
+
+        InitController();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void InitController()
     {
-        
+
     }
 }

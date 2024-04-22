@@ -1,0 +1,61 @@
+.popup:root {
+    flex-shrink: 0;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-left-color: rgba(0, 0, 0, 0.24);
+    border-right-color: rgba(0, 0, 0, 0.24);
+    border-top-color: rgba(0, 0, 0, 0.24);
+    border-bottom-color: rgba(0, 0, 0, 0.24);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.popup.open {
+    height: auto;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+#popup-overlay > * {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-left-color: rgba(0, 0, 0, 0.24);
+    border-right-color: rgba(0, 0, 0, 0.24);
+    border-top-color: rgba(0, 0, 0, 0.24);
+    border-bottom-color: rgba(0, 0, 0, 0.24);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    background-color: rgb(200,200,200);
+    position: absolute;
+    bottom: -8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    padding: 8px;
+}
+
+#popup-overlay > VisualElement > ScrollView {
+    background-color: var(--unity-colors-window-background);
+    border-radius: var(--border-radius);
+}
+
+#popup-overlay {
+    opacity: 0;
+    padding-top: 1000px;
+}
+
+#button-lock > #icon {
+    background-image: resource("Unlocked@2x");
+}
+
+#button-unlock > #icon {
+    background-image: resource("Locked@2x");
+}

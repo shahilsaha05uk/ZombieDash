@@ -1,0 +1,18 @@
+RepeatButton {
+    visibility: hidden;
+}
+
+Scroller {
+    border-width: 0px;
+    background-color: transparent;
+    margin-left: 2px;
+}
+
+ScrollerSlider {
+    margin: 0px;
+    width: 14px;
+}
+
+unity-slider {
+    width: 14px;
+}

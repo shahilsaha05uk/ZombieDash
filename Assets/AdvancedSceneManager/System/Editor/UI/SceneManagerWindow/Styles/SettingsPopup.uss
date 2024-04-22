@@ -1,0 +1,59 @@
+.section {
+    border-radius: 3px;
+    background-color: rgb(64, 64, 64);
+    margin-bottom: 16px;
+    padding: 12px;
+    flex-shrink: 1;
+    flex-grow: 0;
+}
+
+.section-button {
+    border-radius: 3px;
+    font-size: 16px;
+    background-color: var(--button-hover);
+    margin: 4px;
+    padding: 12px;
+    justify-content: center;
+}
+
+.section-button Label {
+    font-size: 15px;
+    -unity-text-align: middle-center;
+}
+
+.section-button:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.section-button:active {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#settings-header {
+    flex-direction: row;
+}
+
+#settings-header > Button {
+    margin-bottom: 8px;
+    margin-left: 0;
+    width: 32px;
+    height: 32px;
+}
+
+#settings-header > Label {
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    margin-left: -34px;
+    font-size: 16px;
+}
+
+.description {
+    margin: 8px;
+    margin-top: 0;
+    white-space: normal;
+}
+
+#setting-page-host > TemplateContainer {
+    flex-shrink: 0;
+    flex-grow: 1;
+}

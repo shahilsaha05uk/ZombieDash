@@ -1,0 +1,175 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-69482855333667046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd3886436e609044aafef03c8894287, type: 3}
+  m_Name: PersistentProfile - Menu Collection
+  m_EditorClassIdentifier: 
+  m_id: 5i02gvn4.cej
+  m_title: Menu Collection
+  m_description: 
+  m_scenes:
+  - {fileID: 11400000, guid: 3cafad6c2e796704d839f66ca27b4258, type: 2}
+  m_prefix: 'PersistentProfile - '
+  m_loadingScreenUsage: 1
+  m_loadingScreen: {fileID: 0}
+  m_activeScene: {fileID: 11400000, guid: 3cafad6c2e796704d839f66ca27b4258, type: 2}
+  m_unloadUnusedAssets: 1
+  m_openAsPersistent: 0
+  m_openAsDisabled: 0
+  m_extraData: {fileID: 11400000, guid: 8107a0d3f1c385643afc3c553548e4b2, type: 2}
+  m_startupOption: 2
+  m_loadingPriority: -2
+  m_isIncluded: 1
+  m_isLocked: 0
+  m_lockMessage: 
+  m_scenesThatShouldNotAutomaticallyOpen: []
+  m_binding:
+    m_buttons: []
+    m_openCollectionAsAdditive: 1
+    m_interactionType: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed0f1fcb14f10114ca58b525ad780b5b, type: 3}
+  m_Name: PersistentProfile
+  m_EditorClassIdentifier: 
+  m_id: y904l3k6.61l
+  m_startupScene: {fileID: 0}
+  m_loadingScreen: {fileID: 0}
+  m_splashScreen: {fileID: 0}
+  m_startupLoadingScreen: {fileID: 0}
+  m_backgroundLoadingPriority: 1
+  m_enableChangingBackgroundLoadingPriority: 0
+  m_createCameraDuringStartup: 1
+  m_unloadUnusedAssetsForStandalone: 1
+  m_collections:
+  - {fileID: 5734058435941712197}
+  - {fileID: -69482855333667046}
+  - {fileID: 152016199244354500}
+  m_dynamicCollections: []
+  m_standaloneDynamicCollection:
+    m_id: nQP8yCS6h02VhHJqvrj1rA
+    m_scenes: []
+    m_sceneBindings:
+      m_throw: 1
+      m_keys: []
+      m_values: []
+--- !u!114 &152016199244354500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd3886436e609044aafef03c8894287, type: 3}
+  m_Name: PersistentProfile - Game
+  m_EditorClassIdentifier: 
+  m_id: jdipv1ec.ofr
+  m_title: Game
+  m_description: 
+  m_scenes:
+  - {fileID: 11400000, guid: b7d3f88673dce8841840e7e1de1c77c6, type: 2}
+  m_prefix: 'PersistentProfile - '
+  m_loadingScreenUsage: 1
+  m_loadingScreen: {fileID: 0}
+  m_activeScene: {fileID: 11400000, guid: b7d3f88673dce8841840e7e1de1c77c6, type: 2}
+  m_unloadUnusedAssets: 1
+  m_openAsPersistent: 1
+  m_openAsDisabled: 0
+  m_extraData: {fileID: 152016199244354500}
+  m_startupOption: 2
+  m_loadingPriority: -2
+  m_isIncluded: 1
+  m_isLocked: 0
+  m_lockMessage: 
+  m_scenesThatShouldNotAutomaticallyOpen: []
+  m_binding:
+    m_buttons: []
+    m_openCollectionAsAdditive: 0
+    m_interactionType: 0
+--- !u!114 &5734058435941712197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd3886436e609044aafef03c8894287, type: 3}
+  m_Name: PersistentProfile - Persistent
+  m_EditorClassIdentifier: 
+  m_id: fndl10fh.bt8
+  m_title: Persistent
+  m_description: 
+  m_scenes:
+  - {fileID: 11400000, guid: 351650a032cb7aa4bb0d72f3420648b3, type: 2}
+  m_prefix: 'PersistentProfile - '
+  m_loadingScreenUsage: 1
+  m_loadingScreen: {fileID: 0}
+  m_activeScene: {fileID: 11400000, guid: 351650a032cb7aa4bb0d72f3420648b3, type: 2}
+  m_unloadUnusedAssets: 1
+  m_openAsPersistent: 1
+  m_openAsDisabled: 0
+  m_extraData: {fileID: 0}
+  m_startupOption: 1
+  m_loadingPriority: -2
+  m_isIncluded: 1
+  m_isLocked: 0
+  m_lockMessage: 
+  m_scenesThatShouldNotAutomaticallyOpen: []
+  m_binding:
+    m_buttons: []
+    m_openCollectionAsAdditive: 0
+    m_interactionType: 0
+--- !u!114 &8470288122996237722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd3886436e609044aafef03c8894287, type: 3}
+  m_Name: PersistentProfile - Menu
+  m_EditorClassIdentifier: 
+  m_id: ak3kkzfx.0yg
+  m_title: Menu
+  m_description: 
+  m_scenes: []
+  m_prefix: 'PersistentProfile - '
+  m_loadingScreenUsage: 1
+  m_loadingScreen: {fileID: 0}
+  m_activeScene: {fileID: 0}
+  m_unloadUnusedAssets: 1
+  m_openAsPersistent: 0
+  m_openAsDisabled: 0
+  m_extraData: {fileID: 11400000, guid: 8107a0d3f1c385643afc3c553548e4b2, type: 2}
+  m_startupOption: 0
+  m_loadingPriority: -2
+  m_isIncluded: 1
+  m_isLocked: 0
+  m_lockMessage: 
+  m_scenesThatShouldNotAutomaticallyOpen:
+  - {fileID: 11400000, guid: e604eee5c29b26a4c952a0aebf783b02, type: 2}
+  m_binding:
+    m_buttons: []
+    m_openCollectionAsAdditive: 1
+    m_interactionType: 0

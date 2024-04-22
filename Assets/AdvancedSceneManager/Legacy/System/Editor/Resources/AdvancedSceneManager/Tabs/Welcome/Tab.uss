@@ -1,0 +1,79 @@
+﻿.tab {
+	display: none;
+	height: 100%;
+	margin: 22px;
+}
+
+.tab.active {
+	display: flex;
+}
+
+#tab-nav {
+	flex-direction: row;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	background-color: #303030;
+	margin: -5px;
+	padding: 6px;
+}
+
+#tab-nav > Button {
+	display: none;
+	margin-left: 4px;
+	margin-top: 0px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+}
+
+#tab-nav > Button.visible {
+	display: flex;
+}
+
+.spacer {
+	flex-grow: 1;
+}
+
+#tab-links {
+	align-items: flex-start;
+}
+
+.header {
+	font-size: 18px;
+	-unity-text-align: middle-center;
+	margin-top: 22px;
+	margin-bottom: 22px;
+}
+
+Label {
+	white-space: normal;
+	margin-bottom: 6px;
+}
+
+#scroll {
+	margin-bottom: 33px;
+}
+
+Button.link {
+	background-color: transparent;
+	border-color: transparent;
+	-unity-text-align: middle-left;
+	cursor: link;
+	padding: 0px;
+}
+
+.error {
+	border-color: red;
+}
+
+#errorMessage {
+	color: red;
+}
+
+#asm-banner {
+	height: 200px;
+	width: 100%;
+	max-width: 600px;
+	margin: auto;
+}

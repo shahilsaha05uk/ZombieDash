@@ -1,0 +1,38 @@
+fileFormatVersion: 2
+guid: a78c2c43356b62c458bf32ce21d15109
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - rootView: {fileID: 9197481963319205126, guid: 2102c75e07d890748b5b1e982fe0a871, type: 3}
+  - collectionView: {fileID: 9197481963319205126, guid: 0a8337af24c607c45ab0f0c131505c8b, type: 3}
+  - sceneCollectionTemplate: {fileID: 9197481963319205126, guid: a022e7288f708a64b851ab82bd9dec00, type: 3}
+  - sceneTemplate: {fileID: 9197481963319205126, guid: a94d06bd9d35a684ea84f58a684b5c12, type: 3}
+  - m_collectionPopup_collection: {instanceID: 0}
+  - listItem: {fileID: 9197481963319205126, guid: ebdfb4f283afece4b9a09524f49d0592, type: 3}
+  - importSceneTemplate: {fileID: 9197481963319205126, guid: 2a47aa9a2f5076c4f8032ac15e5f7f3f, type: 3}
+  - documentationPdf: {fileID: 102900000, guid: 4bf2b1c5704464146bd5c402837702d4, type: 3}
+  - m_scenePopupScene: {instanceID: 0}
+  - m_scenePopupCollection: {instanceID: 0}
+  - mainSettingsPage: {fileID: 9197481963319205126, guid: e0b561442f8e94e4f912f94840258aba, type: 3}
+  - startupPage: {fileID: 9197481963319205126, guid: e723d2cccfec1a84d978f8a9809d96ce, type: 3}
+  - sceneLoadingPage: {fileID: 9197481963319205126, guid: 0a4c6c68e0f520141ac9d35b65ae1db0, type: 3}
+  - assetsPage: {fileID: 9197481963319205126, guid: 44802e82136a8444e93dd92f366d169c, type: 3}
+  - networkPage: {fileID: 9197481963319205126, guid: c67932e2ff589214bacaa34c71fe9310, type: 3}
+  - windowPage: {fileID: 9197481963319205126, guid: fc4be4d497e590c408cd4cd903fa4066, type: 3}
+  - overviewPopup: {fileID: 9197481963319205126, guid: aa872e9f2ea2cc54c91c5bd6fb25bb16, type: 3}
+  - settingsPopup: {fileID: 9197481963319205126, guid: c4f0efa6017289149a5f49670afad9b8, type: 3}
+  - menuPopup: {fileID: 9197481963319205126, guid: ab78dab2b39cfb14489220a75438ee69, type: 3}
+  - importScenePopup: {fileID: 9197481963319205126, guid: a2ce4979b1900ae4fb787e7dae0280cc, type: 3}
+  - collectionPopup: {fileID: 9197481963319205126, guid: e3215b113ce3be84da799ccf8e756918, type: 3}
+  - dynamicCollectionPopup: {fileID: 9197481963319205126, guid: 687c4355e0fc3ec4fbbde19c6d00eca9, type: 3}
+  - scenePopup: {fileID: 9197481963319205126, guid: ce850a8f2f83a40428ec1afd2cc9fdbf, type: 3}
+  - pickNamePopup: {fileID: 9197481963319205126, guid: e576dbc64c3c6b3438104f48201bcd91, type: 3}
+  - listPopup: {fileID: 9197481963319205126, guid: 4fdf56864f4731a428e899a710e2aa1f, type: 3}
+  - undoTemplate: {fileID: 9197481963319205126, guid: 89a4f38af22cbc4408e9668af47e7c18, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

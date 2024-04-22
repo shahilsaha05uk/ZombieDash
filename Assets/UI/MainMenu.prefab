@@ -331,9 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 299f55b4496a4a546b5d15d1bae13a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cGroup: {fileID: 0}
   mUiType: 0
-  mfadeInterval: 0.01
   mPlayButton: {fileID: 1804540117931974936}
   mSettingsButton: {fileID: 2087781961977603658}
 --- !u!225 &6314650621932654047

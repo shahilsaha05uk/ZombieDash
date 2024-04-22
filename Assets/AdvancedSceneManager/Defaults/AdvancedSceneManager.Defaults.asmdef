@@ -1,0 +1,24 @@
+{
+    "name": "AdvancedSceneManager.Defaults",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2c6f01f5d27984343bd2e98e1116e8fd",
+        "GUID:3a13ec30e32a1f44588df5165b594fd8",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "1.0.0",
+            "define": "INPUTSYSTEM"
+        }
+    ],
+    "noEngineReferences": false
+}

@@ -1,0 +1,83 @@
+Toggle {
+    flex-direction: row-reverse;
+    border-radius: 3px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 6px;
+    cursor: link;
+    align-self: flex-start;
+}
+
+Toggle:hover {
+    background-color: rgba(0,0,0,0.15);
+}
+
+Toggle:active {
+    background-color: rgba(0,0,0,0.3);
+}
+
+Toggle > Label {
+    flex-grow: 1;
+    cursor: link;
+    white-space: normal;
+    margin-left: 4px;
+}
+
+Toggle > VisualElement {
+    flex-grow: 0;
+    margin-left: 0px;
+    margin-right: 2px;
+}
+
+Toggle > Label {
+    margin-right: auto;
+    flex-shrink: 1;
+    flex-grow: 0;
+}
+
+RadioButton Label {
+    margin-left: 4px;
+    cursor: link;
+}
+
+RadioButton {
+    border-radius: 3px;
+    margin-right: auto;
+    padding: 4px;
+    cursor: link;
+}
+
+RadioButton:hover {
+    background-color: #353535;
+}
+
+.unity-base-field__input {
+    cursor: link;
+}
+
+RadioButtonGroup #unity-radio-button-group__container {
+    flex-direction: row;
+}
+
+RadioButtonGroup RadioButton {
+    margin-right: 6px;
+}
+
+Foldout Toggle {
+    flex-direction: row;
+    margin-right: 0;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.unity-foldout__text {
+    cursor: link;
+}
+
+Toggle > Label {
+    min-width: 0px;
+}
+
+#template-import-scene:hover {
+    background-color: #454545;
+}
