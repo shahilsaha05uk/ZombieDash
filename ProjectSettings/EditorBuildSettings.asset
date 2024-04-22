@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Demo.unity
     guid: 7623ac6c087d4df4a98b4afe392fda6e
+  - enabled: 1
+    path: Assets/Scenes/PROTOTYPE/Upgrade.unity
+    guid: f09b6e7c16616ec4aa0c5b10308c4e2f
   m_configObjects: {}

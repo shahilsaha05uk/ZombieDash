@@ -63,7 +63,8 @@ MonoBehaviour:
   m_dynamicCollections: []
   m_standaloneDynamicCollection:
     m_id: nQP8yCS6h02VhHJqvrj1rA
-    m_scenes: []
+    m_scenes:
+    - {fileID: 0}
     m_sceneBindings:
       m_throw: 1
       m_keys: []
@@ -85,6 +86,7 @@ MonoBehaviour:
   m_description: 
   m_scenes:
   - {fileID: 11400000, guid: b7d3f88673dce8841840e7e1de1c77c6, type: 2}
+  - {fileID: 11400000, guid: ded3e9df3c19d5d40ae84a5ceff309ac, type: 2}
   m_prefix: 'PersistentProfile - '
   m_loadingScreenUsage: 1
   m_loadingScreen: {fileID: 0}
@@ -98,7 +100,8 @@ MonoBehaviour:
   m_isIncluded: 1
   m_isLocked: 0
   m_lockMessage: 
-  m_scenesThatShouldNotAutomaticallyOpen: []
+  m_scenesThatShouldNotAutomaticallyOpen:
+  - {fileID: 11400000, guid: ded3e9df3c19d5d40ae84a5ceff309ac, type: 2}
   m_binding:
     m_buttons: []
     m_openCollectionAsAdditive: 0
