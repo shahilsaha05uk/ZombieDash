@@ -1,0 +1,51 @@
+Button {
+    border-radius: var(--border-radius);
+    border-color: var(--button-border);
+    background-color: var(--button-normal);
+    -unity-text-align: middle-center;
+    border-width: 0;
+    cursor: link;
+    padding: 6px;
+}
+
+Button.border {
+    border-width: 1px;
+}
+
+Button:hover {
+    background-color: var(--button-hover);
+}
+
+Button:active {
+    background-color: var(--button-click);
+}
+
+Button:disabled {
+    cursor: arrow;
+    opacity: 0.2;
+}
+
+#header Button:hover {
+    background-color: var(--button-hover);
+}
+
+#footer Button:hover {
+    background-color: var(--button-hover);
+}
+
+GroupBox Button:hover {
+    background-color: var(--button-hover);
+}
+
+#profiles TemplateContainer:hover {
+    background-color: transparent;
+}
+
+.scene-open-button {
+    opacity: 0.6;
+    margin: 0;
+}
+
+#unity-checkmark {
+    -unity-background-image-tint-color: white;
+}

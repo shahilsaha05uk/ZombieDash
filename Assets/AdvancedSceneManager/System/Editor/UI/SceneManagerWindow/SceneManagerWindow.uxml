@@ -1,0 +1,43 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True" asm="AdvancedSceneManager.Editor.UI">
+    <ui:Template name="HeaderView" src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Views/HeaderView.uxml?fileID=9197481963319205126&amp;guid=49c1d2168293ae442b204ace840a76da&amp;type=3#HeaderView" />
+    <ui:Template name="UndoSection" src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Views/UndoSection.uxml?fileID=9197481963319205126&amp;guid=7fdefbd8fcd93b34cbc45fc372606e0d&amp;type=3#UndoSection" />
+    <ui:Template name="FooterSection" src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Views/FooterView.uxml?fileID=9197481963319205126&amp;guid=f159bb07d684fa04a937192bdfe73564&amp;type=3#FooterView" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/SceneManagerWindow.uss?fileID=7433441132597879392&amp;guid=344072e549a415e4c881969338448e8f&amp;type=3#SceneManagerWindow" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/Base.uss?fileID=7433441132597879392&amp;guid=f7a81c0125240e544a30e96c1fbaf06a&amp;type=3#Base" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/NotificationSection.uss?fileID=7433441132597879392&amp;guid=c64d025bf789e6240a3cb3c9b63b1329&amp;type=3#NotificationSection" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/PopupSection.uss?fileID=7433441132597879392&amp;guid=4a56b02d65ba36d4fafb5ab8bfd7be9c&amp;type=3#PopupSection" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/SceneField.uss?fileID=7433441132597879392&amp;guid=983889a17fd4b4043802414ffe845669&amp;type=3#SceneField" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/Toggle.uss?fileID=7433441132597879392&amp;guid=89f717c2eb5149d41a51c3b1f991b185&amp;type=3#Toggle" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/Button.uss?fileID=7433441132597879392&amp;guid=cfeea3704ae9c1b45a6906d21fa7b903&amp;type=3#Button" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/ScrollView.uss?fileID=7433441132597879392&amp;guid=0711726f71f7e2a478f0a936e53bab49&amp;type=3#ScrollView" />
+    <ui:Instance template="HeaderView" name="section-header" style="flex-shrink: 0; flex-grow: 0;" />
+    <ui:GroupBox name="group-search" style="padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; margin-top: 0; margin-right: 8px; margin-bottom: 5px; margin-left: 8px;">
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+            <ui:TextField picking-mode="Ignore" name="text-search" style="opacity: 0.6; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-grow: 1; flex-shrink: 1;">
+                <ui:Label tabindex="-1" text="Search..." parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-placeholder" style="position: absolute; top: 0; left: 5px; bottom: 0; opacity: 0.6;" />
+            </ui:TextField>
+            <ui:Button text="" parse-escape-sequences="true" display-tooltip-when-elided="true" tooltip="Save search" name="button-save-search" class="fontAwesome fontAwesomeRegular" style="opacity: 0.6; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 5px; width: 22px; height: 22px;" />
+            <ui:RadioButton label="Collections" name="toggle-collections" value="true" style="flex-shrink: 1; margin-top: 0; margin-right: 5px; margin-bottom: 0; margin-left: 5px;" />
+            <ui:RadioButton label="Scenes" name="toggle-scenes" style="flex-shrink: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="list-saved" style="align-items: flex-start; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-self: flex-start; flex-grow: 1; margin-top: 5px;" />
+    </ui:GroupBox>
+    <ui:ScrollView name="collections" view-data-key="collections-scroll" style="padding-left: 8px; padding-right: 8px; flex-grow: 1; flex-shrink: 1;">
+        <ui:VisualElement name="section-collections" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-shrink: 0;" />
+    </ui:ScrollView>
+    <ui:VisualElement name="spacer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-shrink: 1;" />
+    <ui:ScrollView style="max-height: 30%;">
+        <ui:VisualElement name="list-notifications" style="flex-grow: 0; flex-shrink: 0; flex-direction: column-reverse; margin-bottom: 0;" />
+        <ui:Instance template="UndoSection" name="section-undo" style="flex-shrink: 0;" />
+    </ui:ScrollView>
+    <ui:VisualElement name="spacer" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-shrink: 1; min-height: 42px;" />
+    <ui:Instance template="FooterSection" name="section-footer" style="flex-shrink: 0; flex-grow: 0; height: 42px; position: absolute; left: 0; right: 0; bottom: 0; flex-basis: 47px;" />
+    <ui:VisualElement name="progress-spinner-container" picking-mode="Ignore" class="hidden" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: center; justify-content: center; background-color: rgb(56, 56, 56);">
+        <ui:Label tabindex="-1" text="◠" display-tooltip-when-elided="true" name="progress-spinner" picking-mode="Ignore" class="active" style="font-size: 64px; align-self: center; margin-left: auto; margin-right: auto; margin-top: auto; margin-bottom: auto;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="popup-overlay" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.59); position: absolute; left: 0; top: 0; right: 0; bottom: 0; transition-property: opacity, padding-top; transition-duration: 0.25s, 0.25s; margin-bottom: 0; transition-timing-function: ease-out, ease-out; margin-left: 0; margin-right: 0; padding-left: 5%; padding-top: 0; padding-right: 5%; flex-shrink: 0; flex-direction: column-reverse; align-self: center; justify-content: flex-start; padding-bottom: 5%; margin-top: 0;">
+        <ui:VisualElement picking-mode="Ignore" style="flex-grow: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; min-width: auto; min-height: auto; flex-shrink: 1; justify-content: flex-start; position: relative; left: auto; right: auto; bottom: auto; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; align-self: auto; align-items: auto; flex-direction: row; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; background-color: rgba(200, 200, 200, 0);">
+            <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" nested-interaction-kind="StopScrolling" view-data-key="popup-scroll" horizontal-page-size="0" style="padding-bottom: 6px; padding-left: 12px; padding-right: 12px; padding-top: 12px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; width: auto; min-width: 0; margin-left: auto; margin-right: auto; flex-shrink: 0; flex-grow: 1; position: relative; left: auto; right: auto; bottom: auto; max-width: 800px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

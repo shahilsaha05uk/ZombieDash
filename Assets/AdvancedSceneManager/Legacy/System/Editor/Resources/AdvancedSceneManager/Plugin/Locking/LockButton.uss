@@ -1,0 +1,12 @@
+﻿.locked.dark {
+  background-image: resource("IN LockButton on");
+}
+.unlocked.dark {
+  background-image: resource("IN LockButton");
+}
+.locked.light {
+  background-image: resource("IN LockButton on");
+}
+.unlocked.light {
+  background-image: resource("IN LockButton");
+}

@@ -29,14 +29,12 @@ public class MainMenu : BaseWidget
 
     private void OnPlayButtonClick()
     {
-        OnPlayButtonClicked?.Invoke();
-        OnPlayButtonClicked = null;
+        LevelManager.Instance.OpenScene(ELevel.GAME, true);
         
-        DestroyWidget(true);
+        DestroyWidget();
     }
     private void OnSettingsButtonClick()
     {
         
     }
-
 }

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc96a9d499aa3c44a1f54aeaa1d9db0, type: 3}
+  m_Name: ASM
+  m_EditorClassIdentifier: 
+  m_version: 2.1.35
+  m_patchNotes: "2.1.36\n- Fixed one of the two SceneUtility.Move() overloads calling
+    itself instead of the other one.\n\n2.1.35\n- Removed examples link since it
+    wasn't very obvious and it was also redundant since it just linked to docs anyways.
+    \n- Header for doc links changed to \"Documentation and examples\".\n\n2.1.34\n-
+    Fixed TextField.selectAllOnMouseUp and .selectAllOnFocus on search bar, that
+    are not supported below unity 2022.1.\n\n2.1.33\n- Possible fix for ASM opening
+    a collection set to Auto during startup, when another collection already had
+    Open set.\n\n2.1.32\n- Added search function for scenes and collections (configurable
+    in settings > editor).\n- Fixed update check writing old patch notes to log when
+    checking.\n\n2.1.31\n- Fixed duplicate standalone scene when set to open on play
+    mode enter.\n- Fixed dragging scene to collection header in window.\n- Fixed
+    scene dropzone in collections not hiding when it should.\n\n2.1.30 and earlier\n-
+    Testing a improved initialization process for ASM.\n- Fixed potential issue with
+    legacy mode clean up.\n- Added 'ASM/Import scene...', and 'ASM/Unimport scene...'
+    to asset context menu.\n- Added some text to make rules for blacklist a bit clearer.\n-
+    Fixed issue where blacklist would not update until domain reload.\n- Fixed issue
+    where import popup would display for dynamic collection scenes.\n- Improved scene
+    import / unimport speed.\n- Fixed issue where empty Untitled scenes would not
+    be closed when opening a collection.\n- Made ASMInfo.IsLegacySetup() faster.\n-
+    Added toggle to disable legacy mode check during editor initialize.\n- Fixed
+    compilation errors when new input system was enabled, but not installed.\n- Moved
+    Scene merge context menu items into 'Advanced Scene Manager' submenu.\n- Fixed
+    issue where SceneField would not handle drag drop.\n- Added collection pinning,
+    drag drop supported.\n- Fixed issue where legacy mode prompt would appear multiple
+    times.\n- Fixed issue where Untitled scene would be restored after exiting play
+    mode, when domain reload was turned on.\n- Fixed issue removing legacy assets,
+    when upgrading to 2.0 in legacy mode prompt.\n- Added fade animation to in-game
+    toolbar, fixed flickering on default pause screen fade animation.\n- Fixed issue
+    where AssetDatabaseUtility.CreateFolder did not work properly on linux (which
+    also caused asm settings to not be included in build).\n- Fixed delay before
+    scene manager window is displayed, that was introduced in earlier patch.\n- Fixed
+    issue where scene setup would not be saved when exiting play mode.\n- Fixed issue
+    where buttons in scene import popups would be disabled on popup open.\n- Changed
+    standalone scene startup to open before other scenes0\n- Fixed standalone startup
+    scenes not opening using toolbar play button.\n- Added SceneManager.runtime.scenePreloadFinished.\n-
+    Fixed cross-scene references not restoring when finishing preload.\n- Fixed null
+    ref on collection re-order.\n- Fixed Scene helper not being able to re-generate
+    when AdvancedSceneManager folder does not exist.\n- Improved performance of CollectionItem.SetupSceneDropZone().\n-
+    Fixed appearance settings not refreshing elements dynamically.\n- Disabled attempted
+    generation of assets in profiler process.\n- Added option to hide overview button.\n-
+    Fixed hidden buttons in scene manager window header, in unity 6."

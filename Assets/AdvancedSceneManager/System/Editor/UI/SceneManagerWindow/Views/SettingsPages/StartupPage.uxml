@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:GroupBox text="Startup:" name="group-startup">
+        <ui:DropdownField label="Splash screen:" index="-1" name="dropdown-splash-scene" />
+        <ui:DropdownField label="Loading screen:" index="-1" name="dropdown-loading-scene" />
+        <ui:Toggle label="Create temp camera during startup" name="toggle-temp-camera" binding-path="m_createCameraDuringStartup" />
+    </ui:GroupBox>
+    <ui:GroupBox text="Advanced:" name="group-startup-scene">
+        <ui:Label tabindex="-1" text="The startup scene is the scene that your game will start with, which will trigger ASM startup process. It will also be used as fallback scene.&#10;&#10;It is recommended to have this scene be as empty as possible, and not to display anything on screen, since that may cause flickering before splash screen / startup loading screen has opened.&#10;&#10;&lt;b&gt;If none, then the &apos;Advanced Scene Manager&apos; (also called &apos;Default Scene&apos;) scene will be used." display-tooltip-when-elided="true" style="white-space: normal; margin-left: 6px; margin-right: 6px; margin-top: 0; margin-bottom: 12px;" />
+        <AdvancedSceneManager.Editor.SceneField focusable="true" name="scene-startup" label="Startup scene" binding-path="m_startupScene" Binding-path="m_startupScene" Label="Startup scene:" />
+    </ui:GroupBox>
+</ui:UXML>

@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdvancedSceneManager.Utility;
 using Cinemachine;
 using EnumHelper;
 using StructClass;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Scene = AdvancedSceneManager.Models.Scene;
 
 public class Controller : BaseController
 {
@@ -13,14 +16,22 @@ public class Controller : BaseController
     [SerializeField] private CinemachineVirtualCamera mVirtualCameraPrefab;
 
     private Car mCar;
-    [SerializeField] private Camera mCamera;
-    [SerializeField] private CinemachineVirtualCamera mVirtualCamera;
+    private Camera mCamera;
+    private CinemachineVirtualCamera mVirtualCamera;
 
     private PlayerHUD mPlayerHUD;
     
     private FLocationPoints mFLocations;
 
     private bool isUIInitialised;
+
+    protected override void InitController()
+    {
+        base.InitController();
+
+        OnStartPlay();
+    }
+
 
     private void Start()
     {
@@ -34,27 +45,6 @@ public class Controller : BaseController
         }
         */
     }
-
-    /*    private void OnWidgetInitialised(bool isSuccess)
-        {
-            ELevel l = LevelManager.Instance.mCurrentLevel;
-
-            switch (l)
-            {
-                case ELevel.MENU:
-                    MainMenu mainMenu = UIManager.Instance.GetWidgetRef(EUI.MAIN_MENU).GetWidgetAs<MainMenu>();
-                    if (mainMenu)
-                    {
-                        mainMenu.OnPlayButtonClicked += OnStartPlay;
-                        mainMenu.AddToViewport();
-                    }
-                    break;
-                case ELevel.GAME:
-
-                    break;
-            }
-        }
-    */
     private void OnStartPlay()
     {
         Debug.Log("Start Play");
@@ -67,6 +57,7 @@ public class Controller : BaseController
         }
 
 */        // Spawn the player
+
         Transform spawnTransform = GameManager.GetPlayerStart().transform;
         mCar = Instantiate(mCarPrefab, spawnTransform.position, spawnTransform.rotation);
         mCar.OnComponentUpdated += UpdateHUD;
@@ -75,10 +66,21 @@ public class Controller : BaseController
         mCar.Possess(this);
     }
 
+    /*
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Scene s = SceneManager.GetActiveScene();
+            Debug.Log(s.name);
+        }
+    }
+
+    */
     private void CameraSetup()
     {
         if(mCar == null) return;
-
+        
         if (mVirtualCameraPrefab)
         {
             mVirtualCamera = Instantiate(mVirtualCameraPrefab);
@@ -87,7 +89,7 @@ public class Controller : BaseController
     }
     
     // HUD Methods
-    private void UpdateHUD(ECarPart carPart, FHudValues hudValues)
+    private void UpdateHUD(ECarPart carPart, FCarMetrics hudValues)
     {
         mPlayerHUD.UpdateCarStatus(hudValues);
     }

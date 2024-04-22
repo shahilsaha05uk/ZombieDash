@@ -1,0 +1,39 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Template name="SceneBinding" src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Views/SceneBinding.uxml?fileID=9197481963319205126&amp;guid=1455621b22c2f0a409e19146333ad90b&amp;type=3#SceneBinding" />
+    <ui:TextField picking-mode="Ignore" binding-path="m_title" label="Title:" name="text-title" class="lockable" />
+    <uie:ObjectField label="User data:" binding-path="m_extraData" name="object-user-data" type="UnityEngine.ScriptableObject, UnityEngine.CoreModule" tooltip="Custom user data, this can be any scriptable object. Can be retrieved in code using SceneCollection.UserData&lt;T&gt;()." class="lockable" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+        <ui:VisualElement name="group-lock" style="flex-grow: 0; flex-shrink: 0; flex-direction: row;">
+            <ui:Button display-tooltip-when-elided="true" name="button-lock" tooltip="Lock collection..." style="display: none; width: 22px; height: 22px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+                <ui:VisualElement name="icon" picking-mode="Ignore" style="flex-grow: 1;" />
+            </ui:Button>
+            <ui:Button display-tooltip-when-elided="true" name="button-unlock" tooltip="Unlock collection..." style="display: none; width: 22px; height: 22px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+                <ui:VisualElement name="icon" picking-mode="Ignore" style="flex-grow: 1;" />
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:VisualElement name="group-scene-loader-toggles" class="lockable" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row-reverse; flex-shrink: 0;" />
+    </ui:VisualElement>
+    <ui:GroupBox name="group-startup" class="lockable" style="flex-direction: row; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 0; padding-left: 12px; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+        <ui:Label tabindex="-1" text="Startup:" display-tooltip-when-elided="true" style="-unity-text-align: middle-left;" />
+        <ui:RadioButtonGroup value="-1" choices="Auto,Open,Do Not Open" name="radio-group-startup" binding-path="m_startupOption" style="margin-top: 0; margin-bottom: -2px;" />
+    </ui:GroupBox>
+    <ui:GroupBox text="Loading:" name="group-loading" class="lockable">
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+            <ui:Label tabindex="-1" text="Loading priority:" display-tooltip-when-elided="true" />
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+            <AdvancedSceneManager.Editor.EnumField type="AdvancedSceneManager.Models.Enums.CollectionLoadingThreadPriority, AdvancedSceneManager" name="enum-loading-priority" binding-path="m_loadingPriority" tooltip="Specifies the ThreadPriority to use when opening the collection. Lower means slower loading, but faster means more lag when attempting to do other stuff. BelowNormal is unity default." />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+            <ui:Label tabindex="-1" text="Loading screen usage:" display-tooltip-when-elided="true" />
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+            <AdvancedSceneManager.Editor.EnumField type="AdvancedSceneManager.Models.Enums.LoadingScreenUsage, AdvancedSceneManager" name="enum-loading-screen" binding-path="m_loadingScreenUsage" />
+        </ui:VisualElement>
+        <ui:DropdownField label="Loading scene:" index="-1" name="dropdown-loading-scene" />
+    </ui:GroupBox>
+    <ui:GroupBox text="Open options:" name="group-open">
+        <ui:Toggle label="Unload unused assets" name="toggle-unload-unused-assets" binding-path="m_unloadUnusedAssets" tooltip="Specifies if Resources.UnloadUnusedAssets() should be called after scene loading / unloading is done." class="lockable" />
+        <ui:Toggle label="Open persistent" name="toggle-open-persistent" binding-path="m_openAsPersistent" tooltip="Open scenes as persistent when collection is opened." class="lockable" />
+        <ui:DropdownField label="Active scene:" index="-1" name="dropdown-active-scene" />
+    </ui:GroupBox>
+    <ui:Instance template="SceneBinding" name="SceneBinding" class="lockable" style="margin-left: 2px; margin-top: 0; margin-bottom: 6px;" />
+</ui:UXML>

@@ -1,0 +1,31 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="SceneBinding" src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Views/SceneBinding.uxml?fileID=9197481963319205126&amp;guid=1455621b22c2f0a409e19146333ad90b&amp;type=3#SceneBinding" />
+    <ui:GroupBox text="Collection specific options:" name="group-collection" style="display: none;">
+        <ui:Toggle label="Don&apos;t open automatically" name="toggle-dontOpen" tooltip="Don&apos;t open this scene automatically with collections." />
+    </ui:GroupBox>
+    <ui:GroupBox text="Scene:" name="group-scene">
+        <ui:VisualElement name="group-scene-loader-toggles" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row-reverse; position: absolute; right: 0; margin-right: 6px; top: 6px;">
+            <ui:Toggle label="Netcode" name="toggle-netcode" tooltip="Flags scene to be loaded and unloaded through ASM netcode scene loader." style="display: none;" />
+            <ui:Toggle label="Addressable" name="toggle-addressable" tooltip="Adds scene to addressables. Note that it won&apos;t work out of the box, some configuration in addressables is required." style="display: none;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="persistent-runtime" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+            <ui:Toggle label="Keep scene open on collection close (persistent)" name="toggle-persistent" binding-path="m_keepOpenWhenCollectionsClose" />
+            <ui:Toggle label="Don&apos;t reopen scene when newly opened collection would also open it" name="toggle-half-persistent" binding-path="m_keepOpenWhenNewCollectionWouldReopen" style="display: none;" />
+            <ui:Label tabindex="-1" text="When collection opens scene, but it is already open:" display-tooltip-when-elided="true" style="margin-top: 12px;" />
+            <ui:RadioButtonGroup value="-1" name="group-half-persistent">
+                <ui:RadioButton label="remain open" name="toggle-remain-open" />
+                <ui:RadioButton label="re-open" name="toggle-re-open" />
+            </ui:RadioButtonGroup>
+        </ui:VisualElement>
+    </ui:GroupBox>
+    <ui:GroupBox name="group-standalone" text="Standalone:" style="display: none;">
+        <ui:Toggle label="Open at startup" name="toggle-startup" binding-path="m_openOnStartup" />
+        <ui:Toggle label="Open when entering play mode" name="toggle-playmode-open" binding-path="m_openOnPlayMode" />
+    </ui:GroupBox>
+    <ui:Instance template="SceneBinding" name="SceneBinding" style="display: none;" />
+    <ui:GroupBox name="group-editor" text="Editor:">
+        <ui:Label tabindex="-1" text="Open scene outside of play-mode automatically:" display-tooltip-when-elided="true" style="margin-top: 8px; margin-bottom: 8px;" />
+        <ui:EnumField type="AdvancedSceneManager.Models.Enums.EditorPersistentOption, AdvancedSceneManager" binding-path="m_autoOpenInEditor" name="enum-auto-open-in-editor" />
+        <ui:ListView focusable="true" name="list-auto-open-scenes" binding-path="m_autoOpenInEditorScenes" show-bound-collection-size="false" reorderable="true" show-add-remove-footer="true" show-border="true" />
+    </ui:GroupBox>
+</ui:UXML>

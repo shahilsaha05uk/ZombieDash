@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:custom="AdvancedSceneManager.Editor"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:editor="UnityEditor.UIElements"
+      xsi:noNamespaceSchemaLocation="../../../../../../../../../../UIElementsSchema/UIElements.xsd">
+
+    <VisualElement name="container">
+  
+        <TextField label="Title:" name="Collection-title" class="lockable" style="margin: 6; margin-right: 7;"/>
+
+        <VisualElement class="horizontal" style="margin: 6; margin-top: 0">
+            <Label class="lockable" text="User data:"/>
+            <custom:ObjectField name="Collection-Extra-Data" class="lockable" type="UnityEngine.ScriptableObject"
+                tooltip="User data that is to be associated with this collection, can be retrieved in code using 'SceneManager.collection.current.UserData&lt;T&gt;()'"
+                style="margin-left: 88; margin-top: 0; margin-right: 0; margin-bottom: 2; width: 185px;"/>
+        </VisualElement>
+
+        <VisualElement class="horizontal" style="margin: 6; margin-top: 6" tooltip="The scene that should be set active when all scenes in the collection opened">
+            <Label class="lockable" text="Active scene:"/>
+            <custom:SceneField class="align-right lockable" name="Collection-activeSceneEnum" style="margin: 6; margin-right: 0; margin-top: 0; margin-bottom: 2; width: 240px"/>
+        </VisualElement>
+
+        <VisualElement class="lockable horizontal" style="margin: 6; margin-top: 22">
+            <Label class="lockable" text="Unload unused assets:"/>
+            <Toggle tooltip="Unload unused assets after collection open or close" name="Collection-UnloadUnusedAssets" style="margin-left: 22px;"/>
+        </VisualElement>
+
+        <VisualElement class="lockable" style="margin: 6;">
+            <editor:EnumField label="Startup option:" name="Collection-StartupOption" style="margin-left: 0; margin-right: 0"/>
+        </VisualElement>
+    
+        <VisualElement class="lockable" style="margin: 6; margin-left: 2; margin-top: -5" tooltip="This has been disabled in settings.&#10;&#10;The thread priority to use for the loading thread when opening this collection.&#10;&#10;Higher equals faster loading, but more processing time used, and will as such produce lag ingame.&#10;&#10;So using high during loading screen, and low during background loading gameplay, is recommended.&#10;&#10;Auto will attempt to automatically decide.">
+            <editor:EnumField label="Loading thread priority:" name="Collection-loadingPriority" style="margin-left: 4; margin-right: -1"/>
+        </VisualElement>
+  
+        <VisualElement style="margin: 6; margin-left: 2; margin-top: 0">
+            <editor:EnumField label="Loading screen:" name="Collection-loadingScreenEnum" class="lockable" style="margin-left: 4; margin-right: -1"/>
+            <custom:SceneField name="Collection-loadingScreen" style="margin: 6 0 0 100" class="lockable"/>
+        </VisualElement>
+
+    </VisualElement>
+
+</UXML>

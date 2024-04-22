@@ -6,6 +6,6 @@ public class RootController : MonoBehaviour
 {
     private void Start()
     {
-        LevelManager.Instance.LoadScene(EnumHelper.ELevel.MENU);
+        //LevelManager.Instance.LoadScene(EnumHelper.ELevel.MENU);
     }
 }

@@ -1,0 +1,62 @@
+:root {
+    --border-radius: 3px;
+    --button-normal: transparent;
+    --button-hover: rgb(41, 41, 41);
+    --button-click: rgb(32, 32, 32);
+    --button-checked: rgb(41, 41, 41);
+    --button-border: rgb(41, 41, 41);
+    --expander-normal: rgb(70, 70, 70);
+    --expander-hover: rgb(90, 90, 90);
+    --expander-selected: rgb(110, 110, 110);
+}
+
+#progress-spinner-container.hidden {
+    transition: opacity 0.1s ease-in-out;
+    opacity: 0;
+}
+
+#menu-buttons > Button {
+    opacity: 0.6;
+}
+
+#menu-buttons > Button:hover {
+    opacity: 1;
+}
+
+#button-scene-helper {
+    opacity: 0.4;
+}
+
+#button-scene-helper:hover {
+    opacity: 1;
+}
+
+#button-settings:disabled {
+    color: gray;
+}
+
+#list-undo TemplateContainer:hover {
+    background-color: transparent;
+}
+
+#template-import-scene:hover {
+    cursor: link;
+    background-color: var(--button-hover);
+}
+
+#template-import-scene > Label:hover {
+    cursor: link;
+}
+
+#template-import-scene Toggle:hover {
+    background-color: transparent;
+}
+
+#list-notifications Button > Button {
+    height: 22px;
+    width: 22px;
+}
+
+#group-search RadioButton Label {
+    min-width: 0px;
+}

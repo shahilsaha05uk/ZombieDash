@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:editor="UnityEditor.UIElements"
+      xmlns:custom="AdvancedSceneManager.Editor"
+      xsi:noNamespaceSchemaLocation="../../../../../../../../../UIElementsSchema/UIElements.xsd">
+
+    <VisualElement name="tab-profile" class="back-button skip-button done-button">
+
+        <Label class="header" text="Profile"/>
+        <Label text="ASM uses profiles to store collections and settings. This provides the ability to maintain dev and release profiles, for example. But in order to get started we'll need to create an initial one, so please give it a name:"/>
+        <TextField name="profileName" text="dev"/>
+        <Label name="errorMessage"/>
+
+        <VisualElement name="blacklistPanel">
+            <Label class="header" text="Blacklist / whitelist"/>
+            <VisualElement name="blacklistContainerParent">
+                <IMGUIContainer name="blacklistContainer"/>
+            </VisualElement>
+            <Label text="After this, blacklist / whitelist settings can be found in the Scene Manager Window settings under Assets section."/>
+        </VisualElement>
+
+    </VisualElement>
+
+</UXML>

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1d06aab82ecaa42ab744cc7c6a3cfc, type: 3}
+  m_Name: Level UI
+  m_EditorClassIdentifier: 
+  WidgetClass:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 3872376018297575722, guid: 44cdbfcce3afd46419e32f8a777a73cf, type: 3}
+    - Key: 1
+      Value: {fileID: 6436617325279461324, guid: 15d475dd0c3422046a279b64eef621f3, type: 3}
+    - Key: 2
+      Value: {fileID: 0}
+    - Key: 3
+      Value: {fileID: 0}
+    - Key: 4
+      Value: {fileID: 5913388876697184383, guid: 946f5043a2c132c4cb42b243ba3764b7, type: 3}

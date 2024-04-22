@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using EnumHelper;
@@ -12,7 +13,12 @@ public abstract class BaseWidget : MonoBehaviour
     public FOnDestroyWidgetSignature OnWidgetDestroy;
 
     [SerializeField] protected EUI mUiType;
-    
+
+    protected virtual void OnEnable()
+    {
+        
+    }
+
     public void AddToViewport()
     {
         GetComponent<CanvasGroup>().alpha = 1f;

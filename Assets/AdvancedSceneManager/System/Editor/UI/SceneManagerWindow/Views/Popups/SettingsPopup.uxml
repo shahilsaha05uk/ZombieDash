@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="MainSettingsPage" src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Views/SettingsPages/MainPage.uxml?fileID=9197481963319205126&amp;guid=e0b561442f8e94e4f912f94840258aba&amp;type=3#MainPage" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/SettingsPopup.uss?fileID=7433441132597879392&amp;guid=75423e3cdd2aa8f40bbf0ded5d684526&amp;type=3#SettingsPopup" />
+    <ui:VisualElement name="popup-settings" style="flex-grow: 1; flex-direction: row; transition-property: left; transition-duration: 0.25s; transition-timing-function: ease-out; transition-delay: 0s; flex-shrink: 0; width: 100%;">
+        <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); width: 100%; flex-shrink: 0; height: auto;">
+            <ui:Instance template="MainSettingsPage" name="setting-main-page" style="padding-right: 0; padding-bottom: 8px; flex-shrink: 0; width: 100%; height: auto; flex-grow: 0;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="setting-page" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-shrink: 0; width: 100%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-right: 8px; padding-left: 8px; padding-bottom: 16px;">
+            <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0);">
+                <ui:VisualElement name="setting-page-header" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; margin-right: 8px; margin-bottom: 8px; flex-shrink: 0;">
+                    <ui:Button text="←" display-tooltip-when-elided="true" name="button-back" style="padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; font-size: 15px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 36px; height: 36px;" />
+                    <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="label-page-header" style="flex-grow: 1; -unity-text-align: middle-left; font-size: 15px; margin-left: 8px; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="setting-page-host" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-shrink: 1; width: 100%;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -78,7 +78,7 @@ public abstract class BaseCar : MonoBehaviour
             Debug.Log("All parts exhausted");
 
             mPlayerInput.Move.Disable();
-            PC.DayComplete();
+            //PC.DayComplete();
         }
     }
 
@@ -130,7 +130,7 @@ public abstract class BaseCar : MonoBehaviour
     public void UpdateCarMetrics(ECarPart carPart, float value)
     {
         FCarMetrics.UpdateMetricValue(ref mCarMetrics, carPart, value);
-        OnComponentUpdated.Invoke(carPart, mCarMetrics);
+        //OnComponentUpdated.Invoke(carPart, mCarMetrics);
     }
 
 
