@@ -53,7 +53,7 @@ namespace AdvancedSceneManager.Utility
 
         /// <inheritdoc cref="sceneManager.MoveGameObjectToScene(GameObject, scene)"/>
         public static void Move(this GameObject obj, Scene scene) =>
-            Move(obj, scene.internalScene ?? default);
+            Move(obj, scene ? scene.internalScene ?? default : default);
 
         /// <inheritdoc cref="sceneManager.MoveGameObjectToScene(GameObject, scene)"/>
         public static void Move(this GameObject obj, scene scene)

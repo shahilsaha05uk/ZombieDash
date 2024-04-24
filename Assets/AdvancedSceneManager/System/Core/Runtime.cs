@@ -407,7 +407,7 @@ namespace AdvancedSceneManager.Core
                 throw new ArgumentException("Cannot open collection as additive if it is already open normally.");
 
             return SceneOperation.Queue().
-                With(collection).
+                With(collection, collection.setActiveSceneWhenOpenedAsActive).
                 Callback(TrackCollectionCallback(collection, true)).
                 DisableLoadingScreen().
                 Open(collection.scenes.
