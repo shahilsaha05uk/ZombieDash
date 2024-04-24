@@ -1,4 +1,7 @@
-2.1.35
+2.1.37
+2.1.37
+- Additive collections did not set active scene, added option to do so.
+
 2.1.36
 - Fixed one of the two SceneUtility.Move() overloads calling itself instead of the other one.
 

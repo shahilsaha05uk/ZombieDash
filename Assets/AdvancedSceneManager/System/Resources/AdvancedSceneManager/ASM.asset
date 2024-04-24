@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc96a9d499aa3c44a1f54aeaa1d9db0, type: 3}
   m_Name: ASM
   m_EditorClassIdentifier: 
-  m_version: 2.1.35
-  m_patchNotes: "2.1.36\n- Fixed one of the two SceneUtility.Move() overloads calling
+  m_version: 2.1.37
+  m_patchNotes: "2.1.37\n- Additive collections did not set active scene, added option
+    to do so.\n\n2.1.36\n- Fixed one of the two SceneUtility.Move() overloads calling
     itself instead of the other one.\n\n2.1.35\n- Removed examples link since it
     wasn't very obvious and it was also redundant since it just linked to docs anyways.
     \n- Header for doc links changed to \"Documentation and examples\".\n\n2.1.34\n-

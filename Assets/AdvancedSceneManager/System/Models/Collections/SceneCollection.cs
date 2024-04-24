@@ -151,6 +151,7 @@ namespace AdvancedSceneManager.Models
         [SerializeField] private LoadingScreenUsage m_loadingScreenUsage = LoadingScreenUsage.UseDefault;
         [SerializeField] private Scene m_loadingScreen;
         [SerializeField] private Scene m_activeScene;
+        [SerializeField] private bool m_setActiveSceneWhenOpenedAsAdditive;
 
         //Collection open options
         [SerializeField] private bool m_unloadUnusedAssets = true;
@@ -304,6 +305,13 @@ namespace AdvancedSceneManager.Models
         {
             get => m_lockMessage;
             set { m_lockMessage = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>Specifies whatever <see cref="activeScene"/> should be set, when collection is opened as additive.</summary>
+        public bool setActiveSceneWhenOpenedAsActive
+        {
+            get => m_setActiveSceneWhenOpenedAsAdditive;
+            set { m_setActiveSceneWhenOpenedAsAdditive = value; OnPropertyChanged(); }
         }
 
         #endregion
