@@ -33,7 +33,6 @@ public abstract class CarComponent : MonoBehaviour
     public virtual void StopComponent()
     {
         if (mComponentCoroutine == null) return;
-
     }
     public void UpdateValue(EValueUpdateType updateType)
     {

@@ -131,6 +131,7 @@ public class LevelManager : ParentManager
         }
         collection.activeScene.SetActive();
     }
+
     public static void MoveGameObjectToCurrentScene(GameObject actor)
     {
         Scene s;

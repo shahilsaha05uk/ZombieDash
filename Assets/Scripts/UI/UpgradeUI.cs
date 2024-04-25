@@ -27,8 +27,7 @@ public class UpgradeUI : BaseWidget
 
     private void OnPlay()
     {
-        //TODO: Reset the Car Position
-        DestroyWidget();
+        LevelManager.Instance.OpenScene(ELevel.GAME, true);
     }
 
     private void OnDestroy()
