@@ -29,7 +29,7 @@ public abstract class BaseWidget : MonoBehaviour
     }
     public void DestroyWidget()
     {
-        OnWidgetDestroy.Invoke(mUiType);
+        OnWidgetDestroy?.Invoke(mUiType);
     }
     public T GetWidgetAs<T>() where T : BaseWidget
     {

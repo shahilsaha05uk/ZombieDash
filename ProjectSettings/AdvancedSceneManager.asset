@@ -70,6 +70,7 @@ MonoBehaviour:
   - {fileID: -69482855333667046, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   - {fileID: 152016199244354500, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   - {fileID: -6887915562504533550, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
+  - {fileID: -304415347336855625, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   m_collectionTemplates: []
   m_sceneHelper: {fileID: 11400000, guid: ccdc1619da578fa44a6cb1497b5e7a05, type: 2}
   m_fallbackScenePath: Assets/AdvancedSceneManager/ASM - Fallback scene.unity
@@ -92,7 +93,7 @@ MonoBehaviour:
   m_startProps:
     forceOpenAllScenesOnCollection: 0
     fadeInDuration: 1
-    fadeOutDuration: 1
+    fadeOutDuration: 0
     openCollection: {fileID: 0}
   m_assetPath: Assets/Settings/AdvancedSceneManager
   m_customData:

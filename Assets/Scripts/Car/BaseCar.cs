@@ -76,9 +76,8 @@ public abstract class BaseCar : MonoBehaviour
         if(partsCount == mExhaustedParts.Count)
         {
             Debug.Log("All parts exhausted");
-
             mPlayerInput.Move.Disable();
-            //PC.DayComplete();
+            LevelManager.Instance.OpenAdditiveScene(ELevel.UPGRADE, true);
         }
     }
 
