@@ -148,7 +148,7 @@ public abstract class BaseCar : MonoBehaviour
     private void Nitro(InputAction.CallbackContext InputValue)
     {
         if (InputValue.ReadValueAsButton() && mExhaustedParts[ECarPart.Nitro] != true) mNitroComp.StartComponent();
-        else carRb.mass = mDefaultCarMass;
+        else mNitroComp.StopComponent();
     }
 
     // Action Methods

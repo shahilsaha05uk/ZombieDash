@@ -19,9 +19,9 @@ public class UpgradeUI : BaseWidget
         btnPlay.onClick.AddListener(OnPlay);
         
         mUiType = EUI.UPGRADE;
-        mFuelCard.OnUpgradeButtonClick += OnUpgrade;
-        mSpeedCard.OnUpgradeButtonClick += OnUpgrade;
-        mNitroCard.OnUpgradeButtonClick += OnUpgrade;
+        //mFuelCard.OnUpgradeButtonClick += OnUpgrade;
+        //mSpeedCard.OnUpgradeButtonClick += OnUpgrade;
+       // mNitroCard.OnUpgradeButtonClick += OnUpgrade;
 
     }
 
@@ -33,12 +33,12 @@ public class UpgradeUI : BaseWidget
 
     private void OnDestroy()
     {
-        mSpeedCard.OnUpgradeButtonClick -= OnUpgrade;
-        mNitroCard.OnUpgradeButtonClick -= OnUpgrade;
+       // mSpeedCard.OnUpgradeButtonClick -= OnUpgrade;
+       // mNitroCard.OnUpgradeButtonClick -= OnUpgrade;
     }
 
     private void OnUpgrade(ECarPart carComp, Upgrade upgradeStruct)
     {
-        OnUpgradeClick?.Invoke(carComp, upgradeStruct);
+        //OnUpgradeClick?.Invoke(carComp, upgradeStruct);
     }
 }
