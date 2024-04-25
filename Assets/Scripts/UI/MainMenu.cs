@@ -29,7 +29,7 @@ public class MainMenu : BaseWidget
 
     private void OnPlayButtonClick()
     {
-        LevelManager.Instance.OpenScene(ELevel.GAME, true);
+        LevelManager.Instance.OpenScene(ELevel.GAME, false);
         
         DestroyWidget();
     }

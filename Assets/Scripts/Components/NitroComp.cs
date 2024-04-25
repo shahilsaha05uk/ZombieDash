@@ -10,7 +10,6 @@ public class NitroComp : CarComponent
     [SerializeField] private GameObject mNitro;
 
     [SerializeField] private float mNitroImpulse = 100f;
-
     protected override void Start()
     {
         mPart = ECarPart.Nitro;
@@ -20,9 +19,15 @@ public class NitroComp : CarComponent
     public override void StartComponent()
     {
         base.StartComponent();
-        StartCoroutine(Boost());
+        mComponentCoroutine= StartCoroutine(Boost());
     }
+    public override void StopComponent()
+    {
+        base.StopComponent();
+        StopCoroutine(mComponentCoroutine);
+        mComponentCoroutine= null;
 
+    }
     private IEnumerator Boost()
     {
         if (mCurrent <= 0f) yield break;

@@ -336,7 +336,7 @@ MonoBehaviour:
   mCarRef: {fileID: -3201138244935720356}
   carRb: {fileID: 333206790732981338}
   mCurrent: 1
-  mDecreaseRate: 0.001
+  mDecreaseRate: 0.01
   mTolerance: 0.01
   mTimeInterval: 0.001
   mPart: 1

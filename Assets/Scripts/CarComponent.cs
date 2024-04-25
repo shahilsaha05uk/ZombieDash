@@ -17,7 +17,8 @@ public abstract class CarComponent : MonoBehaviour
 
     public delegate void FOnRunningOutOfResourceSignature(ECarPart resource);
     public static FOnRunningOutOfResourceSignature OnRunningOutOfResources;
-    
+
+    protected Coroutine mComponentCoroutine;
 
     protected virtual void Start()
     {
@@ -27,6 +28,11 @@ public abstract class CarComponent : MonoBehaviour
 
     public virtual void StartComponent()
     {
+        if (mComponentCoroutine != null) return;
+    }
+    public virtual void StopComponent()
+    {
+        if (mComponentCoroutine == null) return;
 
     }
     public void UpdateValue(EValueUpdateType updateType)
