@@ -13,10 +13,6 @@ public class LevelManager : ParentManager
     public static LevelManager Instance { get; private set; }
     [SerializeField] private SO_LevelList mLevelList;
     
-    public delegate void FOnLevelUnloadedSignature();
-    public static event FOnLevelUnloadedSignature OnLevelUnload;
-
-
     protected override void InitManager()
     {
         base.InitManager();

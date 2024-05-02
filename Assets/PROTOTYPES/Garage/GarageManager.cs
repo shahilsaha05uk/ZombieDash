@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class GarageManager : MonoBehaviour
 {
-    public delegate void FGetCarReferenceSignature(GarageCar garageCar);
-    public static event FGetCarReferenceSignature OnCarReference;
-
     public GameObject Car1;
     public GameObject Car2;
     public GameObject Car3;
