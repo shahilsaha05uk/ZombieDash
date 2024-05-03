@@ -4,6 +4,9 @@ using GooglePlayGames.BasicApi;
 using System;
 using System.Threading.Tasks;
 using System.Security.Authentication;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using GooglePlayGames.OurUtils;
 
 public class Socials : MonoBehaviour
 {
@@ -14,63 +17,51 @@ public class Socials : MonoBehaviour
     }
     public void OnPlayGamesButtonClick()
     {
-        Debug.Log("Connect to Play Games");
+        Login();
+    }
+    public void OnSwitchAccountButtonClick()
+    {
+        Logout();
+    }
 
+    private void Login()
+    {
         if (PlayGamesPlatform.Instance != null)
         {
-            if(PlayGamesPlatform.Instance.IsAuthenticated())
+            Debug.Log("Connect to Play Games");
+            PlayGamesPlatform.Instance.Authenticate(success =>
             {
+                switch (success)
+                {
+                    case SignInStatus.Success:
+                        string name = PlayGamesPlatform.Instance.GetUserDisplayName();
+                        string id = PlayGamesPlatform.Instance.GetUserId();
+                        string image = PlayGamesPlatform.Instance.GetUserImageUrl();
+                        Debug.Log("Sign in Success");
 
+                        break;
+                    case SignInStatus.InternalError:
+                        break;
+                    case SignInStatus.Canceled:
+                        Debug.Log("Sign in Failed");
+                        break;
+                }
 
-                return;
-            }
-            PlayGamesPlatform.Instance.Authenticate(ProcessLogin);
+                Debug.Log("Sign in Failed");
+
+            });
         }
         else
         {
             Debug.Log("Play Games Platform instance is null");
         }
-    }
 
-    private void ProcessLogin(SignInStatus status)
+    }
+    private void Logout()
     {
-        if(status == SignInStatus.Success)
+        if (PlayGamesPlatform.Instance != null && PlayGamesPlatform.Instance.IsAuthenticated())
         {
-
-            string name = PlayGamesPlatform.Instance.GetUserDisplayName();
-            string id = PlayGamesPlatform.Instance.GetUserId();
-            string image = PlayGamesPlatform.Instance.GetUserImageUrl();
-
-            PlayGamesPlatform.Instance.RequestServerSideAccess(true, code =>
-            {
-
-            });
-            Debug.Log("Sign in Success");
-        }
-        else
-        {
-            Debug.Log("Sign in Failed");
-            PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessLogin);
+            //PlayGamesPlatform.Instance.SignOut();
         }
     }
-
-/*    async Task SignInWithGooglePlayGamesAsync(string authCode)
-    {
-        try
-        {
-            await AuthenticationService.Instance.SignInWithGooglePlayGamesAsync(authCode);
-        }
-        catch (AuthenticationException ex)
-        {
-            // Compare error code to AuthenticationErrorCodes
-            // Notify the player with the proper error message
-            Debug.LogException(ex);
-        }
-        catch (RequestFailedException ex)
-        {
-            // Compare error code to CommonErrorCodes
-            // Notify the player with the proper error message
-            Debug.LogException(ex);
-        }
-    }
-*/}
+}

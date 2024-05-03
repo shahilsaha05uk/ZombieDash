@@ -98,39 +98,40 @@ namespace AdvancedSceneManager.Editor.UI
 
             #region Setup
 
-            void Setup()
-            {
-
-                searchGroup = rootVisualElement.Q<GroupBox>("group-search");
-                search = rootVisualElement.Q<TextField>("text-search");
-                placeholder = search.Q("label-placeholder");
-                searchCollections = rootVisualElement.Q<RadioButton>("toggle-collections");
-                searchScenes = rootVisualElement.Q<RadioButton>("toggle-scenes");
-                saveButton = rootVisualElement.Q<Button>("button-save-search");
-                list = rootVisualElement.Q("list-saved");
-                searchButton = rootVisualElement.Q<Button>("button-search");
-
-                if (isSearching && savedSearch == null)
-                    UpdateSearch(window.lastSearch, window.lastSearchScenes, true, false);
-
-                SetupSave();
-
-                SetupToggles();
-                SetupPlaceholder();
-                SetupSearchBox();
-                SetupSearchButton();
-                SetupGroup();
-
+            void Setup() =>
                 SceneManager.OnInitialized(() =>
                 {
-                    SceneManager.settings.user.PropertyChanged += (s, e) =>
-                    {
-                        searchGroup.SetVisible(shouldDisplaySearch);
-                        UpdateSearchButton();
-                    };
-                });
 
-            }
+                    searchGroup = rootVisualElement.Q<GroupBox>("group-search");
+                    search = rootVisualElement.Q<TextField>("text-search");
+                    placeholder = search.Q("label-placeholder");
+                    searchCollections = rootVisualElement.Q<RadioButton>("toggle-collections");
+                    searchScenes = rootVisualElement.Q<RadioButton>("toggle-scenes");
+                    saveButton = rootVisualElement.Q<Button>("button-save-search");
+                    list = rootVisualElement.Q("list-saved");
+                    searchButton = rootVisualElement.Q<Button>("button-search");
+
+                    if (isSearching && savedSearch == null)
+                        UpdateSearch(window.lastSearch, window.lastSearchScenes, true, false);
+
+                    SetupSave();
+
+                    SetupToggles();
+                    SetupPlaceholder();
+                    SetupSearchBox();
+                    SetupSearchButton();
+                    SetupGroup();
+
+                    SceneManager.OnInitialized(() =>
+                    {
+                        SceneManager.settings.user.PropertyChanged += (s, e) =>
+                        {
+                            searchGroup.SetVisible(shouldDisplaySearch);
+                            UpdateSearchButton();
+                        };
+                    });
+
+                });
 
             void SetupSave()
             {
@@ -321,7 +322,7 @@ namespace AdvancedSceneManager.Editor.UI
             {
 
                 saveButton.SetVisible(!string.IsNullOrEmpty(search.text));
-                if (SceneManager.settings.user.savedSearches.Contains(search.text))
+                if (SceneManager.settings.user.savedSearches?.Contains(search.text) ?? false)
                 {
                     saveButton.RemoveFromClassList("fontAwesomeRegular");
                     saveButton.text = "";

@@ -98,14 +98,21 @@ namespace AdvancedSceneManager.Models.Internal
                 return;
             }
 
-            if (!LoadAny(out var scene))
-                if (Create(out scene))
-                    fallbackScene = scene;
-                else
-                    throw new Exception("Default scene could not be generated.");
+            try
+            {
 
-            fallbackScene = scene;
-            MakeSureCorrectPath();
+                if (!LoadAny(out var scene))
+                    if (Create(out scene))
+                        fallbackScene = scene;
+                    else
+                        throw new Exception("Default scene could not be generated.");
+
+                fallbackScene = scene;
+                MakeSureCorrectPath();
+
+            }
+            catch
+            { }
 
             bool LoadAny(out SceneAsset asset) =>
                 Load(m_fallbackScenePath, out asset) ||
@@ -401,8 +408,8 @@ namespace AdvancedSceneManager.Models.Internal
         public static void Remove<T>(T obj, bool save = true) where T : ASMModel =>
             RemoveInternal(save, obj);
 
-        public static void Add<T>(T obj, bool save = true) where T : ASMModel =>
-            Add(obj, SceneManager.settings.project.assetPath, save);
+        public static void Add<T>(T obj, bool save = true) where T : ASMModel, new() =>
+            Add(obj, assetPath, save);
 
         public static void Add<T>(T obj, string importFolder, bool save = true) where T : ASMModel
         {
@@ -446,8 +453,14 @@ namespace AdvancedSceneManager.Models.Internal
             AssetDatabase.CreateAsset(obj, path);
         }
 
-        static void Move(ASMModel obj, string path, string importFolder) =>
-            AssetDatabase.MoveAsset(path, GetPath(obj, importFolder));
+        static void Move(ASMModel obj, string path, string importFolder)
+        {
+            var importPath = GetPath(obj, importFolder);
+            AssetDatabaseUtility.CreateFolder(Directory.GetParent(importPath).FullName);
+            var error = AssetDatabase.MoveAsset(path, importPath);
+            if (!string.IsNullOrEmpty(error))
+                Debug.LogError(error);
+        }
 
         public static string GetPath(ASMModel obj, string importFolder)
         {

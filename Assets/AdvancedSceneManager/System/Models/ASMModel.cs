@@ -15,7 +15,13 @@ namespace AdvancedSceneManager.Models
     public abstract class ASMModel : ScriptableObject, INotifyPropertyChanged
     {
 
-        [SerializeField] internal string m_id = Path.GetRandomFileName();
+        [SerializeField] internal string m_id = GenerateID();
+
+        /// <summary>Generate id.</summary>
+        public static string GenerateID()
+        {
+            return Path.GetRandomFileName();
+        }
 
         /// <summary>Gets the id of this <see cref="ASMModel"/>.</summary>
         public string id => m_id;

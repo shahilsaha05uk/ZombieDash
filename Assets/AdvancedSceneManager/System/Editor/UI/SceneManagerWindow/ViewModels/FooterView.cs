@@ -33,7 +33,7 @@ namespace AdvancedSceneManager.Editor.UI
                 profileButton.RegisterCallback<DetachFromPanelEvent>(e => Profile.onProfileChanged -= OnProfileChanged);
 
                 OnProfileChanged();
-                void OnProfileChanged() => profileButton.BindText(Profile.current, nameof(Profile.name), "create");
+                void OnProfileChanged() => profileButton.BindText(Profile.current, nameof(Profile.name), "none");
 
             }
 
@@ -75,6 +75,12 @@ namespace AdvancedSceneManager.Editor.UI
 
                 }, TrickleDown.TrickleDown);
 
+            }
+
+            public override void ApplyAppearanceSettings(VisualElement element)
+            {
+                element.Q<Button>("button-scene-helper").SetVisible(SceneManager.settings.user.displaySceneHelperButton);
+                element.Q("active-profile").SetVisible(SceneManager.settings.user.displayProfileButton);
             }
 
         }

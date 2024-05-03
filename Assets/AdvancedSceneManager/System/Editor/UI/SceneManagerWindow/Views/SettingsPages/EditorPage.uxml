@@ -15,13 +15,18 @@
         <ui:Toggle label="Allow locking scenes" name="toggle-scene-lock" binding-path="m_allowSceneLocking" tooltip="Allows scenes to be locked. Prevents saving, and will prompt for either discard or to save as a new scene instead." />
     </ui:GroupBox>
     <ui:GroupBox text="Display:" name="group-display">
+        <ui:Label tabindex="-1" text="Header:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font-style: bold; margin-bottom: 6px;" />
+        <ui:Toggle label="Search button" name="toggle-search-button" tooltip="Search bar can also be toggled by CTRL+F." binding-path="m_displaySearchButton" />
+        <ui:Toggle label="Always display search" name="toggle-always-display-search" binding-path="m_alwaysDisplaySearch" />
+        <ui:Toggle label="Overview button" name="toggle-overview-button-toggle" binding-path="m_displayOverviewButton" />
+        <ui:Label tabindex="-1" text="Footer:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-bottom: 6px; -unity-font-style: bold; margin-top: 12px;" />
+        <ui:Toggle label="Profile button" name="toggle-profile-button" binding-path="m_displayProfileButton" />
+        <ui:Toggle label="Scene helper button" name="toggle-scene-helper-button" binding-path="m_displaySceneHelperButton" />
+        <ui:Label tabindex="-1" text="Collection header:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font-style: bold; margin-bottom: 6px; margin-top: 12px;" />
         <ui:Toggle label="Play button" name="toggle-play-button" binding-path="m_displayCollectionPlayButton" />
         <ui:Toggle label="Open button" name="toggle-open-button" binding-path="m_displayCollectionOpenButton" />
         <ui:Toggle label="Open additive button" name="toggle-open-additive-button" binding-path="m_displayCollectionAdditiveButton" />
-        <ui:Toggle label="Overview button" name="toggle-overview-button-toggle" binding-path="m_displayOverviewButton" />
         <ui:Toggle label="Include in build toggle" name="toggle-include-in-build-toggle" binding-path="m_displayIncludeInBuildToggle" style="display: none;" />
-        <ui:Toggle label="Search button" name="toggle-search-button" tooltip="Search bar can also be toggled by CTRL+F." binding-path="m_displaySearchButton" />
-        <ui:Toggle label="Always display search" name="toggle-always-display-search" binding-path="m_alwaysDisplaySearch" />
     </ui:GroupBox>
     <ui:GroupBox name="group-toolbar" text="Display ASM play button in toolbar">
         <ui:VisualElement name="group-not-installed" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">

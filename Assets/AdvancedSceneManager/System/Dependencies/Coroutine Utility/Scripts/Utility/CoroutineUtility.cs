@@ -36,6 +36,22 @@ namespace Lazy.Utility
 
         }
 
+        /// <summary>Runs the action every interval.</summary>
+        /// <remarks>Automatically stops when <see cref="Application.isPlaying"/> changes.</remarks>
+        public static GlobalCoroutine Timer(Action action, TimeSpan interval, [CallerFilePath] string callerFile = "", [CallerLineNumber] int callerLine = 0, [CallerMemberName] string callerName = "")
+        {
+            return Coroutine()?.StartCoroutine(null, "Timer", callerFile, callerLine);
+            IEnumerator Coroutine()
+            {
+                var state = Application.isPlaying;
+                while (state == Application.isPlaying)
+                {
+                    action.Invoke();
+                    yield return new WaitForSeconds((float)interval.TotalSeconds);
+                }
+            }
+        }
+
         /// <summary>Runs the action after the specified time.</summary>
         public static void Run(Action action, TimeSpan after, [CallerFilePath] string callerFile = "", [CallerLineNumber] int callerLine = 0, [CallerMemberName] string callerName = "") =>
             Run(action, after: (float)after.TotalSeconds, false, null, callerFile, callerLine, callerName);

@@ -16,12 +16,19 @@ namespace AdvancedSceneManager.Editor.UI
         {
 
             public abstract void OnAdd();
-            public abstract void OnRemove(T item);
-            public abstract void OnRename(T item);
             public abstract void OnSelected(T item);
+
+            public virtual void OnRemove(T item) { }
+            public virtual void OnRename(T item) { }
+            public virtual void OnDuplicate(T item) { }
+
+            public virtual bool displayRenameButton { get; }
+            public virtual bool displayRemoveButton { get; }
+            public virtual bool displayDuplicateButton { get; }
 
             public abstract string noItemsText { get; }
             public abstract string headerText { get; }
+
             public abstract IEnumerable<T> items { get; }
 
             T[] list;
@@ -75,6 +82,11 @@ namespace AdvancedSceneManager.Editor.UI
                 nameButton.clicked += () => OnSelected(item);
                 element.Q<Button>("button-rename").clicked += () => OnRename(item);
                 element.Q<Button>("button-remove").clicked += () => OnRemove(item);
+                element.Q<Button>("button-duplicate").clicked += () => OnDuplicate(item);
+
+                element.Q<Button>("button-rename").SetVisible(displayRenameButton);
+                element.Q<Button>("button-remove").SetVisible(displayRemoveButton);
+                element.Q<Button>("button-duplicate").SetVisible(displayDuplicateButton);
 
             }
 

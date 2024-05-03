@@ -93,7 +93,8 @@ namespace AdvancedSceneManager.Editor.UI
             void Remove(ISceneCollection collection)
             {
                 undoTimeouts.Remove(collection);
-                Profile.current.Delete(collection);
+                if (Profile.current)
+                    Profile.current.Delete(collection);
                 Reload();
             }
 

@@ -110,6 +110,7 @@ namespace AdvancedSceneManager.Editor.UI
             #region List
 
             ListView list;
+            Toggle allToggle;
 
             public Item[] items { get; private set; }
 
@@ -123,6 +124,7 @@ namespace AdvancedSceneManager.Editor.UI
                     list.itemsSource = items;
                     element.Q("label-no-items").SetVisible(items.Length == 0);
                     list.Rebuild();
+                    UpdateAllToggle();
                 }
             }
 
@@ -134,6 +136,7 @@ namespace AdvancedSceneManager.Editor.UI
                 var item = items[index];
 
                 var toggle = element.Q<Toggle>();
+                toggle.name = "list-item-toggle";
 
                 element.RegisterCallback<ClickEvent>(e =>
                 {
@@ -146,6 +149,7 @@ namespace AdvancedSceneManager.Editor.UI
                 {
                     item.isChecked = e.newValue;
                     ReloadButtons();
+                    UpdateAllToggle();
                 });
 
                 SetupItem(element, item, index, out var text);
@@ -163,6 +167,14 @@ namespace AdvancedSceneManager.Editor.UI
                 list.bindItem = SetupItem;
                 SceneManager.OnInitialized(ReloadItems);
 
+            }
+
+            void UpdateAllToggle()
+            {
+                var isAllChecked = items.All(i => i.isChecked);
+                var isAllUnchecked = items.All(i => !i.isChecked);
+                allToggle.SetValueWithoutNotify(isAllChecked);
+                allToggle.showMixedValue = !isAllChecked && !isAllUnchecked;
             }
 
             #endregion
@@ -218,6 +230,16 @@ namespace AdvancedSceneManager.Editor.UI
 
             public override void OnCreateGUI(VisualElement element)
             {
+
+                allToggle = element.Q<Toggle>("toggle-all");
+                allToggle.RegisterValueChangedCallback(e =>
+                {
+                    var value = e.newValue;
+                    element.Query<Toggle>("list-item-toggle").ForEach(toggle =>
+                    {
+                        toggle.value = value;
+                    });
+                });
 
                 ReloadItems();
                 SetupHeader();

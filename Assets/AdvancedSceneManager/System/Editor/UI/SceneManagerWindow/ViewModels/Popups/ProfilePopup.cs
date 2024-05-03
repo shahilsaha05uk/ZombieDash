@@ -2,6 +2,7 @@
 using System.Linq;
 using AdvancedSceneManager.Editor.Utility;
 using AdvancedSceneManager.Models;
+using AdvancedSceneManager.Models.Internal;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,6 +18,10 @@ namespace AdvancedSceneManager.Editor.UI
             public override string noItemsText { get; } = "No profiles, you can create one using + button.";
             public override string headerText { get; } = "Profiles";
             public override IEnumerable<Profile> items => SceneManager.assets.profiles;
+
+            public override bool displayRenameButton => true;
+            public override bool displayRemoveButton => true;
+            public override bool displayDuplicateButton => true;
 
             public override async void OnAdd()
             {
@@ -67,18 +72,34 @@ namespace AdvancedSceneManager.Editor.UI
 
             }
 
-            public override async void OnRemove(Profile profile)
+            public override void OnRemove(Profile profile)
             {
 
                 if (!PromptUtility.PromptDelete("profile"))
                     return;
 
                 Profile.Delete(profile);
+                Reload();
 
-                if (!items.Where(o => o).Any())
-                    await window.popups.Close();
-                else
-                    Reload();
+            }
+
+            public override void OnDuplicate(Profile profile)
+            {
+
+                var names = SceneManager.assets.profiles.Select(p => p.name).ToArray();
+                var path = $"Assets/AdvancedSceneManager/{ObjectNames.GetUniqueName(names, profile.name)}.asset";
+                if (!AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(profile), path))
+                    Debug.LogError("Something went wrong when duplicating profile.");
+
+                var obj = AssetDatabase.LoadAssetAtPath<Profile>(path);
+                if (!obj)
+                    Debug.LogError("Something went wrong when duplicating profile.");
+
+                obj.m_id = ASMModel.GenerateID();
+
+                Assets.Add(obj);
+
+                Reload();
 
             }
 

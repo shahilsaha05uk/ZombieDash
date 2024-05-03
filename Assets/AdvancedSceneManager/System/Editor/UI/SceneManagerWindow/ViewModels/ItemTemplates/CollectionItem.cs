@@ -413,7 +413,7 @@ namespace AdvancedSceneManager.Editor.UI
             void SetupAdd()
             {
 
-                element.Q<Button>("button-add-scene").clicked += () =>
+                element.Q<Button>("button-add-scene").clickable = new Clickable(() =>
                 {
 
                     (collection as ISceneCollection.IEditable)?.AddEmptyScene();
@@ -422,7 +422,7 @@ namespace AdvancedSceneManager.Editor.UI
 
                     window.collections.Reload();
 
-                };
+                });
 
             }
 

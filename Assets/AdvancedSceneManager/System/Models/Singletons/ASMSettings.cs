@@ -199,6 +199,7 @@ namespace AdvancedSceneManager.Models
 
         [Header("Scenes")]
         [SerializeField] internal List<string> m_blacklist = new();
+        [SerializeField] internal List<string> m_whitelist = new();
         [SerializeField] internal SceneData sceneData = new();
 
         [SerializeField] private bool m_enableCrossSceneReferences;

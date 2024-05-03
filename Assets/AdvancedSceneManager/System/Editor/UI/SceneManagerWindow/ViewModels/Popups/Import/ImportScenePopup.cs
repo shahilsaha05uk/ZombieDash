@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AdvancedSceneManager.Editor.Utility;
 using UnityEditor;
@@ -35,16 +36,23 @@ namespace AdvancedSceneManager.Editor.UI
                     e.menu.AppendAction("View SceneAsset...", e => EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<SceneAsset>(item.value)));
                     e.menu.AppendSeparator();
 
-                    //Blacklist
                     var segments = item.value.Split("/");
-                    var paths = segments.Select((s, i) => string.Join("\\", segments.Take(i))).Skip(1);
+                    var paths = segments.Select((s, i) => string.Join("\\", segments.Take(i)) + "\\").Skip(1);
 
-                    foreach (var path in paths)
-                        e.menu.AppendAction("Blacklist/" + path, (e) => AddToBlacklist(path));
-
-                    e.menu.AppendAction("Blacklist/" + item.value.Replace("/", "\\").TrimEnd('/'), (e) => AddToBlacklist(item.value));
+                    AddBlocklistMenu(e, "Blacklist", AddToBlacklist, paths);
+                    AddBlocklistMenu(e, "Whitelist", AddToWhitelist, paths);
 
                 });
+
+                void AddBlocklistMenu(ContextualMenuPopulateEvent e, string menuName, Action<string> onClick, IEnumerable<string> paths)
+                {
+
+                    foreach (var path in paths)
+                        e.menu.AppendAction($"{menuName}/{path}", (e) => AddToWhitelist(path));
+
+                    e.menu.AppendAction($"{menuName}/{item.value.Replace("/", "\\")}", (e) => onClick(item.value));
+
+                }
 
                 void AddToBlacklist(string path)
                 {
@@ -52,6 +60,11 @@ namespace AdvancedSceneManager.Editor.UI
                     Reload();
                 }
 
+                void AddToWhitelist(string path)
+                {
+                    SceneImportUtility.Blacklist.AddToWhitelist(path);
+                    Reload();
+                }
             }
 
             public override void OnButton1Click(IEnumerable<string> items) =>
