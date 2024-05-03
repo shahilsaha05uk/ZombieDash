@@ -1,4 +1,18 @@
-2.1.37
+2.1.39
+2.1.39
+- Standalone startup scenes were being opened twice during startup, once before startup collections and once after, changed to only persistent scenes before, and non-persistent after.
+- Re-added whitelist, can be found in same places as blacklist, in assets settings panel, and by right clickling on a scene in import popup.
+- Re-added global update check on timer.
+- Fixed scene helper button alignment. 
+- Added toggle for profile button and scene helper button visibility in appearance settings.
+- Added duplicate button to profile picker.
+- Added toggle to select all in import popup.
+- Fixed null ref when retrieving saved searches on startup.
+- Fixed fallback scene generation error when asset database is being rebuilt, requiring a recompile / restart to initialize ASM after re-clone of git repo.
+
+2.1.38
+- Updated description for startup scene, in settings, that was outdated.
+
 2.1.37
 - Additive collections did not set active scene, added option to do so.
 

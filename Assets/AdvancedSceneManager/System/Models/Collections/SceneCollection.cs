@@ -10,11 +10,12 @@ using AdvancedSceneManager.Utility;
 
 #if INPUTSYSTEM
 using UnityEngine.InputSystem.Utilities;
+
+
 #endif
 
 #if UNITY_EDITOR
 using UnityEditor;
-using AdvancedSceneManager.Editor.Utility;
 #endif
 
 namespace AdvancedSceneManager.Models
@@ -131,8 +132,8 @@ namespace AdvancedSceneManager.Models
 
             EditorApplication.delayCall += () =>
             {
-                SetTitle(m_title);
-                BuildUtility.UpdateSceneList();
+                //SetTitle(m_title);
+                Editor.Utility.BuildUtility.UpdateSceneList();
             };
 
             base.OnValidate();

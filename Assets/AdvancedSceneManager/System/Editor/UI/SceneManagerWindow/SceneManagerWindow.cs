@@ -58,10 +58,13 @@ namespace AdvancedSceneManager.Editor.UI
 
             window = this;
             rootVisualElement = base.rootVisualElement;
-            EnsureViewsAreReferenced();
+            if (!SetupRootView())
+            {
+                UnityEngine.Debug.LogError("The scene manager window could not initialize due to null root template. Please try and restart unity.");
+                return;
+            }
 
             SetupProfileBinding();
-            SetupRootView();
             SetupSections();
 
             SetupDevMenu();
@@ -196,17 +199,14 @@ namespace AdvancedSceneManager.Editor.UI
 
         }
 
-        void SetupRootView()
+        bool SetupRootView()
         {
 
             if (!rootView)
             {
                 EnsureViewsAreReferenced();
                 if (!rootView)
-                {
-                    UnityEngine.Debug.LogWarning("The scene manager window could not initialize due to null root template. Please try and restart unity.");
-                    return;
-                }
+                    return false;
             }
 
             var template = rootView.Instantiate();
@@ -221,6 +221,8 @@ namespace AdvancedSceneManager.Editor.UI
                 foreach (var popup in notificationPopups)
                     popup.ReloadNotification();
             });
+
+            return true;
 
         }
 
@@ -255,8 +257,10 @@ namespace AdvancedSceneManager.Editor.UI
                 e.menu.AppendAction("View default scenes...", _ => ShowFolder(DefaultScenePath()));
                 e.menu.AppendAction("View example scripts...", _ => ShowFolder(ExampleScriptPath()));
 
+                //e.menu.AppendSeparator();
+                //e.menu.AppendAction("View import popup...", _ => window.popups.Open<ImportScenePopup>());
                 e.menu.AppendSeparator();
-                e.menu.AppendAction("View import popup...", _ => window.popups.Open<ImportScenePopup>());
+                e.menu.AppendAction("Recompile", _ => UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation());
 
             });
 

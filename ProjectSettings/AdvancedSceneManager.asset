@@ -81,6 +81,7 @@ MonoBehaviour:
   m_preventSpammingEventMethods: 0
   m_spamCheckCooldown: 0.5
   m_blacklist: []
+  m_whitelist: []
   sceneData:
     dict:
       m_throw: 1

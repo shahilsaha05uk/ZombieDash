@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AdvancedSceneManager.Editor.Utility;
 using AdvancedSceneManager.Models;
 using AdvancedSceneManager.Setup;
+using Lazy.Utility;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -44,6 +45,12 @@ namespace AdvancedSceneManager.Editor.UI
         class MenuPopup : ViewModel, IPopup
         {
 
+            [InitializeOnLoadMethod]
+            static void OnLoad()
+            {
+                CoroutineUtility.Timer(() => _ = CheckUpdate(), TimeSpan.FromHours(1));
+            }
+
             public override void OnCreateGUI(VisualElement element)
             {
                 InitializeUpdate(element);
@@ -56,101 +63,102 @@ namespace AdvancedSceneManager.Editor.UI
 
             #region Update
 
-            bool isCheckingForUpdates;
+            static bool isCheckingForUpdates;
+            static bool isUpdating;
+            static Button updateButton;
+
+            static string cachedPatchVersion;
+            static bool cachedIsMajorVersionRequired;
+
+            static bool cachedIsPatchAvailable =>
+                        !cachedIsMajorVersionRequired &&
+                        Version.TryParse(ASMInfo.GetVersionInfo().version, out var currentVersion) &&
+                        Version.TryParse(cachedPatchVersion, out var patchVersion) &&
+                        patchVersion > currentVersion;
+
+            static string lastPatchWhenNotified
+            {
+                get => SessionState.GetString($"ASM.{nameof(lastPatchWhenNotified)}", string.Empty);
+                set => SessionState.SetString($"ASM.{nameof(lastPatchWhenNotified)}", value);
+            }
+
+            static bool hasNotifiedAboutVersion =>
+                     Version.TryParse(lastPatchWhenNotified, out var lastNotifyPatch) &&
+                     Version.TryParse(cachedPatchVersion, out var patchVersion) &&
+                     lastNotifyPatch >= patchVersion;
+
+#if ASM_DEV
+            static string actualPatchVersion;
+#endif
+
             void InitializeUpdate(VisualElement element)
             {
 
                 element.Q<Label>("text-version").text = ASMInfo.GetVersionInfo().version;
                 SetupLink(element.Q<Button>("button-view-updates"), Urls.GithubReleases);
 
-                var updateButton = element.Q<Button>("button-update");
+                updateButton = element.Q<Button>("button-update");
                 updateButton.clicked += async () =>
                 {
-                    await CheckUpdate(false, true);
-                    if (HasUpdateCached())
+                    await CheckUpdate();
+                    if (cachedIsPatchAvailable)
                         Update();
                 };
 
-                _ = CheckUpdate(true);
-                async Task CheckUpdate(bool isAuto, bool forceCheck = false)
+                _ = CheckUpdate();
+
+            }
+
+            static void UpdateUpdateButton()
+            {
+
+                if (updateButton == null)
+                    return;
+
+                if (isCheckingForUpdates || isUpdating)
                 {
 
-                    if (isCheckingForUpdates)
-                        return;
+                    updateButton.pickingMode = PickingMode.Ignore;
 
-                    isCheckingForUpdates = true;
-                    UpdateUpdateButton();
-
-                    if (forceCheck || !HasUpdateCached())
-                        await DoCheckUpdate(isAuto);
-
-                    isCheckingForUpdates = false;
-                    UpdateUpdateButton();
+                    updateButton.text = Icons.UpdateIsChecking;
+                    updateButton.RotateAnimation(speed: 8);
 
                 }
-
-                void UpdateUpdateButton()
+                else
                 {
 
-                    if (isCheckingForUpdates)
+                    updateButton.pickingMode = PickingMode.Position;
+
+                    if (cachedIsMajorVersionRequired)
                     {
-
-                        updateButton.pickingMode = PickingMode.Ignore;
-
-                        updateButton.text = Icons.UpdateIsChecking;
-                        updateButton.tooltip = "Currently checking for updates...";
-                        updateButton.RotateAnimation(speed: 8);
-
+                        updateButton.text = Icons.UpdateIsTooOutOfDate;
+                        updateButton.tooltip = "Your ASM version is too old to receive patches, please install the latest asset store version.";
+                    }
+                    else if (cachedIsPatchAvailable)
+                    {
+                        updateButton.text = Icons.UpdateAvailable;
+                        updateButton.tooltip = $"An update is available, click here to apply it.";
                     }
                     else
                     {
-
-                        updateButton.pickingMode = PickingMode.Position;
-
-                        var hasUpdate = HasUpdateCached();
-
-                        if (settings.isTooOutOfDate)
-                        {
-                            updateButton.text = Icons.UpdateIsTooOutOfDate;
-                            updateButton.tooltip = "Your ASM version is too old to receive updates, please install the latest asset store version. Patches only apply to newest asset store version, old ones are removed, as they are merged into asset store release.";
-                        }
-                        else if (hasUpdate)
-                        {
-                            updateButton.text = Icons.UpdateAvailable;
-                            updateButton.tooltip = $"An update is available, click here to apply it.";
-                        }
-                        else
-                        {
-                            updateButton.text = Icons.UpdateNotNeeded;
-                            updateButton.tooltip = "Your version of ASM is currently up to date. Click here to check again.";
-                        }
-
-                        updateButton.StopRotateAnimation();
-
+                        updateButton.text = Icons.UpdateNotNeeded;
+                        updateButton.tooltip = "Your version of ASM is currently up to date. Click here to check again.";
                     }
+
+                    updateButton.StopRotateAnimation();
 
                 }
 
             }
 
-            bool HasUpdateCached() =>
-                !settings.isTooOutOfDate &&
-                Version.TryParse(ASMInfo.GetVersionInfo().version, out var currentVersion) &&
-                Version.TryParse(settings.patchVersion, out var patchVersion) &&
-                patchVersion > currentVersion;
-
-#if ASM_DEV
-            static string actualPatchVersion;
-#endif
-
-            async Task DoCheckUpdate(bool isAuto)
+            public static async Task CheckUpdate()
             {
 
-#if !ASM_DEV
-                if (isAuto && (settings.lastPatchCheck?.value == default || DateTime.Now - settings.lastPatchCheck < TimeSpan.FromDays(1)))
+                if (isCheckingForUpdates)
                     return;
-                settings.lastPatchCheck = DateTime.Now;
-#endif
+                isCheckingForUpdates = true;
+
+                UpdateUpdateButton();
 
                 try
                 {
@@ -166,42 +174,42 @@ namespace AdvancedSceneManager.Editor.UI
 
 #if ASM_DEV
                     actualPatchVersion = versionStr;
-                    versionStr = "2.0.9999";
+                    versionStr = "2.1.44";
 #endif
 
-                    if (!Version.TryParse(versionStr, out var version))
+                    if (!Version.TryParse(versionStr, out var patchVersion))
                         throw new Exception("Could not parse version file.");
 
                     if (!Version.TryParse(ASMInfo.GetVersionInfo().version, out var currentVersion))
                         throw new Exception("Could not retrieve current version.");
 
-                    if (currentVersion < version && version.Minor > currentVersion.Minor)
+                    if (currentVersion < patchVersion && patchVersion.Minor > currentVersion.Minor)
                     {
-                        settings.patchVersion = "";
-                        settings.patchNotes = "";
-                        settings.isTooOutOfDate = true;
+                        cachedPatchVersion = "";
+                        cachedIsMajorVersionRequired = true;
                     }
                     else
                     {
 
-                        if (!string.IsNullOrEmpty(settings.patchVersion) && settings.patchVersion != versionStr && version > currentVersion)
-                            Debug.Log("ASM " + versionStr + " is available:" + patchNotes);
+                        cachedPatchVersion = versionStr;
+                        cachedIsMajorVersionRequired = false;
 
-                        settings.patchVersion = versionStr;
-                        settings.patchNotes = patchNotes;
-                        settings.isTooOutOfDate = false;
+                        if (patchVersion > currentVersion && !hasNotifiedAboutVersion)
+                        {
+                            Debug.Log($"ASM {versionStr} is available:{patchNotes}");
+                            lastPatchWhenNotified = cachedPatchVersion;
+                        }
 
                     }
-
-                    await Task.Delay(250);
-
-                    element.Q<Label>("text-version").text = ASMInfo.GetVersionInfo().version;
 
                 }
                 catch (Exception e)
                 {
                     Debug.LogException(e);
                 }
+
+                isCheckingForUpdates = false;
+                UpdateUpdateButton();
 
             }
 
@@ -211,12 +219,14 @@ namespace AdvancedSceneManager.Editor.UI
                 try
                 {
 
-                    var version = settings.patchVersion;
+                    isUpdating = true;
+                    UpdateUpdateButton();
+
 #if ASM_DEV
-                    version = actualPatchVersion;
+                    cachedPatchVersion = actualPatchVersion;
 #endif
 
-                    var url = $"https://github.com/Lazy-Solutions/AdvancedSceneManager/releases/download/{version}/AdvancedSceneManager.{version}.partial.unitypackage";
+                    var url = $"https://github.com/Lazy-Solutions/AdvancedSceneManager/releases/download/{cachedPatchVersion}/AdvancedSceneManager.{cachedPatchVersion}.partial.unitypackage";
 
                     using var client = new HttpClient();
                     var stream = await client.GetStreamAsync(url);
@@ -225,7 +235,7 @@ namespace AdvancedSceneManager.Editor.UI
                     if (!Directory.Exists(path))
                         _ = Directory.CreateDirectory(path);
 
-                    path = Path.Combine(path, $"ASM.{version}.partial.unitypackage");
+                    path = Path.Combine(path, $"ASM.{cachedPatchVersion}.partial.unitypackage");
                     using var fs = new FileStream(path, FileMode.Create, FileAccess.Write);
                     await stream.CopyToAsync(fs);
 
@@ -237,6 +247,10 @@ namespace AdvancedSceneManager.Editor.UI
 #else
                     Debug.Log($"AssetDatabase.ImportPackage({path}, true);");
 #endif
+
+                    isUpdating = false;
+                    UpdateUpdateButton();
+                    element.Q<Label>("text-version").text = ASMInfo.GetVersionInfo().version;
 
                 }
                 catch (Exception ex)

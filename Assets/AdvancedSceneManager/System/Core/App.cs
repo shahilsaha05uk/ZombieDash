@@ -617,10 +617,10 @@ namespace AdvancedSceneManager.Core
             yield return ShowStartupLoadingScreen(props);
             DestroyCamera(props);
 
-            yield return OpenScenes(props);
+            yield return OpenScenes(props, true);
             yield return OpenCollections(props);
             yield return OpenCollection(props);
-            yield return OpenScenes(props);
+            yield return OpenScenes(props, false);
 
             yield return HideStartupLoadingScreen(props);
             UnsetupProgress();
@@ -774,10 +774,10 @@ namespace AdvancedSceneManager.Core
 
         }
 
-        IEnumerator OpenScenes(Props props)
+        IEnumerator OpenScenes(Props props, bool persistent)
         {
 
-            var scenes = Profile.current.startupScenes;
+            var scenes = Profile.current.startupScenes.Where(s => persistent == s.keepOpenWhenCollectionsClose);
             var progress = scenes.ToDictionary(c => c, c => 0f);
 
             foreach (var scene in scenes)

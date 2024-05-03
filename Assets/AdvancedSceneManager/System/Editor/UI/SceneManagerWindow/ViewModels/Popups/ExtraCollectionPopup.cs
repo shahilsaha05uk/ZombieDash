@@ -19,6 +19,9 @@ namespace AdvancedSceneManager.Editor.UI
             public override string headerText { get; } = "Collection templates";
             public override IEnumerable<SceneCollectionTemplate> items => SceneManager.assets.templates;
 
+            public override bool displayRenameButton => true;
+            public override bool displayRemoveButton => true;
+
             public override void OnCreateGUI(VisualElement container)
             {
 

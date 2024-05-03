@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,56 +25,53 @@ namespace AdvancedSceneManager.Editor.UI
             {
 
                 element.BindToSettings();
-                SetupBlacklist();
                 SetupAssetMove();
-
+                SetupBlocklist();
             }
 
-            void SetupBlacklist()
+            void SetupBlocklist()
+            {
+                SetupBlocklist("list-blacklist", SceneManager.settings.project.m_blacklist);
+                SetupBlocklist("list-whitelist", SceneManager.settings.project.m_whitelist);
+            }
+
+            void SetupBlocklist(string name, List<string> setting)
             {
 
-                var blacklist = element.Q<ListView>("list-blacklist");
-                blacklist.makeItem += () => new TextField();
+                var list = element.Q<ListView>(name);
+                list.makeItem += () => new TextField();
 
-                blacklist.itemsAdded += (e) =>
+                list.itemsAdded += (e) =>
                 {
-                    SceneManager.settings.project.m_blacklist[e.First()] = GetCurrentFolder();
+                    setting[e.First()] = Normalize(GetCurrentFolder());
+                    SaveAndNotify();
                 };
 
-                string GetCurrentFolder()
+                list.itemsRemoved += (e) =>
                 {
-                    var projectWindowUtilType = typeof(ProjectWindowUtil);
-                    var getActiveFolderPath = projectWindowUtilType.GetMethod("GetActiveFolderPath", BindingFlags.Static | BindingFlags.NonPublic);
-                    var obj = getActiveFolderPath.Invoke(null, Array.Empty<object>());
-                    return obj.ToString();
-                }
-
-                blacklist.itemsRemoved += (e) =>
-                {
-
                     foreach (var i in e)
-                        SceneImportUtility.Blacklist.Remove(i);
-
+                        setting.RemoveAt(i);
+                    SaveAndNotify();
                 };
 
-                blacklist.bindItem += (element, i) =>
+                list.bindItem += (element, i) =>
                 {
 
-                    blacklist.ClearSelection();
+                    list.ClearSelection();
                     element.userData = i;
                     element.RegisterCallback<ClickEvent>(OnClick);
 
                     var text = (TextField)element;
-                    if (SceneImportUtility.Blacklist.Get(i, out var path))
-                        text.value = path;
+                    text.value = setting[i];
                     text.RegisterCallback<FocusOutEvent>(OnChange);
                     element.Query<BindableElement>().ForEach(e => e.SetEnabled(true));
+
                 };
 
-                blacklist.unbindItem += (element, i) =>
+                list.unbindItem += (element, i) =>
                 {
 
-                    blacklist.ClearSelection();
+                    list.ClearSelection();
 
                     var text = ((TextField)element);
 
@@ -88,7 +86,7 @@ namespace AdvancedSceneManager.Editor.UI
                 void OnClick(ClickEvent e)
                 {
                     var index = ((int)((VisualElement)e.target).userData);
-                    blacklist.SetSelection(index);
+                    list.SetSelection(index);
                 }
 
                 void OnChange(FocusOutEvent e)
@@ -97,8 +95,28 @@ namespace AdvancedSceneManager.Editor.UI
                     var text = (TextField)e.target;
                     var index = (int)text.userData;
 
-                    SceneImportUtility.Blacklist.Change(index, text.value);
+                    setting[index] = Normalize(text.value);
+                    SceneManager.settings.project.Save();
+                    SceneImportUtility.Notify();
+
                 }
+
+                string GetCurrentFolder()
+                {
+                    var projectWindowUtilType = typeof(ProjectWindowUtil);
+                    var getActiveFolderPath = projectWindowUtilType.GetMethod("GetActiveFolderPath", BindingFlags.Static | BindingFlags.NonPublic);
+                    var obj = getActiveFolderPath.Invoke(null, Array.Empty<object>());
+                    return obj.ToString() + "/";
+                }
+
+                void SaveAndNotify()
+                {
+                    SceneManager.settings.project.Save();
+                    SceneImportUtility.Notify();
+                }
+
+                string Normalize(string path) =>
+                    SceneImportUtility.Blacklist.Normalize(path);
 
             }
 

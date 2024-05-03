@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using AdvancedSceneManager.Callbacks;
 using AdvancedSceneManager.Utility;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -63,10 +62,6 @@ namespace AdvancedSceneManager.Models
         [Header("Menu Popup")]
         [SerializeField] private string m_quickBuildPath;
         [SerializeField] private bool m_quickBuildUseProfiler;
-        [SerializeField] private SerializableDateTime m_lastPatchCheck;
-        [SerializeField] private string m_patchVersion;
-        [SerializeField] private string m_patchNotes;
-        [SerializeField] private bool m_isTooOutOfDate;
 
         internal string quickBuildPath
         {
@@ -78,30 +73,6 @@ namespace AdvancedSceneManager.Models
         {
             get => m_quickBuildUseProfiler;
             set { m_quickBuildUseProfiler = value; OnPropertyChanged(); }
-        }
-
-        internal SerializableDateTime lastPatchCheck
-        {
-            get => m_lastPatchCheck;
-            set { m_lastPatchCheck = value; OnPropertyChanged(); }
-        }
-
-        internal string patchVersion
-        {
-            get => m_patchVersion;
-            set { m_patchVersion = value; OnPropertyChanged(); }
-        }
-
-        internal string patchNotes
-        {
-            get => m_patchNotes;
-            set { m_patchNotes = value; OnPropertyChanged(); }
-        }
-
-        internal bool isTooOutOfDate
-        {
-            get => m_isTooOutOfDate;
-            set { m_isTooOutOfDate = value; OnPropertyChanged(); }
         }
 
         #endregion
@@ -137,6 +108,8 @@ namespace AdvancedSceneManager.Models
         #region Display
 
         [Header("Appearance")]
+        [SerializeField] private bool m_displayProfileButton = true;
+        [SerializeField] private bool m_displaySceneHelperButton = true;
         [SerializeField] private bool m_displayCollectionPlayButton = true;
         [SerializeField] private bool m_displayCollectionOpenButton = true;
         [SerializeField] private bool m_displayCollectionAdditiveButton = true;
@@ -153,6 +126,21 @@ namespace AdvancedSceneManager.Models
         {
             get => m_displayIncludeInBuildToggle;
             set { m_displayIncludeInBuildToggle = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>Specifies whatever the profile button should be visible.</summary>
+        /// <remarks>Profile button will still become visible if no profile is active.</remarks>
+        public bool displayProfileButton
+        {
+            get => m_displayProfileButton;
+            set { m_displayProfileButton = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>Specifies whatever scene helper button should be visible.</summary>
+        public bool displaySceneHelperButton
+        {
+            get => m_displaySceneHelperButton;
+            set { m_displaySceneHelperButton = value; OnPropertyChanged(); }
         }
 
         /// <summary>Specifies whatever collection play button should be visible.</summary>
