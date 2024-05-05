@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using EnumHelper;
 using Helpers;
 using speedometer;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -20,6 +21,7 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
     [SerializeField] private Speedometer mNitro;
     [SerializeField] private Speedometer mFuel;
     [SerializeField] private DistanceMeter mDistanceMeter;
+    [SerializeField] private TextMeshProUGUI mMoney;
 
     private void Awake()
     {
@@ -31,6 +33,8 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
         {
             mUpgradeUI.OnPlayClick += OnPlayClick;
         }
+
+        mMoney.text = "£"+ ResourceComp.GetCurrentResources();
     }
 
     private void OnPlayClick()
