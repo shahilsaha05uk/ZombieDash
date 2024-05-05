@@ -1,15 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdvancedSceneManager.Models;
 using EnumHelper;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenu : BaseWidget
 {
-    public delegate void FOnPlayButtonClickSignature();
-
-    public FOnPlayButtonClickSignature OnPlayButtonClicked;
+    public SceneCollection GamePersistentCollection;
     
     [SerializeField] private Button mPlayButton;
     [SerializeField] private Button mSettingsButton;
@@ -29,8 +28,8 @@ public class MainMenu : BaseWidget
 
     private void OnPlayButtonClick()
     {
-        LevelManager.Instance.OpenScene(ELevel.GAME, false);
-        
+        GamePersistentCollection.Open(true);
+        LevelManager.Instance.OpenAdditiveScene(ELevel.GAME, true);
         DestroyWidget();
     }
     private void OnSettingsButtonClick()

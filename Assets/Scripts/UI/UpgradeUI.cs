@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class UpgradeUI : BaseWidget
 {
+    public delegate void FOnPlayButtonCLickSignature();
+
+    public FOnPlayButtonCLickSignature OnPlayClick;
     public delegate void FOnUpgradeSignature(ECarPart carComp, Upgrade upgradeStruct);
     public FOnUpgradeSignature OnUpgradeClick;
 
@@ -27,7 +30,8 @@ public class UpgradeUI : BaseWidget
 
     private void OnPlay()
     {
-        LevelManager.Instance.OpenScene(ELevel.GAME, true);
+        Time.timeScale = 1f;
+        OnPlayClick?.Invoke();
     }
 
     private void OnDestroy()
@@ -36,8 +40,4 @@ public class UpgradeUI : BaseWidget
        // mNitroCard.OnUpgradeButtonClick -= OnUpgrade;
     }
 
-    private void OnUpgrade(ECarPart carComp, Upgrade upgradeStruct)
-    {
-        //OnUpgradeClick?.Invoke(carComp, upgradeStruct);
-    }
 }

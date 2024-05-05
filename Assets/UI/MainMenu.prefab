@@ -468,6 +468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mUiType: 0
+  GamePersistentCollection: {fileID: 4456338747315883038, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   mPlayButton: {fileID: 1804540117931974936}
   mSettingsButton: {fileID: 2087781961977603658}
 --- !u!225 &6314650621932654047

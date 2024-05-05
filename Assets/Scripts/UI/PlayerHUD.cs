@@ -1,38 +1,59 @@
+using AYellowpaper.SerializedCollections;
 using EnumHelper;
 using Helpers;
 using speedometer;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerHUD : BaseWidget
+
+public enum EPanelType { None, Hud, Upgrade, Review}
+public class PlayerHUD : BaseWidget, IDayCompleteInterface
 {
+    private UpgradeUI mUpgradeUI;
+
     private BaseCar mCarRef;
-    [SerializeField] private ReviewPanel mReviewPanel;
+
+    [SerializedDictionary("Type", "Canvas")]
+    [SerializeField] SerializedDictionary<EPanelType, CanvasGroup> CanvasMap;
+    private EPanelType mCurrentlyOpenedPanel;
     
     [SerializeField] private Speedometer mNitro;
     [SerializeField] private Speedometer mFuel;
     [SerializeField] private DistanceMeter mDistanceMeter;
-    private float totalDistance;
 
     private void Awake()
     {
+        //GameManager.Instance.OnDayComplete += OnDayComplete;
         mUiType = EUI.PLAYERHUD;
-        
-        mReviewPanel.gameObject.SetActive(false);
+
+        mUpgradeUI = CanvasMap[EPanelType.Upgrade].GetComponent<UpgradeUI>();
+        if (mUpgradeUI)
+        {
+            mUpgradeUI.OnPlayClick += OnPlayClick;
+        }
     }
-    public void Init(ref BaseCar Car)
+
+    private void OnPlayClick()
+    {
+        mCarRef.StartDrive();
+    }
+
+    public void Init(ref BaseCar Car, EPanelType PanelToActivate = EPanelType.None)
     {
         if (Car != null)
         {
             mCarRef = Car;
             mCarRef.OnComponentUpdated += OnWidgetUpdateRequest;
         }
+
+        ActivatePanel(PanelToActivate);
     }
 
     public void UpdateDistance(float NormalizedDistance)
     {
         mDistanceMeter.UpdateValue(NormalizedDistance);
     }
+
     private void OnWidgetUpdateRequest(ECarPart carpart, float value)
     {
         Debug.Log("Widget Update requested!!");
@@ -53,9 +74,34 @@ public class PlayerHUD : BaseWidget
         }
     }
 
-    public void ActivateReviewPanel()
+    // Panel Togglers
+    public void ActivatePanel(EPanelType Panel, bool deactivateLastPanel = true)
     {
-        Debug.Log("Activate!!");
-        mReviewPanel.gameObject.SetActive(true);
+        if(deactivateLastPanel)
+        {
+            DeactivatePanel(mCurrentlyOpenedPanel);
+            mCurrentlyOpenedPanel = EPanelType.None;
+        }
+        if (CanvasMap.ContainsKey(Panel))
+        {
+            CanvasMap[Panel].gameObject.SetActive(true);
+            CanvasMap[Panel].alpha = 1f;
+            mCurrentlyOpenedPanel = Panel;
+        }
+    }
+
+    public void DeactivatePanel(EPanelType Panel)
+    {
+        if (CanvasMap.ContainsKey(Panel))
+        {
+            CanvasMap[Panel].alpha = 0f;
+            CanvasMap[Panel].gameObject.SetActive(false);
+        }
+    }
+
+    public void OnDayComplete()
+    {
+        DeactivatePanel(EPanelType.Hud);
+        DeactivatePanel(EPanelType.Review);
     }
 }

@@ -7,17 +7,9 @@ using EnumHelper;
 using UnityEngine;
 using Unity.VisualScripting;
 
-public abstract class BaseMode : MonoBehaviour, ICollectionOpenAsync
+public abstract class BaseMode : MonoBehaviour
 {
-    IEnumerator ICollectionOpenAsync.OnCollectionOpen(SceneCollection collection)
-    {
-        while (!collection.activeScene.isOpen) { yield return null; }
+    [SerializeField] protected ELevel LevelMode;
 
-        InitMode(collection);
-    }
     
-    protected virtual void InitMode(SceneCollection collection)
-    {
-
-    }
 }

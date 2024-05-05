@@ -1,10 +1,11 @@
+using System;
 using EnumHelper;
 using UnityEngine;
 
 public abstract class CarComponent : MonoBehaviour
 {
     /*NOTE: Every Value needs to be NORMALIZED!!!*/
-
+    private float mInitial = 1f;
     [SerializeField] private Car mCarRef;
 
     [SerializeField] protected Rigidbody2D carRb;
@@ -28,6 +29,12 @@ public abstract class CarComponent : MonoBehaviour
             mCarRef.RegisterComponent(mPart, this);
             mCarRef.UpdateCarMetrics(mPart, mCurrent);
         }
+    }
+
+    public void ResetComponent()
+    {
+        mCurrent = mInitial;
+        OnCarComponentUpdate(mPart, mCurrent);
     }
 
     public virtual void StartComponent()
