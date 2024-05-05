@@ -11,37 +11,50 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    public delegate void FOnUpgradeButtonClickSignature(ECarPart carComp, Upgrade upgradeStruct);
+    public delegate void FOnUpgradeButtonClickSignature(ECarPart carComp, int UpgradeID);
 
     public FOnUpgradeButtonClickSignature OnUpgradeButtonClick;
     
-    [FormerlySerializedAs("CardComponent")] [SerializeField] private ECarPart cardPart;
+    [SerializeField] private ECarPart cardPart;
+    
     [SerializeField] private DA_UpgradeAsset UpgradeAsset;
-    [SerializeField] private List<Upgrade> UpgradeList;
+    [SerializeField] private int TotalUpgrades;
 
     [SerializeField] private Button btn;
     [SerializeField] private TextMeshProUGUI cost;
 
-    private Upgrade mCurrentUpgrade;
-    private int count = 0;
+    private int mCurrentIndex;
 
     private void Awake()
     {
-        if (UpgradeAsset != null)
+        if (UpgradeAsset)
         {
-            UpgradeList = new List<Upgrade>(UpgradeAsset.UpgradeList);
-            ManageButtonInteractivity();
+            bool success = UpgradeAsset.GetUpgradeCount(cardPart, out TotalUpgrades);
+            if(!success) return;
             btn.onClick.AddListener(OnCardButtonClick);
+            mCurrentIndex = 0;
         }
+        UpdateCardState();
     }
 
     private void OnCardButtonClick()
     {
-        if((mCurrentUpgrade = GetNextUpgrade()) != null) OnUpgradeButtonClick?.Invoke(cardPart, mCurrentUpgrade);
-        ManageButtonInteractivity();
+        OnUpgradeButtonClick?.Invoke(cardPart, mCurrentIndex);
+        TotalUpgrades--;
+        
+        UpdateCardState();
     }
 
-    private Upgrade GetNextUpgrade() { return UpgradeList[count++]; }
-    private bool isUpgradeAvailable(){ return (count < UpgradeList.Count); }
-    private void ManageButtonInteractivity() { btn.interactable = (isUpgradeAvailable()); } //TODO: Add the cost condition
+    private void UpdateCardState()
+    {
+        if(UpgradeAsset == null) return;
+        //int CurrentBalance = 0;
+        Upgrade up = UpgradeAsset.GetUpgradeDetails(cardPart, mCurrentIndex);
+
+        if (up != null)
+        {
+            // TODO: The Current Balance needs to be replaced with the player's money
+            //btn.interactable= (up.cost < CurrentBalance)
+        }
+    }
 }

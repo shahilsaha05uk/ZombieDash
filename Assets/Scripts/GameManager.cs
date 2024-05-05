@@ -1,13 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using AdvancedSceneManager.Callbacks;
-using AdvancedSceneManager.Models;
-using EnumHelper;
 using UnityEngine;
 
 public class GameManager : ParentManager
 {
+    [SerializeField] private int StartingBalance;
     public delegate void FOnResetLevelSignature();
 
     public static event FOnResetLevelSignature OnResetLevel;
@@ -18,6 +13,8 @@ public class GameManager : ParentManager
         base.InitManager();
 
         if (Instance == null) Instance = this;
+        
+        ResourceComp.AddResources(StartingBalance);
     }
 
     public static APlayerStart GetPlayerStart()

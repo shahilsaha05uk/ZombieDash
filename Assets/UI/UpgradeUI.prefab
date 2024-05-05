@@ -36,7 +36,7 @@ RectTransform:
   m_Children:
   - {fileID: 428024829424194132}
   - {fileID: 3296043410211034970}
-  - {fileID: 8675089071498061525}
+  - {fileID: 6182492359656960828}
   - {fileID: 7058319506257927163}
   - {fileID: 2814937128012074742}
   m_Father: {fileID: 2880172232117455407}
@@ -1199,7 +1199,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 489756754084742498, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 1.544229
+      value: 0.8077151
       objectReference: {fileID: 0}
     - target: {fileID: 3290085717336167912, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_Pivot.x
@@ -1323,7 +1323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702924416053634518, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 7.1245484
+      value: 4.0874314
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1345,7 +1345,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 489756754084742498, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 1.544229
+      value: 0.8077151
       objectReference: {fileID: 0}
     - target: {fileID: 3290085717336167912, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_Pivot.x
@@ -1469,7 +1469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702924416053634518, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 7.1245484
+      value: 4.0874314
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1491,11 +1491,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 489756754084742498, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 1.4405128
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352423988705110134, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
-      propertyPath: m_text
-      value: 200
+      value: 0.75346595
       objectReference: {fileID: 0}
     - target: {fileID: 3290085717336167912, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_Pivot.x
@@ -1597,10 +1593,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4839962122716334064, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
-      propertyPath: m_text
-      value: Nitro
-      objectReference: {fileID: 0}
     - target: {fileID: 5702971428674386830, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1623,7 +1615,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702924416053634518, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 6.9531035
+      value: 3.9890711
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1656,7 +1648,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 489756754084742498, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 1.544229
+      value: 0.8077151
       objectReference: {fileID: 0}
     - target: {fileID: 3290085717336167912, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_Pivot.x
@@ -1780,7 +1772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702924416053634518, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 7.1245484
+      value: 4.0874314
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1802,7 +1794,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 489756754084742498, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 1.544229
+      value: 0.8077151
       objectReference: {fileID: 0}
     - target: {fileID: 3290085717336167912, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_Pivot.x
@@ -1926,14 +1918,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702924416053634518, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
       propertyPath: m_AspectRatio
-      value: 7.1245484
+      value: 4.0874314
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
---- !u!224 &8675089071498061525 stripped
+--- !u!224 &6182492359656960828 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3290085717336167912, guid: 0c6a1cf1bbea4724e9f2be5808fb649b, type: 3}
   m_PrefabInstance: {fileID: 8675089071498061524}
