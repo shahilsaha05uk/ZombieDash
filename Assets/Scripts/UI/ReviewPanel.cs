@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 public class ReviewPanel : MonoBehaviour
 {
-    public void OnShopButtonClick()
+    public void OnDayCompleteButtonClick()
     {
-        LevelManager.Instance.OpenAdditiveScene(ELevel.UPGRADE, true);
+        GameManager.Instance.DayComplete();
     }
 
     public void OnMenuButtonClick()

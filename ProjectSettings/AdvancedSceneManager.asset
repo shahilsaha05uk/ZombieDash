@@ -63,15 +63,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0f92ad46842c3b7498823296a5257cad, type: 2}
   - {fileID: 11400000, guid: d86d1097d438b304ea26a60145f68868, type: 2}
   - {fileID: 11400000, guid: 3cafad6c2e796704d839f66ca27b4258, type: 2}
-  - {fileID: 11400000, guid: ded3e9df3c19d5d40ae84a5ceff309ac, type: 2}
-  - {fileID: 11400000, guid: db85093f7d8ba8a4f81a45b442cbc5e9, type: 2}
+  - {fileID: 11400000, guid: 1cf0e0bb6218dc144b9489f275668fba, type: 2}
+  - {fileID: 11400000, guid: 728023e858c150644b739b141a8487fc, type: 2}
   m_collections:
   - {fileID: 5734058435941712197, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   - {fileID: 8470288122996237722, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   - {fileID: -69482855333667046, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   - {fileID: 152016199244354500, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   - {fileID: -6887915562504533550, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
-  - {fileID: 3149072974539033297, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
+  - {fileID: 4456338747315883038, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   m_collectionTemplates: []
   m_sceneHelper: {fileID: 11400000, guid: ccdc1619da578fa44a6cb1497b5e7a05, type: 2}
   m_fallbackScenePath: Assets/AdvancedSceneManager/ASM - Fallback scene.unity

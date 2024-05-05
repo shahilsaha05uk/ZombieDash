@@ -15,7 +15,7 @@
     }
 
     public enum ELevel {
-        NONE, MENU, GAME, UPGRADE, SubLevel2
+        NONE, MENU, GAME, UPGRADE, GAME_PERSISTANCE
     }
 
     public enum EValueUpdateType

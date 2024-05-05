@@ -32,6 +32,7 @@ public class LevelManager : ParentManager
     private IEnumerator LoadScene(SceneCollection collection, bool ShouldOpenAllScenes)
     {
         collection.Open(ShouldOpenAllScenes);
+        
         while (!collection.activeScene.isOpen)
         {
             yield return null;
@@ -66,6 +67,12 @@ public class LevelManager : ParentManager
     }
     public void MoveGameObjectToCurrentScene(GameObject actor, SceneCollection collection)
     {
+        SceneUtility.Move(actor, collection.activeScene);
+    }
+
+    public void MoveGameObjectToCurrentScene(GameObject actor, ELevel Level)
+    {
+        SceneCollection collection = mLevelList.GetCollection(Level);
         SceneUtility.Move(actor, collection.activeScene);
     }
 

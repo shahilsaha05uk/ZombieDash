@@ -283,6 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510c28999eddeaa418c695bf6e232ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
   endPos: {fileID: 0}
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
@@ -297,6 +298,7 @@ MonoBehaviour:
   mGroundLayer:
     serializedVersion: 2
     m_Bits: 64
+  mVirtualCameraPrefab: {fileID: 5520608137330912916, guid: 2125f5cef16109c4b8038afe530f622e, type: 3}
 --- !u!114 &282886651498949268
 MonoBehaviour:
   m_ObjectHideFlags: 0

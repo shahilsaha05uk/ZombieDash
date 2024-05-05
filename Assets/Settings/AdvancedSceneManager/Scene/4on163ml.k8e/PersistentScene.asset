@@ -17,7 +17,7 @@ MonoBehaviour:
   m_path: Assets/Scenes/PROTOTYPE/PersistentScene.unity
   m_isLoadingScreen: 0
   m_isSplashScreen: 0
-  m_keepOpenWhenCollectionsClose: 0
+  m_keepOpenWhenCollectionsClose: 1
   m_keepOpenWhenNewCollectionWouldReopen: 1
   m_openOnStartup: 0
   m_openOnPlayMode: 0
