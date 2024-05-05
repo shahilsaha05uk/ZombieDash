@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 143365c1c80370a48a4c89e0b158bf44, type: 3}
-  m_Name: Demo
+  m_Name: GamePersistent
   m_EditorClassIdentifier: 
-  m_id: dn9vq3jx.ane
-  m_sceneAsset: {fileID: 102900000, guid: 7623ac6c087d4df4a98b4afe392fda6e, type: 3}
-  m_path: Assets/Scenes/PROTOTYPE/Demo.unity
+  m_id: 8cvvn8u4.gb4
+  m_sceneAsset: {fileID: 102900000, guid: 355cfbc7e6415494a9f71c650286d621, type: 3}
+  m_path: Assets/Scenes/PROTOTYPE/GamePersistent.unity
   m_isLoadingScreen: 0
   m_isSplashScreen: 0
   m_keepOpenWhenCollectionsClose: 0

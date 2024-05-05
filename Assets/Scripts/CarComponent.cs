@@ -8,8 +8,8 @@ public abstract class CarComponent : MonoBehaviour
     [SerializeField] private Car mCarRef;
 
     [SerializeField] protected Rigidbody2D carRb;
-
     [SerializeField] protected float mCurrent = 1f;
+    [SerializeField] protected float mLast = 0f;
     [SerializeField] protected float mDecreaseRate = 0.01f;
     [SerializeField] protected float mTolerance = 0.01f;
     [SerializeField] protected float mTimeInterval = 0.001f;
@@ -23,7 +23,11 @@ public abstract class CarComponent : MonoBehaviour
     protected virtual void Start()
     {
         carRb = GetComponent<Rigidbody2D>();
-        mCarRef.UpdateCarMetrics(mPart, mCurrent);
+        if (mCarRef)
+        {
+            mCarRef.RegisterComponent(mPart, this);
+            mCarRef.UpdateCarMetrics(mPart, mCurrent);
+        }
     }
 
     public virtual void StartComponent()
@@ -33,6 +37,9 @@ public abstract class CarComponent : MonoBehaviour
     public virtual void StopComponent()
     {
         if (mComponentCoroutine == null) return;
+        
+        StopCoroutine(mComponentCoroutine);
+        mComponentCoroutine= null;
     }
     public void UpdateValue(EValueUpdateType updateType)
     {
@@ -55,11 +62,12 @@ public abstract class CarComponent : MonoBehaviour
     }
     private void OnCarComponentUpdate(ECarPart carPart, float value)
     {
-        float tollerance = mTolerance, hudVal = mCarRef.mCarMetrics.getValue(carPart);
+        float tolerance = mTolerance;
 
-        var difference = Mathf.Abs(value - hudVal);
-        if (difference > tollerance || value <= 0.0f)
+        var difference = Mathf.Abs(value - mLast);
+        if (difference > tolerance || value <= 0.0f)
         {
+            mLast = value;
             mCarRef.UpdateCarMetrics(carPart, value);
         }
     }
@@ -67,7 +75,6 @@ public abstract class CarComponent : MonoBehaviour
     protected virtual void PartExhaust()
     {
         if(mCurrent <= 0f) {
-
             OnRunningOutOfResources?.Invoke(mPart);
         }
     }

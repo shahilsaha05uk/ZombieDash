@@ -1,55 +1,61 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using EnumHelper;
+using Helpers;
 using speedometer;
-using StructClass;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 public class PlayerHUD : BaseWidget
 {
+    private BaseCar mCarRef;
+    [SerializeField] private ReviewPanel mReviewPanel;
+    
     [SerializeField] private Speedometer mNitro;
     [SerializeField] private Speedometer mFuel;
+    [SerializeField] private DistanceMeter mDistanceMeter;
     private float totalDistance;
 
     private void Awake()
     {
         mUiType = EUI.PLAYERHUD;
+        
+        mReviewPanel.gameObject.SetActive(false);
+    }
+    public void Init(ref BaseCar Car)
+    {
+        if (Car != null)
+        {
+            mCarRef = Car;
+            mCarRef.OnComponentUpdated += OnWidgetUpdateRequest;
+        }
     }
 
-    private void Start()
+    public void UpdateDistance(float NormalizedDistance)
     {
-        /*        mFuelMeter.maxValue = 1;
-                mFuelMeter.minValue = 0;
-                mFuelMeter.value = 1;
-
-                mBoostMeter.maxValue = 1;
-                mBoostMeter.minValue = 0;
-                mBoostMeter.value = 1;
-        //totalDistance = Mathf.Abs(flag.transform.position.x - startPos.transform.position.x);
-
-        */
-
+        mDistanceMeter.UpdateValue(NormalizedDistance);
     }
-
-
-    public void UpdateCarStatus(FCarMetrics hudStatus, ECarPart partToUpdate = ECarPart.All_Comp)
+    private void OnWidgetUpdateRequest(ECarPart carpart, float value)
     {
-        switch (partToUpdate)
+        Debug.Log("Widget Update requested!!");
+        switch (carpart)
         {
             case ECarPart.All_Comp:
-                mNitro.UpdateValue(hudStatus.nitro);
-                mFuel.UpdateValue(hudStatus.fuel);
+                mNitro.UpdateValue(value);
+                mFuel.UpdateValue(value);
                 break;
             case ECarPart.Fuel:
-                mFuel.UpdateValue(hudStatus.fuel);
+                mFuel.UpdateValue(value);
                 break;
             case ECarPart.Nitro:
-                mNitro.UpdateValue(hudStatus.nitro);
+                mNitro.UpdateValue(value);
+                break;
+            case ECarPart.Speed:
                 break;
         }
+    }
+
+    public void ActivateReviewPanel()
+    {
+        Debug.Log("Activate!!");
+        mReviewPanel.gameObject.SetActive(true);
     }
 }
