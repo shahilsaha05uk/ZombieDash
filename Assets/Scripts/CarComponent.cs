@@ -15,7 +15,7 @@ public abstract class CarComponent : MonoBehaviour
     [SerializeField] protected float mTolerance = 0.01f;
     [SerializeField] protected float mTimeInterval = 0.001f;
     [SerializeField] protected ECarPart mPart;
-
+    [SerializeField] protected bool isExhaustiveComponent;
     public delegate void FOnRunningOutOfResourceSignature(ECarPart resource);
     public static FOnRunningOutOfResourceSignature OnRunningOutOfResources;
 
@@ -28,13 +28,23 @@ public abstract class CarComponent : MonoBehaviour
         {
             mCarRef.RegisterComponent(mPart, this);
             mCarRef.UpdateCarMetrics(mPart, mCurrent);
+
+            if (isExhaustiveComponent)
+            {
+                mCarRef.RegisterExhaustiveComponent(mPart, false);
+            }
         }
     }
 
-    public void ResetComponent()
+    public virtual void ResetComponent()
     {
         mCurrent = mInitial;
-        OnCarComponentUpdate(mPart, mCurrent);
+        mLast = 0f;
+        mCarRef.UpdateCarMetrics(mPart, mCurrent);
+        if (isExhaustiveComponent)
+        {
+            mCarRef.UpdateExhaustiveComponent(mPart, false);
+        }
     }
 
     public virtual void StartComponent()

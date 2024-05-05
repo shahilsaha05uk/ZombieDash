@@ -18,6 +18,12 @@ public class FuelComp : CarComponent
         StartComponent();
     }
 
+    public override void ResetComponent()
+    {
+        base.ResetComponent();
+        StartComponent();
+    }
+
     public override void StartComponent()
     {
         base.StartComponent();

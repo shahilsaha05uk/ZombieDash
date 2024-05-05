@@ -319,6 +319,7 @@ MonoBehaviour:
   mTolerance: 0.01
   mTimeInterval: 0.001
   mPart: 2
+  isExhaustiveComponent: 1
   mNitro: {fileID: 1556888782339466647}
   mNitroImpulse: 100
 --- !u!114 &458892625860153846
@@ -341,6 +342,7 @@ MonoBehaviour:
   mTolerance: 0.01
   mTimeInterval: 0.01
   mPart: 1
+  isExhaustiveComponent: 1
   minSpeed: 2
 --- !u!1 &126426
 GameObject:
