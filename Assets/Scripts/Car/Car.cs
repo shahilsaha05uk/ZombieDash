@@ -59,6 +59,8 @@ public class Car : BaseCar
     }
     private void OnReset()
     {
+        frontTireRb.velocity = backTireRb.velocity = carRb.velocity = Vector2.zero;
+
         transform.SetPositionAndRotation(pos, rot);
         transform.localScale = scale;
         

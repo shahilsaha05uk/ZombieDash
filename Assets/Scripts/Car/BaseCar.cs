@@ -42,9 +42,9 @@ public abstract class BaseCar : MonoBehaviour
     
     
     [Space(20)][Header("References")]
-    [SerializeField] private Rigidbody2D frontTireRb;
-    [SerializeField] private Rigidbody2D backTireRb;
-    [SerializeField] private Rigidbody2D carRb;
+    [SerializeField] protected Rigidbody2D frontTireRb;
+    [SerializeField] protected Rigidbody2D backTireRb;
+    [SerializeField] protected Rigidbody2D carRb;
     
     [Space(5)]
     [SerializeField] private float mAccelarationRate = 20f;
