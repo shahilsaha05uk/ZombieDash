@@ -11,13 +11,15 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 using Vector2 = UnityEngine.Vector2;
 
-public abstract class BaseCar : MonoBehaviour, IDayBeginInterface
+public abstract class BaseCar : MonoBehaviour
 {
+    
     #region Properties
     //[Header("Debugging Values")] 
 
     // Dictionary that stores all the Components connected to the car
-    private IDictionary<ECarPart, CarComponent> ComponentsDic = new Dictionary<ECarPart, CarComponent>();
+    protected IDictionary<ECarPart, CarComponent> ComponentsDic = new Dictionary<ECarPart, CarComponent>();
+    protected IDictionary<ECarPart, bool> mExhaustedParts = new Dictionary<ECarPart, bool>();
     
     public delegate void FOnCarComponentUpdate(ECarPart carPart, float value);
     public FOnCarComponentUpdate OnComponentUpdated;
@@ -26,15 +28,14 @@ public abstract class BaseCar : MonoBehaviour, IDayBeginInterface
     public int ID;
     
     protected PlayerInputMappingContext mPlayerInput;
-    private PlayerHUD mPlayerHUD;
 
     private Transform startPos;
-    [SerializeField]private Transform endPos;
-    private float mTotalDistance;
+    [SerializeField]protected Transform endPos;
+    
+    protected float mTotalDistance;
     private Coroutine mPlayerHudCoroutine;
     private float mRotationInput;
     private float mMoveInput;
-    private IDictionary<ECarPart, bool> mExhaustedParts;
 
     private Vector2 mCurrentVelocity;
     private float mCurrentVelocityMag;
@@ -65,37 +66,40 @@ public abstract class BaseCar : MonoBehaviour, IDayBeginInterface
 
     #endregion
 
+    #region Overridables
+
+    protected virtual void OnStartDrive()
+    {
+        
+    }
+    protected virtual void OnResourcesExhausted(){}
+    
+    #endregion
+
     #region Initialisers
 
-    private void Awake()
+    protected virtual void Awake()
     {
+        CarComponent.OnRunningOutOfResources += OnPartExhausted;
+        
         startPos = GameManager.GetPlayerStart().transform;
         endPos = GameObject.FindWithTag("Finish").transform;
         
-        mMoveInput = 0f;
-        SetupInputComponent();
-        
-        mExhaustedParts = new Dictionary<ECarPart, bool>() { { ECarPart.Fuel, false}, { ECarPart.Nitro, false} };
-        CarComponent.OnRunningOutOfResources += OnPartExhausted;
-
-        // From Awake
-        GameManager.Instance.OnDayBegin += OnDayBegin;
-        GameManager.Instance.OnDayPreComplete += OnDayPreComplete;
-        GameManager.Instance.OnDayComplete += OnDayComplete;
-        
         mTotalDistance = Mathf.Abs(endPos.position.x - startPos.position.x);
+        
+        SetupInputComponent();
 
-        GameManager.Instance.DayBegin();
+        if (mVirtualCamera == null)
+        {
+            mVirtualCamera = Instantiate(mVirtualCameraPrefab);
+            mVirtualCamera.Follow = transform;
+        }
     }
-
 
     public void StartDrive()
     {
         mPlayerInput.Enable();
-
-        mPlayerHUD.ActivatePanel(EPanelType.Hud);
-        
-        StartCoroutine(UpdateDistance());
+        OnStartDrive();
     }
 
     // On Spawn
@@ -118,7 +122,6 @@ public abstract class BaseCar : MonoBehaviour, IDayBeginInterface
     #endregion
 
     #region Controls
-    // Control Bindings
     private void Move(InputAction.CallbackContext InputValue)
     {
         mMoveInput = InputValue.ReadValue<float>();
@@ -194,39 +197,30 @@ public abstract class BaseCar : MonoBehaviour, IDayBeginInterface
         if (partsCount == mExhaustedParts.Count)
         {
             Debug.Log("All parts exhausted");
-            mPlayerInput.Move.Disable();
-            mPlayerHUD.ActivatePanel(EPanelType.Review);
+            OnResourcesExhausted();
         }
     }
 
 
     #endregion
 
-    #region UI Updates
-    // Calling the HUD
-    public void UpdateCarMetrics(ECarPart carPart, float value)
-    {
-        OnComponentUpdated?.Invoke(carPart, value);
-    }
-    
-    // Updating the HUD Distance Meter
-    private IEnumerator UpdateDistance()
-    {
-        while (true)
-        {
-            float currentDistance = Mathf.Abs(endPos.transform.position.x - transform.position.x);
-            float progress = 1 - (currentDistance / mTotalDistance);
-            mPlayerHUD.UpdateDistance(progress);
-         
-            yield return null;
-        }
-    }
-    
-    // Registering the components
+    #region Component Handlers
+
     public void RegisterComponent(ECarPart Type, CarComponent Component)
     {
         if(!ComponentsDic.ContainsKey(Type))ComponentsDic.Add(Type, Component);
     }
+
+    public void RegisterExhaustiveComponent(ECarPart Type, bool Value)
+    {
+        if(!mExhaustedParts.ContainsKey(Type)) mExhaustedParts.Add(Type, Value);
+    }
+
+    public void UpdateExhaustiveComponent(ECarPart Type, bool Value)
+    {
+        if (mExhaustedParts.ContainsKey(Type)) mExhaustedParts[Type] = Value;
+    }
+    
     #endregion
 
     private void FixedUpdate()
@@ -247,51 +241,8 @@ public abstract class BaseCar : MonoBehaviour, IDayBeginInterface
         else Decelarate();
     }
 
-    #region Day Management
-    
-    //TODO: DO NOT CALL THE "DAY" methods from the Game Manager in any methods in the region as it would be stuck in an infinite loop otherwise
-    
-    // When the Day Completes
-    public void OnDayBegin()
+    public void UpdateCarMetrics(ECarPart carPart, float value)
     {
-        Debug.Log("Day Begins");
-        LevelManager.Instance.MoveGameObjectToCurrentScene(gameObject, ELevel.GAME);
-
-        // Set up the Player HUD
-        if (mPlayerHUD == null)
-        {
-            var uiManager = UIManager.Instance;
-            if (uiManager != null)
-            {
-                mPlayerHUD = uiManager.SpawnWidget(EUI.PLAYERHUD).GetWidgetAs<PlayerHUD>();
-                var car = this;
-                mPlayerHUD.Init(ref car);
-            }
-        }
-        transform.SetPositionAndRotation(startPos.position, startPos.rotation);
-        mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
-        
-        // Set up the camera and attach it to the car to be able to follow it
-        if (mVirtualCamera == null)
-        {
-            mVirtualCamera = Instantiate(mVirtualCameraPrefab);
-            mVirtualCamera.Follow = transform;
-        }
-        
-        // Resetting the Components
-        foreach (var c in ComponentsDic)
-        {
-            c.Value.ResetComponent();
-        }
+        OnComponentUpdated?.Invoke(carPart, value);
     }
-    private void OnDayPreComplete()
-    {
-        LevelManager.Instance.MoveGameObjectToCurrentScene(gameObject, ELevel.GAME_PERSISTANCE);
-    }
-    private void OnDayComplete()
-    {
-        
-    }
-    #endregion
-
 }

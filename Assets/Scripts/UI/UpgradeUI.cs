@@ -34,10 +34,5 @@ public class UpgradeUI : BaseWidget
         OnPlayClick?.Invoke();
     }
 
-    private void OnDestroy()
-    {
-       // mSpeedCard.OnUpgradeButtonClick -= OnUpgrade;
-       // mNitroCard.OnUpgradeButtonClick -= OnUpgrade;
-    }
 
 }
