@@ -19,11 +19,6 @@ public class Socials : MonoBehaviour
     {
         Login();
     }
-    public void OnSwitchAccountButtonClick()
-    {
-        Logout();
-    }
-
     private void Login()
     {
         if (PlayGamesPlatform.Instance != null)
@@ -56,12 +51,5 @@ public class Socials : MonoBehaviour
             Debug.Log("Play Games Platform instance is null");
         }
 
-    }
-    private void Logout()
-    {
-        if (PlayGamesPlatform.Instance != null && PlayGamesPlatform.Instance.IsAuthenticated())
-        {
-            //PlayGamesPlatform.Instance.SignOut();
-        }
     }
 }

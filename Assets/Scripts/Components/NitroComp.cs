@@ -15,7 +15,7 @@ public class NitroComp : CarComponent
         mPart = ECarPart.Nitro;
         base.Start();
     }
-
+    
     public override void StartComponent()
     {
         base.StartComponent();
@@ -24,9 +24,6 @@ public class NitroComp : CarComponent
     public override void StopComponent()
     {
         base.StopComponent();
-        StopCoroutine(mComponentCoroutine);
-        mComponentCoroutine= null;
-
     }
     private IEnumerator Boost()
     {
@@ -38,7 +35,6 @@ public class NitroComp : CarComponent
         while (mCurrent > 0f)
         {
             carRb.AddForce(nitroThrustPos * mNitroImpulse, ForceMode2D.Force);
-
             UpdateValue(EValueUpdateType.Decrease);
             yield return timeInterval;
         }

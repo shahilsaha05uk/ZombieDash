@@ -12,15 +12,22 @@ using Vector2 = UnityEngine.Vector2;
 
 public abstract class BaseCar : MonoBehaviour
 {
-    private NitroComp mNitroComp;
+    //[Header("Debugging Values")] 
 
-    [Header("Debugging Values")] 
-    [SerializeField][Range(0.1f, 10)] private int mDefaultCarMass;
-
-    public delegate void FOnCarComponentUpdate(ECarPart carPart, FCarMetrics hudValues);
+    // Dictionary that stores all the Components connected to the car
+    private IDictionary<ECarPart, CarComponent> ComponentsDic = new Dictionary<ECarPart, CarComponent>();
+    
+    public delegate void FOnCarComponentUpdate(ECarPart carPart, float value);
     public FOnCarComponentUpdate OnComponentUpdated;
 
     // Privates
+    private Controller PC;
+    protected PlayerInputMappingContext mPlayerInput;
+    private PlayerHUD mPlayerHUD;
+
+    private Transform startPos;
+    [SerializeField]private Transform endPos;
+    private float mTotalDistance;
     private Coroutine mPlayerHudCoroutine;
     private float mRotationInput;
     private float mMoveInput;
@@ -28,17 +35,13 @@ public abstract class BaseCar : MonoBehaviour
 
     private Vector2 mCurrentVelocity;
     private float mCurrentVelocityMag;
-
-    private Controller PC;
-    protected PlayerInputMappingContext mPlayerInput;
+    
     
     [Space(20)][Header("References")]
     [SerializeField] private Rigidbody2D frontTireRb;
     [SerializeField] private Rigidbody2D backTireRb;
     [SerializeField] private Rigidbody2D carRb;
     
-    [SerializeField] public FCarMetrics mCarMetrics;
-
     [Space(5)]
     [SerializeField] private float mAccelarationRate = 20f;
     [SerializeField] private float mDecelerationRate = 300f;
@@ -56,10 +59,12 @@ public abstract class BaseCar : MonoBehaviour
     private void Awake()
     {
         mExhaustedParts = new Dictionary<ECarPart, bool>() { { ECarPart.Fuel, false}, { ECarPart.Nitro, false} };
-        
-        mNitroComp = GetComponent<NitroComp>();
-
         CarComponent.OnRunningOutOfResources += OnPartExhausted;
+
+        startPos = transform;
+        endPos = GameObject.FindWithTag("Finish").transform;
+        
+        mTotalDistance = Mathf.Abs(endPos.position.x - startPos.position.x);
     }
 
     private void OnPartExhausted(ECarPart exhaustedPart)
@@ -73,11 +78,12 @@ public abstract class BaseCar : MonoBehaviour
             if (p.Value == true) partsCount++;
         }
 
-        if(partsCount == mExhaustedParts.Count)
+        if (partsCount == mExhaustedParts.Count)
         {
             Debug.Log("All parts exhausted");
             mPlayerInput.Move.Disable();
-            LevelManager.Instance.OpenAdditiveScene(ELevel.UPGRADE, true);
+
+            mPlayerHUD.ActivateReviewPanel();
         }
     }
 
@@ -88,6 +94,15 @@ public abstract class BaseCar : MonoBehaviour
 
         PC = controller;
         SetupInputComponent();
+        
+        // Set up the Player HUD
+        var uiManager = UIManager.Instance;
+        if (uiManager != null)
+        {
+            mPlayerHUD = uiManager.SpawnWidget(EUI.PLAYERHUD).GetWidgetAs<PlayerHUD>();
+            var car = this;
+            mPlayerHUD.Init(ref car);
+        }
     }
 
     private void SetupInputComponent()
@@ -119,20 +134,14 @@ public abstract class BaseCar : MonoBehaviour
 
         mCurrentVelocity = new Vector2(carRb.velocity.x, 0f);
         mCurrentVelocityMag = mCurrentVelocity.magnitude;
-
-        //int speedInt = Mathf.RoundToInt(mCurrentVelocityMag);
-        //DebugUI.OnSpeedUpdate?.Invoke(speedInt);
-
-        if(mMoveInput > 0) Accelarate();
+        
+        if(mMoveInput >= 1) Accelarate();
         else Decelarate();
+        
+        UpdateDistance();
     }
-    public void UpdateCarMetrics(ECarPart carPart, float value)
-    {
-        FCarMetrics.UpdateMetricValue(ref mCarMetrics, carPart, value);
-        //OnComponentUpdated.Invoke(carPart, mCarMetrics);
-    }
-
-
+    
+    
     // Control Bindings
     private void Move(InputAction.CallbackContext InputValue)
     {
@@ -146,14 +155,26 @@ public abstract class BaseCar : MonoBehaviour
 
     private void Nitro(InputAction.CallbackContext InputValue)
     {
-        if (InputValue.ReadValueAsButton() && mExhaustedParts[ECarPart.Nitro] != true) mNitroComp.StartComponent();
-        else mNitroComp.StopComponent();
+        if (!ComponentsDic.ContainsKey(ECarPart.Nitro)) return;
+
+        if (InputValue.ReadValueAsButton() && mExhaustedParts[ECarPart.Nitro] != true)
+        {
+            // This is to stop the fuel consumption when the nitro starts
+            ComponentsDic[ECarPart.Fuel].StopComponent();
+            ComponentsDic[ECarPart.Nitro].StartComponent();
+        }
+        else
+        {
+            // This is to start the fuel consumption when the nitro stops
+            ComponentsDic[ECarPart.Nitro].StopComponent();
+            ComponentsDic[ECarPart.Fuel].StartComponent();
+        }
     }
 
     // Action Methods
     private void Accelarate()
     {
-        if (mExhaustedParts[ECarPart.Fuel] == true) return;
+        if (mExhaustedParts[ECarPart.Fuel]) return;
 
         float torqueVal = Mathf.Clamp(mMaxSpeed - mCurrentVelocityMag, 0f, mMaxSpeed) * mAccelarationRate;
 
@@ -172,18 +193,29 @@ public abstract class BaseCar : MonoBehaviour
             carRb.AddForce(-carRb.velocity * mDecelerationRate); // Decelerate immediately
         } 
     }
-
+    
     private void Rotate()
     {
         carRb.AddTorque(-mRotationInput * mRotateSpeed * Time.fixedDeltaTime);
     }
-    public void Upgrade(ECarPart carcomp, Upgrade upgradestruct)
+    
+    // Calling the HUD
+    public void UpdateCarMetrics(ECarPart carPart, float value)
     {
-        if (carcomp == ECarPart.Speed)
-        {
-            mExtraForce = upgradestruct.Value;
-        }
-        
-        //mComponent.UpgradePart(carcomp, upgradestruct);
+        OnComponentUpdated?.Invoke(carPart, value);
+    }
+    
+    // Updating the HUD Distance Meter
+    private void UpdateDistance()
+    {
+        float currentDistance = Mathf.Abs(endPos.transform.position.x - transform.position.x);
+        float progress = 1 - (currentDistance / mTotalDistance);
+       // mPlayerHUD.UpdateDistance(progress);
+    }
+    
+    // Registering the components
+    public void RegisterComponent(ECarPart Type, CarComponent Component)
+    {
+        if(!ComponentsDic.ContainsKey(Type))ComponentsDic.Add(Type, Component);
     }
 }

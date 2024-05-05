@@ -283,13 +283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510c28999eddeaa418c695bf6e232ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mDefaultCarMass: 2
+  endPos: {fileID: 0}
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
   carRb: {fileID: 333206790732981338}
-  mCarMetrics:
-    fuel: 0
-    nitro: 0
   mAccelarationRate: 2
   mDecelerationRate: 2
   mRotateSpeed: 10000
@@ -315,7 +312,8 @@ MonoBehaviour:
   mCarRef: {fileID: -3201138244935720356}
   carRb: {fileID: 333206790732981338}
   mCurrent: 1
-  mDecreaseRate: 0.001
+  mLast: 0
+  mDecreaseRate: 0.1
   mTolerance: 0.01
   mTimeInterval: 0.001
   mPart: 2
@@ -336,10 +334,12 @@ MonoBehaviour:
   mCarRef: {fileID: -3201138244935720356}
   carRb: {fileID: 333206790732981338}
   mCurrent: 1
+  mLast: 0
   mDecreaseRate: 0.01
   mTolerance: 0.01
-  mTimeInterval: 0.001
+  mTimeInterval: 0.01
   mPart: 1
+  minSpeed: 2
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0

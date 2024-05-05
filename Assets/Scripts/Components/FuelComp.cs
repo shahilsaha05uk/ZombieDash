@@ -7,28 +7,35 @@ using UnityEngine;
 
 public class FuelComp : CarComponent
 {
-    private float minSpeed = 0.05f;
+    [Tooltip("This is the minimum speed after which the car will consume fuel")]
+    [SerializeField] private float minSpeed = 0.05f;
 
     protected override void Start()
     {
         mPart = ECarPart.Fuel;
         base.Start();
+        
+        StartComponent();
     }
 
-    private void FixedUpdate()
+    public override void StartComponent()
     {
-        Vector2 vel = carRb.velocity;
-        vel.Normalize();
+        base.StartComponent();
+        mComponentCoroutine= StartCoroutine(Consume());
+    }
 
-        // check if the car's velocity is more than the required
-        if(vel.x > minSpeed)
+    private IEnumerator Consume()
+    {
+        WaitForSeconds timeInterval = new WaitForSeconds(mTimeInterval);
+        while (mCurrent > 0.0f)
         {
-            Consume();
+            Vector2 vel = carRb.velocity;
+            float speedX = Mathf.Abs(vel.x); // Calculate the absolute value of the x component of velocity
+            if (speedX > minSpeed)
+            {
+                UpdateValue(EValueUpdateType.Decrease); // Consume fuel only when the x-axis speed is beyond the required minimum
+            }
+            yield return timeInterval;
         }
-    }
-    private void Consume()
-    {
-        if (mCurrent <= 0f) return;
-        UpdateValue(EValueUpdateType.Decrease);
     }
 }
