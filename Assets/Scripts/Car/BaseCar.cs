@@ -11,11 +11,11 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 using Vector2 = UnityEngine.Vector2;
 
+[RequireComponent(typeof(CarManager))]
 public abstract class BaseCar : MonoBehaviour
 {
-    
     #region Properties
-    //[Header("Debugging Values")] 
+    private Coroutine EngineCor;
 
     // Dictionary that stores all the Components connected to the car
     protected IDictionary<ECarPart, CarComponent> ComponentsDic = new Dictionary<ECarPart, CarComponent>();
@@ -26,14 +26,10 @@ public abstract class BaseCar : MonoBehaviour
 
     // Privates
     public int ID;
-    
+    protected bool bEngineRunning;
     protected PlayerInputMappingContext mPlayerInput;
 
-    private Transform startPos;
-    [SerializeField]protected Transform endPos;
-    
     protected float mTotalDistance;
-    private Coroutine mPlayerHudCoroutine;
     private float mRotationInput;
     private float mMoveInput;
 
@@ -42,6 +38,8 @@ public abstract class BaseCar : MonoBehaviour
     
     
     [Space(20)][Header("References")]
+    protected CarManager mCarManager;
+
     [SerializeField] protected Rigidbody2D frontTireRb;
     [SerializeField] protected Rigidbody2D backTireRb;
     [SerializeField] protected Rigidbody2D carRb;
@@ -68,11 +66,11 @@ public abstract class BaseCar : MonoBehaviour
 
     #region Overridables
 
-    protected virtual void OnStartDrive()
-    {
-        
-    }
-    protected virtual void OnResourcesExhausted(){}
+    protected virtual void OnStartDrive() { }
+
+    protected virtual void OnDriving() { }
+
+    protected virtual void OnStopDrive() { }
     
     #endregion
 
@@ -81,12 +79,8 @@ public abstract class BaseCar : MonoBehaviour
     protected virtual void Awake()
     {
         CarComponent.OnRunningOutOfResources += OnPartExhausted;
-        
-        startPos = GameManager.GetPlayerStart().transform;
-        endPos = GameObject.FindWithTag("Finish").transform;
-        
-        mTotalDistance = Mathf.Abs(endPos.position.x - startPos.position.x);
-        
+        mCarManager = GetComponent<CarManager>();
+
         SetupInputComponent();
 
         if (mVirtualCamera == null)
@@ -100,8 +94,41 @@ public abstract class BaseCar : MonoBehaviour
     {
         mPlayerInput.Enable();
         OnStartDrive();
+        bEngineRunning = true;
+        EngineCor = StartCoroutine(StartEngine());
+    }
+    public void StopDrive()
+    {
+        bEngineRunning = false;
+        mPlayerInput.Disable();
+        OnStopDrive();
     }
 
+    protected virtual IEnumerator StartEngine()
+    {
+        WaitForSeconds timeInterval = new WaitForSeconds(0.002f);
+        while (bEngineRunning)
+        {
+            // Ground Check
+            Vector2 position = transform.position;
+            Vector2 direction = Vector2.down;
+            Debug.DrawRay(position, direction * mGroundClearance, Color.cyan, Time.fixedDeltaTime);
+            RaycastHit2D hit = Physics2D.Raycast(position, direction, mGroundClearance, mGroundLayer);
+            bIsOnGround = (hit.collider != null);
+
+            Rotate();
+
+            mCurrentVelocity = new Vector2(carRb.velocity.x, 0f);
+            mCurrentVelocityMag = mCurrentVelocity.magnitude;
+
+            if (mMoveInput >= 1) Accelarate();
+            else Decelarate();
+
+            OnDriving();
+
+            yield return timeInterval;
+        }
+    }
     // On Spawn
     private void SetupInputComponent()
     {
@@ -197,7 +224,7 @@ public abstract class BaseCar : MonoBehaviour
         if (partsCount == mExhaustedParts.Count)
         {
             Debug.Log("All parts exhausted");
-            OnResourcesExhausted();
+            StopDrive();
         }
     }
 
@@ -222,24 +249,6 @@ public abstract class BaseCar : MonoBehaviour
     }
     
     #endregion
-
-    private void FixedUpdate()
-    {
-        // Ground Check
-        Vector2 position = transform.position;
-        Vector2 direction = Vector2.down;
-        Debug.DrawRay(position, direction * mGroundClearance, Color.cyan, Time.fixedDeltaTime);
-        RaycastHit2D hit = Physics2D.Raycast(position, direction, mGroundClearance, mGroundLayer);
-        bIsOnGround = (hit.collider != null);
-
-        Rotate();
-
-        mCurrentVelocity = new Vector2(carRb.velocity.x, 0f);
-        mCurrentVelocityMag = mCurrentVelocity.magnitude;
-
-        if (mMoveInput >= 1) Accelarate();
-        else Decelarate();
-    }
 
     public void UpdateCarMetrics(ECarPart carPart, float value)
     {

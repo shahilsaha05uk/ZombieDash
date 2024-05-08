@@ -97,6 +97,7 @@ MonoBehaviour:
   - {fileID: -69482855333667046}
   - {fileID: 4456338747315883038}
   - {fileID: 152016199244354500}
+  - {fileID: 6177626231702721338}
   m_dynamicCollections: []
   m_standaloneDynamicCollection:
     m_id: nQP8yCS6h02VhHJqvrj1rA
@@ -205,6 +206,41 @@ MonoBehaviour:
   m_openAsDisabled: 0
   m_extraData: {fileID: 0}
   m_startupOption: 1
+  m_loadingPriority: -2
+  m_isIncluded: 1
+  m_isLocked: 0
+  m_lockMessage: 
+  m_scenesThatShouldNotAutomaticallyOpen: []
+  m_binding:
+    m_buttons: []
+    m_openCollectionAsAdditive: 0
+    m_interactionType: 0
+--- !u!114 &6177626231702721338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd3886436e609044aafef03c8894287, type: 3}
+  m_Name: PersistentProfile - New collection
+  m_EditorClassIdentifier: 
+  m_id: arfadoef.hu1
+  m_title: New collection
+  m_description: 
+  m_scenes: []
+  m_prefix: 
+  m_loadingScreenUsage: 1
+  m_loadingScreen: {fileID: 0}
+  m_activeScene: {fileID: 0}
+  m_setActiveSceneWhenOpenedAsAdditive: 0
+  m_unloadUnusedAssets: 1
+  m_openAsPersistent: 0
+  m_openAsDisabled: 0
+  m_extraData: {fileID: 0}
+  m_startupOption: 0
   m_loadingPriority: -2
   m_isIncluded: 1
   m_isLocked: 0

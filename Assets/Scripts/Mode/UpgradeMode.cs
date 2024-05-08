@@ -13,9 +13,4 @@ public class UpgradeMode : BaseMode
     {
         if (Instance == null) Instance = this;
     }
-
-    public void SetCar(CarSizeHandler CarRef)
-    {
-        
-    }
 }

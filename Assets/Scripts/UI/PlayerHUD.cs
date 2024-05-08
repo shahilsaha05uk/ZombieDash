@@ -21,7 +21,6 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
     [SerializeField] private Speedometer mNitro;
     [SerializeField] private Speedometer mFuel;
     [SerializeField] private DistanceMeter mDistanceMeter;
-    [SerializeField] private TextMeshProUGUI mMoney;
 
     private void Awake()
     {
@@ -34,7 +33,6 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
             mUpgradeUI.OnPlayClick += OnPlayClick;
         }
 
-        mMoney.text = "£"+ ResourceComp.GetCurrentResources();
     }
 
     private void OnPlayClick()
@@ -53,7 +51,7 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
         ActivatePanel(PanelToActivate);
     }
 
-    public void UpdateDistance(float NormalizedDistance)
+    public void UpdateProgress(float NormalizedDistance)
     {
         mDistanceMeter.UpdateValue(NormalizedDistance);
     }

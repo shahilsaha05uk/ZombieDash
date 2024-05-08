@@ -24,6 +24,7 @@ public class Card : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cost;
 
     private int mCurrentIndex;
+    private int mCurrentMoney;
 
     private void Awake()
     {
@@ -34,7 +35,16 @@ public class Card : MonoBehaviour
             btn.onClick.AddListener(OnCardButtonClick);
             mCurrentIndex = 0;
         }
-        UpdateCardState();
+        else
+        {
+            Debug.Log($"Upgrade asset is not available for the {cardPart} Button");
+        }
+        UpdateCardState(); 
+    }
+
+    private void OnEnable()
+    {
+        
     }
 
     private void OnCardButtonClick()
@@ -43,6 +53,8 @@ public class Card : MonoBehaviour
         TotalUpgrades--;
         
         UpdateCardState();
+
+        Debug.Log("Car Button Click: " + cardPart);
     }
 
     private void UpdateCardState()

@@ -8,11 +8,9 @@ using UnityEngine;
 public class Car : BaseCar
 {
     #region Reset Properties
-
     private Vector3 pos;
     private Vector3 scale;
     private Quaternion rot;
-    
     #endregion
     
     protected PlayerHUD mPlayerHUD;
@@ -41,7 +39,6 @@ public class Car : BaseCar
         }
         mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
 
-
         GameManager.OnResetLevel += OnReset;
     }
 
@@ -49,13 +46,28 @@ public class Car : BaseCar
     {
         base.OnStartDrive();
         mPlayerHUD.ActivatePanel(EPanelType.Hud);
-        StartCoroutine(UpdateDistance());
+        mCarManager.StartManagement();
     }
 
-    protected override void OnResourcesExhausted()
+    protected override void OnStopDrive()
     {
         mPlayerHUD.ActivatePanel(EPanelType.Review);
-        mPlayerInput.Move.Disable();
+        mCarManager.StopManagement();
+
+        if (mCarManager.distanceDifference > 50)
+        {
+            ResourceComp.AddResources(100);
+        }
+        else
+        {
+            ResourceComp.AddResources(50);
+        }
+    }
+
+    protected override void OnDriving()
+    {
+        base.OnDriving();
+        mPlayerHUD.UpdateProgress(mCarManager.progress);
     }
     private void OnReset()
     {
@@ -72,17 +84,4 @@ public class Car : BaseCar
             c.Value.ResetComponent();
         }
     }
-    
-    private IEnumerator UpdateDistance()
-    {
-        while (true)
-        {
-            float currentDistance = Mathf.Abs(endPos.transform.position.x - transform.position.x);
-            float progress = 1 - (currentDistance / mTotalDistance);
-            mPlayerHUD.UpdateDistance(progress);
-         
-            yield return null;
-        }
-    }
-
 }

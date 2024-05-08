@@ -1,5 +1,6 @@
 using EnumHelper;
 using StructClass;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,10 +13,12 @@ public class UpgradeUI : BaseWidget
     public FOnUpgradeSignature OnUpgradeClick;
 
     [SerializeField] private Button btnPlay;
+    [SerializeField] private TextMeshProUGUI mMoney;
 
     [SerializeField] private Card mFuelCard;
     [SerializeField] private Card mNitroCard;
     [SerializeField] private Card mSpeedCard;
+
     
     private void Awake()
     {
@@ -26,6 +29,10 @@ public class UpgradeUI : BaseWidget
         //mSpeedCard.OnUpgradeButtonClick += OnUpgrade;
        // mNitroCard.OnUpgradeButtonClick += OnUpgrade;
 
+    }
+    protected override void OnEnable()
+    {
+        mMoney.text = "£" + ResourceComp.GetCurrentResources();
     }
 
     private void OnPlay()
