@@ -65,7 +65,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3cafad6c2e796704d839f66ca27b4258, type: 2}
   - {fileID: 11400000, guid: 1cf0e0bb6218dc144b9489f275668fba, type: 2}
   - {fileID: 11400000, guid: 728023e858c150644b739b141a8487fc, type: 2}
-  - {fileID: 11400000, guid: e05712201e6402e4a8fbbe8f2f132369, type: 2}
   m_collections:
   - {fileID: 5734058435941712197, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   - {fileID: 8470288122996237722, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
@@ -73,7 +72,6 @@ MonoBehaviour:
   - {fileID: 152016199244354500, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   - {fileID: -6887915562504533550, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   - {fileID: 4456338747315883038, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
-  - {fileID: 6177626231702721338, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   m_collectionTemplates: []
   m_sceneHelper: {fileID: 11400000, guid: ccdc1619da578fa44a6cb1497b5e7a05, type: 2}
   m_fallbackScenePath: Assets/AdvancedSceneManager/ASM - Fallback scene.unity

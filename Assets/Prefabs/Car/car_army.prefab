@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -3201138244935720356}
   - component: {fileID: 282886651498949268}
   - component: {fileID: 458892625860153846}
+  - component: {fileID: 3500354622236882301}
   m_Layer: 0
   m_Name: car_army
   m_TagString: Player
@@ -206,7 +207,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.8
+  m_Mass: 1
   m_LinearDrag: 0.3
   m_AngularDrag: 1
   m_GravityScale: 1
@@ -284,13 +285,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 0
-  endPos: {fileID: 0}
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
   carRb: {fileID: 333206790732981338}
   mAccelarationRate: 2
   mDecelerationRate: 2
-  mRotateSpeed: 10000
+  mRotateSpeed: 1000
   mMaxSpeed: 100
   mExtraForce: 2
   mGroundClearance: 5
@@ -315,13 +315,13 @@ MonoBehaviour:
   carRb: {fileID: 333206790732981338}
   mCurrent: 1
   mLast: 0
-  mDecreaseRate: 0.1
+  mDecreaseRate: 0.001
   mTolerance: 0.01
   mTimeInterval: 0.001
   mPart: 2
   isExhaustiveComponent: 1
   mNitro: {fileID: 1556888782339466647}
-  mNitroImpulse: 100
+  mNitroImpulse: 25
 --- !u!114 &458892625860153846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,12 +338,24 @@ MonoBehaviour:
   carRb: {fileID: 333206790732981338}
   mCurrent: 1
   mLast: 0
-  mDecreaseRate: 0.01
+  mDecreaseRate: 0.001
   mTolerance: 0.01
   mTimeInterval: 0.01
   mPart: 1
   isExhaustiveComponent: 1
   minSpeed: 2
+--- !u!114 &3500354622236882301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679eb0629554384488db4ccf50550ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,7 +454,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 3
   m_LinearDrag: 0.5
   m_AngularDrag: 1
   m_GravityScale: 3
@@ -590,7 +602,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 3
   m_LinearDrag: 0.5
   m_AngularDrag: 1
   m_GravityScale: 3
@@ -664,14 +676,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556888782339466647}
-  m_LocalRotation: {x: -0, y: -0, z: 0.77434814, w: 0.6327598}
-  m_LocalPosition: {x: -0.269, y: -0.105, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -1.683, y: -0.056, z: 0}
   m_LocalScale: {x: 0.07, y: 0.53, z: 0.31}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 459658}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 101.492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &7588081406560931819
 SpriteRenderer:
   m_ObjectHideFlags: 0

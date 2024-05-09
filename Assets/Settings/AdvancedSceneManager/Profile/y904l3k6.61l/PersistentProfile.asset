@@ -97,7 +97,6 @@ MonoBehaviour:
   - {fileID: -69482855333667046}
   - {fileID: 4456338747315883038}
   - {fileID: 152016199244354500}
-  - {fileID: 6177626231702721338}
   m_dynamicCollections: []
   m_standaloneDynamicCollection:
     m_id: nQP8yCS6h02VhHJqvrj1rA
@@ -231,7 +230,7 @@ MonoBehaviour:
   m_title: New collection
   m_description: 
   m_scenes: []
-  m_prefix: 
+  m_prefix: 'PersistentProfile - '
   m_loadingScreenUsage: 1
   m_loadingScreen: {fileID: 0}
   m_activeScene: {fileID: 0}
