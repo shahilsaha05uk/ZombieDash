@@ -1,19 +1,23 @@
 using UnityEngine;
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
+using Facebook.Unity;
 using System;
-using System.Threading.Tasks;
-using System.Security.Authentication;
-using Unity.Services.Authentication;
-using Unity.Services.Core;
-using GooglePlayGames.OurUtils;
+using System.Threading;
 
 public class Socials : MonoBehaviour
 {
 
     private void Start()
     {
-        PlayGamesPlatform.Activate();
+        if (!FB.IsInitialized)
+        {
+            // Initialize the Facebook SDK
+            FB.Init(OnFBInitialised, OnHideIdentity);
+        }
+        else
+        {
+            // Already initialized, signal an app activation App Event
+            FB.ActivateApp();
+        }
     }
     public void OnPlayGamesButtonClick()
     {
@@ -21,35 +25,33 @@ public class Socials : MonoBehaviour
     }
     private void Login()
     {
-        if (PlayGamesPlatform.Instance != null)
+        if (FB.IsInitialized) { FB.ActivateApp(); }
+        else print("Failed to initialise");
+    }
+
+
+    private void OnHideIdentity(bool isGameShown)
+    {
+        if (!isGameShown)
         {
-            Debug.Log("Connect to Play Games");
-            PlayGamesPlatform.Instance.Authenticate(success =>
-            {
-                switch (success)
-                {
-                    case SignInStatus.Success:
-                        string name = PlayGamesPlatform.Instance.GetUserDisplayName();
-                        string id = PlayGamesPlatform.Instance.GetUserId();
-                        string image = PlayGamesPlatform.Instance.GetUserImageUrl();
-                        Debug.Log("Sign in Success");
-
-                        break;
-                    case SignInStatus.InternalError:
-                        break;
-                    case SignInStatus.Canceled:
-                        Debug.Log("Sign in Failed");
-                        break;
-                }
-
-                Debug.Log("Sign in Failed");
-
-            });
+            Time.timeScale = 0;
         }
         else
         {
-            Debug.Log("Play Games Platform instance is null");
+            Time.timeScale = 1;
         }
+    }
 
+    private void OnFBInitialised()
+    {
+        if(FB.IsLoggedIn)
+        {
+            print("fb login success");
+            string s = "client token" + FB.ClientToken + " user id: " + AccessToken.CurrentAccessToken.UserId;
+        }
+        else
+        {
+            print("fb login failed");
+        }
     }
 }
