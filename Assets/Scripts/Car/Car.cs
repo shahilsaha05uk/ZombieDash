@@ -54,10 +54,9 @@ public class Car : BaseCar
          the Timer didnt start
          and the driving was started
          */
-        if ((mCurrentVelocityMag <= 2f || bIsVelocityPositive == false) && (!bStartedWaitingTimer && bStartedDriving))
+        print("Current Velocity at x: " + mCurrentVelocity.x + " \t is velocity positive?: " + bIsVelocityPositive);
+        if (mCurrentVelocity.x <1f && !bStartedWaitingTimer && bStartedDriving)
         {
-            print("Expected: Current Vel = 1 or less; \n isVelocity = false; \n bStartedWaitingTimer = false; \n Started driving = true");
-            print($"Actual: Current Vel = {mCurrentVelocityMag}; \n isVelocity = {bIsVelocityPositive}; \n bStartedWaitingTimer = {bStartedWaitingTimer}; \n Started driving = {bStartedDriving}");
             WaitTimerCoroutine = StartCoroutine(WaitTimer());
             bStartedWaitingTimer = true;
         }
@@ -66,8 +65,8 @@ public class Car : BaseCar
 
     private IEnumerator WaitTimer()
     {
-        yield return new WaitForSeconds(1f);
-        if (mCurrentVelocityMag <= 1f)
+        yield return new WaitForSeconds(3f);
+        if (mCurrentVelocity.x < 1f)
         {
             bStartedWaitingTimer = false;
             StopDrive();

@@ -13,7 +13,6 @@ public class MenuController : BaseController
         UIManager uIManager = UIManager.Instance;
         if (uIManager != null)
         {
-            Debug.Log("Manager is valid");  // Check passed
             BaseWidget widget = uIManager.SpawnWidget(EnumHelper.EUI.MAIN_MENU, true);
             LevelManager.Instance.MoveGameObjectToCurrentScene(widget.gameObject);
         }

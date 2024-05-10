@@ -36,7 +36,8 @@ public class FuelComp : CarComponent
         while (mCurrent > 0.0f)
         {
             Vector2 vel = carRb.velocity;
-            float speedX = Mathf.Abs(vel.x); // Calculate the absolute value of the x component of velocity
+            float speedX = vel.x; // Calculate the absolute value of the x component of velocity
+            //float speedX = Mathf.Abs(vel.x); // Calculate the absolute value of the x component of velocity
             if (speedX > minSpeed)
             {
                 UpdateValue(EValueUpdateType.Decrease); // Consume fuel only when the x-axis speed is beyond the required minimum
