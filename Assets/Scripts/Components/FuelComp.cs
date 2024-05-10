@@ -18,9 +18,9 @@ public class FuelComp : CarComponent
         StartComponent();
     }
 
-    public override void ResetComponent()
+    public override void OnReset()
     {
-        base.ResetComponent();
+        base.OnReset();
         StartComponent();
     }
 

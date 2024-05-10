@@ -4,22 +4,31 @@ using System.Collections.Generic;
 using System.Numerics;
 using Cinemachine;
 using EnumHelper;
+using Interfaces;
 using StructClass;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
+using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(CarManager))]
-public abstract class BaseCar : MonoBehaviour
+public abstract class BaseCar : MonoBehaviour, IResetInterface
 {
+    #region Reset Properties
+    private Vector3 pos;
+    private Vector3 scale;
+    private Quaternion rot;
+    #endregion
+
+
     #region Properties
     private Coroutine EngineCor;
 
     // Dictionary that stores all the Components connected to the car
     protected IDictionary<ECarPart, CarComponent> ComponentsDic = new Dictionary<ECarPart, CarComponent>();
-    protected IDictionary<ECarPart, bool> mExhaustedParts = new Dictionary<ECarPart, bool>();
     
     public delegate void FOnCarComponentUpdate(ECarPart carPart, float value);
     public FOnCarComponentUpdate OnComponentUpdated;
@@ -29,12 +38,11 @@ public abstract class BaseCar : MonoBehaviour
     protected bool bEngineRunning;
     protected PlayerInputMappingContext mPlayerInput;
 
-    protected float mTotalDistance;
     private float mRotationInput;
     private float mMoveInput;
 
     private Vector2 mCurrentVelocity;
-    private float mCurrentVelocityMag;
+    protected float mCurrentVelocityMag;
     
     
     [Space(20)][Header("References")]
@@ -56,6 +64,9 @@ public abstract class BaseCar : MonoBehaviour
     [SerializeField] private float mGroundClearance;
     [SerializeField] private bool bIsOnGround;
     private bool bLastGroundCheck;
+    protected bool bStartedDriving = false;
+    protected bool bIsVelocityPositive = false;
+
     [SerializeField] private LayerMask mGroundLayer;
 
     [SerializeField] private CinemachineVirtualCamera mVirtualCameraPrefab;
@@ -78,9 +89,14 @@ public abstract class BaseCar : MonoBehaviour
 
     protected virtual void Awake()
     {
-        CarComponent.OnRunningOutOfResources += OnPartExhausted;
         mCarManager = GetComponent<CarManager>();
-
+        
+        var trans = transform;
+        
+        pos = trans.position;
+        rot = trans.rotation;
+        scale = trans.localScale;
+        
         SetupInputComponent();
 
         if (mVirtualCamera == null)
@@ -92,6 +108,8 @@ public abstract class BaseCar : MonoBehaviour
 
     public void StartDrive()
     {
+        bStartedDriving = false;
+        
         mPlayerInput.Enable();
         OnStartDrive();
         bEngineRunning = true;
@@ -117,11 +135,11 @@ public abstract class BaseCar : MonoBehaviour
             bIsOnGround = (hit.collider != null);
 
             Rotate();
-
             mCurrentVelocity = new Vector2(carRb.velocity.x, 0f);
             mCurrentVelocityMag = mCurrentVelocity.magnitude;
+            bIsVelocityPositive = (mCurrentVelocity.x > 0f);
 
-            if (mMoveInput >= 1) Accelarate();
+            if (mMoveInput != 0) Accelarate();
             else Decelarate();
 
             OnDriving();
@@ -152,7 +170,8 @@ public abstract class BaseCar : MonoBehaviour
     private void Move(InputAction.CallbackContext InputValue)
     {
         mMoveInput = InputValue.ReadValue<float>();
-        
+
+        if (!bStartedDriving) bStartedDriving = true;
         Debug.Log("Recording Inputs");
     }
     
@@ -165,7 +184,7 @@ public abstract class BaseCar : MonoBehaviour
     {
         if (!ComponentsDic.ContainsKey(ECarPart.Nitro)) return;
 
-        if (InputValue.ReadValueAsButton() && mExhaustedParts[ECarPart.Nitro] != true)
+        if (InputValue.ReadValueAsButton() && !ComponentsDic[ECarPart.Nitro].mHasExhausted)
         {
             // This is to stop the fuel consumption when the nitro starts
             ComponentsDic[ECarPart.Fuel].StopComponent();
@@ -185,7 +204,7 @@ public abstract class BaseCar : MonoBehaviour
     // Action Methods
     private void Accelarate()
     {
-        if (mExhaustedParts[ECarPart.Fuel]) return;
+        if (ComponentsDic[ECarPart.Fuel].mHasExhausted) return;
 
         float torqueVal = Mathf.Clamp(mMaxSpeed - mCurrentVelocityMag, 0f, mMaxSpeed) * mAccelarationRate;
 
@@ -207,28 +226,10 @@ public abstract class BaseCar : MonoBehaviour
     
     private void Rotate()
     {
-        carRb.AddTorque(-mRotationInput * mRotateSpeed * Time.fixedDeltaTime);
+        var rot = -mRotationInput * mRotateSpeed * Time.deltaTime;
+        carRb.AddTorque(rot);
     }
     
-    private void OnPartExhausted(ECarPart exhaustedPart)
-    {
-        if (mExhaustedParts.ContainsKey(exhaustedPart))
-            mExhaustedParts[exhaustedPart] = true;
-
-        int partsCount = 0;
-        foreach (var p in mExhaustedParts)
-        {
-            if (p.Value == true) partsCount++;
-        }
-
-        if (partsCount == mExhaustedParts.Count)
-        {
-            Debug.Log("All parts exhausted");
-            StopDrive();
-        }
-    }
-
-
     #endregion
 
     #region Component Handlers
@@ -237,21 +238,21 @@ public abstract class BaseCar : MonoBehaviour
     {
         if(!ComponentsDic.ContainsKey(Type))ComponentsDic.Add(Type, Component);
     }
-
-    public void RegisterExhaustiveComponent(ECarPart Type, bool Value)
-    {
-        if(!mExhaustedParts.ContainsKey(Type)) mExhaustedParts.Add(Type, Value);
-    }
-
-    public void UpdateExhaustiveComponent(ECarPart Type, bool Value)
-    {
-        if (mExhaustedParts.ContainsKey(Type)) mExhaustedParts[Type] = Value;
-    }
-    
     #endregion
 
     public void UpdateCarMetrics(ECarPart carPart, float value)
     {
         OnComponentUpdated?.Invoke(carPart, value);
+    }
+
+    public virtual void OnReset()
+    {
+        frontTireRb.velocity = backTireRb.velocity = carRb.velocity = Vector2.zero;
+
+        transform.SetPositionAndRotation(pos, rot);
+        transform.localScale = scale;
+        
+        mPlayerInput.Disable();
+
     }
 }

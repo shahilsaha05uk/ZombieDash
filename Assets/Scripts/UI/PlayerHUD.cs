@@ -58,7 +58,6 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
 
     private void OnWidgetUpdateRequest(ECarPart carpart, float value)
     {
-        Debug.Log("Widget Update requested!!");
         switch (carpart)
         {
             case ECarPart.All_Comp:

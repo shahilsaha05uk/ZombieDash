@@ -2,29 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using EnumHelper;
+using Interfaces;
 using StructClass;
 using UnityEngine;
 
 public class Car : BaseCar
 {
-    #region Reset Properties
-    private Vector3 pos;
-    private Vector3 scale;
-    private Quaternion rot;
-    #endregion
-    
+    private bool bStartedWaitingTimer = false;
+    private Coroutine WaitTimerCoroutine;
     protected PlayerHUD mPlayerHUD;
 
     protected override void Awake()
     {
         base.Awake();
-        
-        var trans = transform;
-        
-        pos = trans.position;
-        rot = trans.rotation;
-        scale = trans.localScale;
-        
         
         if (mPlayerHUD == null)
         {
@@ -51,37 +41,47 @@ public class Car : BaseCar
 
     protected override void OnStopDrive()
     {
-        mPlayerHUD.ActivatePanel(EPanelType.Review);
         mCarManager.StopManagement();
-
-        if (mCarManager.distanceDifference > 50)
-        {
-            ResourceComp.AddResources(100);
-        }
-        else
-        {
-            ResourceComp.AddResources(50);
-        }
+        mCarManager.AwardResources();
+        mPlayerHUD.ActivatePanel(EPanelType.Review);
     }
 
     protected override void OnDriving()
     {
-        base.OnDriving();
+        /*
+         Three of the conditions need to be true in order to get the timer started:
+         Current Velocity should be less than 1
+         the Timer didnt start
+         and the driving was started
+         */
+        if ((mCurrentVelocityMag <= 2f || bIsVelocityPositive == false) && (!bStartedWaitingTimer && bStartedDriving))
+        {
+            print("Expected: Current Vel = 1 or less; \n isVelocity = false; \n bStartedWaitingTimer = false; \n Started driving = true");
+            print($"Actual: Current Vel = {mCurrentVelocityMag}; \n isVelocity = {bIsVelocityPositive}; \n bStartedWaitingTimer = {bStartedWaitingTimer}; \n Started driving = {bStartedDriving}");
+            WaitTimerCoroutine = StartCoroutine(WaitTimer());
+            bStartedWaitingTimer = true;
+        }
         mPlayerHUD.UpdateProgress(mCarManager.progress);
     }
-    private void OnReset()
+
+    private IEnumerator WaitTimer()
     {
-        frontTireRb.velocity = backTireRb.velocity = carRb.velocity = Vector2.zero;
-
-        transform.SetPositionAndRotation(pos, rot);
-        transform.localScale = scale;
-        
-        mPlayerInput.Disable();
-        mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
-
-        foreach (var c in ComponentsDic)
+        yield return new WaitForSeconds(1f);
+        if (mCurrentVelocityMag <= 1f)
         {
-            c.Value.ResetComponent();
+            bStartedWaitingTimer = false;
+            StopDrive();
         }
+        else
+        {
+            bStartedWaitingTimer = false;
+            StopCoroutine(WaitTimerCoroutine);
+        }
+    }
+
+    public override void OnReset()
+    {
+        base.OnReset();
+        mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
     }
 }
