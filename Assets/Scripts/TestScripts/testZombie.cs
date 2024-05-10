@@ -1,20 +1,16 @@
 using Helpers;
-using System.Collections;
-using System.Collections.Generic;
+using Interfaces;
 using UnityEngine;
 
-public class testZombie : MonoBehaviour
+public class testZombie : MonoBehaviour, IResetInterface
 {
-
-    private void Update()
+    private void Start()
     {
-        if(Input.GetKeyUp(KeyCode.F))
-        {
-            GetComponent<Animator>().SetBool(AnimationParametersDictionary.Trigger_IsDead, true);
-        }
-        if(Input.GetKeyUp(KeyCode.R))
-        {
-            GetComponent<Animator>().SetBool(AnimationParametersDictionary.Trigger_IsDead, false);
-        }
+        GameManager.OnResetLevel += OnReset; 
+    }
+
+    public void OnReset()
+    {
+        GetComponent<Animator>().SetBool(AnimationParametersDictionary.Trigger_IsDead, false);
     }
 }

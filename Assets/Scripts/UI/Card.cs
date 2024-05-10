@@ -42,11 +42,6 @@ public class Card : MonoBehaviour
         UpdateCardState(); 
     }
 
-    private void OnEnable()
-    {
-        
-    }
-
     private void OnCardButtonClick()
     {
         OnUpgradeButtonClick?.Invoke(cardPart, mCurrentIndex);
