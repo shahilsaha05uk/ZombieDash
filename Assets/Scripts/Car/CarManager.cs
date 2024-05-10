@@ -70,7 +70,6 @@ public class CarManager : MonoBehaviour
         distanceDifference = Mathf.Abs(lastDistance - nowDistance);
 
         TotalZombieKills += ZombieKills;
-        print("Total zombies killed this round: " + ZombieKills);
 
         PlayerData pData = new PlayerData
         {

@@ -41,7 +41,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     private float mRotationInput;
     private float mMoveInput;
 
-    private Vector2 mCurrentVelocity;
+    protected Vector2 mCurrentVelocity;
     protected float mCurrentVelocityMag;
     
     
@@ -108,7 +108,6 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
     public void StartDrive()
     {
-        bStartedDriving = false;
         
         mPlayerInput.Enable();
         OnStartDrive();
@@ -117,6 +116,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     }
     public void StopDrive()
     {
+        bStartedDriving = false;
         bEngineRunning = false;
         mPlayerInput.Disable();
         OnStopDrive();
@@ -137,7 +137,8 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
             Rotate();
             mCurrentVelocity = new Vector2(carRb.velocity.x, 0f);
             mCurrentVelocityMag = mCurrentVelocity.magnitude;
-            bIsVelocityPositive = (mCurrentVelocity.x > 0f);
+
+            bIsVelocityPositive = (mCurrentVelocity.x >= 0.1f);
 
             if (mMoveInput != 0) Accelarate();
             else Decelarate();
@@ -171,8 +172,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     {
         mMoveInput = InputValue.ReadValue<float>();
 
-        if (!bStartedDriving) bStartedDriving = true;
-        Debug.Log("Recording Inputs");
+        bStartedDriving = true;
     }
     
     private void Roll(InputAction.CallbackContext InputValue)

@@ -95,7 +95,7 @@ MonoBehaviour:
   m_startProps:
     forceOpenAllScenesOnCollection: 0
     fadeInDuration: 1
-    fadeOutDuration: 0
+    fadeOutDuration: 1
     openCollection: {fileID: 0}
   m_assetPath: Assets/Settings/AdvancedSceneManager
   m_customData:
