@@ -289,7 +289,7 @@ MonoBehaviour:
   backTireRb: {fileID: 6789284611104282344}
   carRb: {fileID: 333206790732981338}
   mAccelarationRate: 2
-  mDecelerationRate: 0.5
+  mDecelerationRate: 0.1
   mRotateSpeed: 4000
   mMaxSpeed: 100
   mExtraForce: 2
@@ -320,6 +320,8 @@ MonoBehaviour:
   mTimeInterval: 0.001
   mPart: 2
   isExhaustiveComponent: 1
+  mHasExhausted: 0
+  mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
   mNitro: {fileID: 1556888782339466647}
   mNitroImpulse: 25
 --- !u!114 &458892625860153846
@@ -343,6 +345,8 @@ MonoBehaviour:
   mTimeInterval: 0.01
   mPart: 1
   isExhaustiveComponent: 1
+  mHasExhausted: 0
+  mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
   minSpeed: 2
 --- !u!114 &3500354622236882301
 MonoBehaviour:

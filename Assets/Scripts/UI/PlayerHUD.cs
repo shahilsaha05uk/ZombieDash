@@ -24,7 +24,6 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
 
     private void Awake()
     {
-        //GameManager.Instance.OnDayComplete += OnDayComplete;
         mUiType = EUI.PLAYERHUD;
 
         mUpgradeUI = CanvasMap[EPanelType.Upgrade].GetComponent<UpgradeUI>();
@@ -32,12 +31,6 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
         {
             mUpgradeUI.OnPlayClick += OnPlayClick;
         }
-
-    }
-
-    private void OnPlayClick()
-    {
-        mCarRef.StartDrive();
     }
 
     public void Init(ref BaseCar Car, EPanelType PanelToActivate = EPanelType.None)
@@ -47,8 +40,12 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
             mCarRef = Car;
             mCarRef.OnComponentUpdated += OnWidgetUpdateRequest;
         }
-
         ActivatePanel(PanelToActivate);
+    }
+
+    private void OnPlayClick()
+    {
+        mCarRef.StartDrive();
     }
 
     public void UpdateProgress(float NormalizedDistance)

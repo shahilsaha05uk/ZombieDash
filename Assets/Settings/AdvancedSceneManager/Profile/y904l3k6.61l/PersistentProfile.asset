@@ -93,8 +93,8 @@ MonoBehaviour:
   m_createCameraDuringStartup: 1
   m_unloadUnusedAssetsForStandalone: 1
   m_collections:
-  - {fileID: 5734058435941712197}
   - {fileID: -69482855333667046}
+  - {fileID: 5734058435941712197}
   - {fileID: 4456338747315883038}
   - {fileID: 152016199244354500}
   m_dynamicCollections: []

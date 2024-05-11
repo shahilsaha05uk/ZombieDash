@@ -18,13 +18,18 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
     [SerializeField] protected ECarPart mPart;
     [SerializeField] protected bool isExhaustiveComponent;
     public bool mHasExhausted;
-    public delegate void FOnRunningOutOfResourceSignature(ECarPart resource);
-    public static FOnRunningOutOfResourceSignature OnRunningOutOfResources;
 
     protected Coroutine mComponentCoroutine;
 
+    [SerializeField] private DA_UpgradeAsset mUpgradeAsset;
+
     protected virtual void Start()
     {
+        if (mUpgradeAsset)
+        {
+            mUpgradeAsset.OnUpgradeRequested += OnUpgradeRequest;
+        }
+
         carRb = GetComponent<Rigidbody2D>();
         if (mCarRef)
         {
@@ -33,7 +38,6 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
             GameManager.OnResetLevel += OnReset;
         }
     }
-
     public virtual void OnReset()
     {
         mHasExhausted = false;
@@ -41,7 +45,6 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
         mLast = 0f;
         mCarRef.UpdateCarMetrics(mPart, mCurrent);
     }
-    
     public virtual void StartComponent()
     {
         if (mComponentCoroutine != null) return;
@@ -64,7 +67,6 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
 
         if (mCurrent <= 0f) PartExhaust();
     }
-
     protected virtual void DecreaseComponentValue()
     {
         if(mCurrent > 0f)
@@ -83,13 +85,20 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
             mCarRef.UpdateCarMetrics(carPart, value);
         }
     }
-
     protected virtual void PartExhaust()
     {
         if(mCurrent <= 0f)
         {
             mHasExhausted = true;
-            OnRunningOutOfResources?.Invoke(mPart);
+        }
+    }
+    private void OnUpgradeRequest(ECarPart Part, int Index)
+    {
+        var up = mUpgradeAsset.GetUpgradeDetails(Part, Index);
+        if(up != null)
+        {
+            mDecreaseRate = up.DecreaseRate;
+            mTimeInterval = up.TimeInterval;
         }
     }
 }

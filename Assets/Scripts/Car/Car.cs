@@ -15,7 +15,6 @@ public class Car : BaseCar
     protected override void Awake()
     {
         base.Awake();
-        
         if (mPlayerHUD == null)
         {
             var uiManager = UIManager.Instance;
@@ -48,13 +47,6 @@ public class Car : BaseCar
 
     protected override void OnDriving()
     {
-        /*
-         Three of the conditions need to be true in order to get the timer started:
-         Current Velocity should be less than 1
-         the Timer didnt start
-         and the driving was started
-         */
-        print("Current Velocity at x: " + mCurrentVelocity.x + " \t is velocity positive?: " + bIsVelocityPositive);
         if (mCurrentVelocity.x <1f && !bStartedWaitingTimer && bStartedDriving)
         {
             WaitTimerCoroutine = StartCoroutine(WaitTimer());
@@ -83,4 +75,5 @@ public class Car : BaseCar
         base.OnReset();
         mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
     }
+
 }
