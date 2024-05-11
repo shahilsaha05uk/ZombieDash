@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 7064047369889720347}
   m_Layer: 0
   m_Name: wheel_front
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 7851828781805507138}
   m_Layer: 0
   m_Name: wheel_back
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 7588081406560931819}
   m_Layer: 0
   m_Name: Nitro
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

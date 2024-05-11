@@ -20,33 +20,19 @@ namespace WSMGameStudio.Behaviours
         public UnityEvent OnBreak;
 
         private Collider2D _collider;
-        private MeshRenderer _renderer;
-        private AudioSource _breakSFX;
-        private Rigidbody2D _rigidBody;
+        private SpriteRenderer _renderer;
 
         private void Awake()
         {
             _collider = GetComponent<Collider2D>();
-            _renderer = GetComponent<MeshRenderer>();
-            _breakSFX = GetComponent<AudioSource>();
-            _rigidBody = GetComponent<Rigidbody2D>();
+            _renderer = GetComponent<SpriteRenderer>();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public void Break()
         {
-            if (_breakSFX != null)
-                _breakSFX.Play();
-
-            _rigidBody.isKinematic = true;
-
-            //Disable collider to avoid collision with spawned broken pieces
             if (_collider != null)
                 _collider.enabled = false;
 
-            //Make object dissapear
             _renderer.enabled = false;
 
             foreach (var piece in brokenPieces)

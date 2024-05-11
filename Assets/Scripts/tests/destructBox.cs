@@ -1,48 +1,41 @@
+using Interfaces;
+using System.Collections;
 using UnityEngine;
-using WSMGameStudio.Behaviours;
-using WSMGameStudio.Settings;
 
-public class destructBox : MonoBehaviour
+public class destructBox : MonoBehaviour, IResetInterface
 {
     private Rigidbody2D rb;
     private Collider2D col;
-    private MeshRenderer meshRenderer;
+    private SpriteRenderer meshRenderer;
+    public Vector3 pos;
+    public Vector3 scale;
+    public Quaternion rot;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer = GetComponent<SpriteRenderer>();
+        var trans = transform;
+
+        pos = trans.position;
+        rot = trans.rotation;
+        scale = trans.localScale;
+
+        GameManager.OnResetLevel += OnReset;
     }
-
-
-    void Update()
+    public void OnReset()
     {
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            GetComponent<ResettableTransform>().ResetObject();
-
-            ResetBox();
-        }
-        if(Input.GetMouseButtonUp(0))
-        {
-            print("Taken Damage");
-
-        }
-    }
-
-    public void ResetBox()
-    {
-        rb.isKinematic = false;
-        if (col != null)
-            col.enabled = true;
-
         meshRenderer.enabled = true;
-
+        if (col != null) col.enabled = true;
+        
+        rb.isKinematic = true;
+        transform.SetPositionAndRotation(pos, rot);
+        transform.localScale = scale;
+        rb.isKinematic = false;
     }
-
-    public void OnBreak()
+    private void Update()
     {
-        print("Taken Damage");
+        if(Input.GetKeyUp(KeyCode.R)) OnReset();
     }
 }
