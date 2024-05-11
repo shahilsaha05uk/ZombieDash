@@ -1184,6 +1184,7 @@ GameObject:
   - component: {fileID: 4540169524127468490}
   - component: {fileID: -9139581131682591997}
   - component: {fileID: 2977629988284096966}
+  - component: {fileID: 6478565195712184441}
   m_Layer: 0
   m_Name: Zombie_Normal (default)
   m_TagString: Enemy
@@ -1205,7 +1206,7 @@ Transform:
   m_Children:
   - {fileID: 7756372667892764449}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3715820047659455768
 Animator:
@@ -1297,7 +1298,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a081bb2df8e1ae4ab885cd3c72fa31c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mRestrainForce: 1000
+  mRestrainForce: 500
+--- !u!114 &6478565195712184441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8028504333613449318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 357667e6ba1a3af479fe968e166dd9cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8539148842809538833
 GameObject:
   m_ObjectHideFlags: 0

@@ -49,7 +49,7 @@ public class Car : BaseCar
     {
         if (mCurrentVelocity.x <1f && !bStartedWaitingTimer && bStartedDriving)
         {
-            //WaitTimerCoroutine = StartCoroutine(WaitTimer());
+            WaitTimerCoroutine = StartCoroutine(WaitTimer());
             bStartedWaitingTimer = true;
         }
         mPlayerHUD.UpdateProgress(mCarManager.progress);

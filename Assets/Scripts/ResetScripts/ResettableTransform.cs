@@ -14,17 +14,9 @@ public class ResettableTransform : MonoBehaviour
         pos = trans.position;
         rot = trans.rotation;
         scale = trans.localScale;
-
-        GameManager.OnResetLevel += OnReset;
     }
 
-    private void OnReset()
-    {
-        transform.SetPositionAndRotation(pos, rot);
-        transform.localScale = scale;
-    }
-
-    public void ResetObject()
+    public void OnReset()
     {
         transform.SetPositionAndRotation(pos, rot);
         transform.localScale = scale;

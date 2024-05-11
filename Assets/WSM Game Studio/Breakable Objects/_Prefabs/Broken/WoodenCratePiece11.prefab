@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b4b02be7a04480e4cb7810bc1c6c59c2, type: 2}
+  - {fileID: 2100000, guid: 0389b5cc10ca0734b900fc1334cb65f4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,13 +106,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809086357003140}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40e1817a9a961714db2dd90f5915a268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   removeSettings:
-    timeInSeconds: 0
+    timeInSeconds: 3
     removeMode: 0
     OnRemove:
       m_PersistentCalls:
