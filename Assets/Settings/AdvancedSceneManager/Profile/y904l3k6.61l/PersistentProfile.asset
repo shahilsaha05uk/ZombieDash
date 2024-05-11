@@ -100,7 +100,8 @@ MonoBehaviour:
   m_dynamicCollections: []
   m_standaloneDynamicCollection:
     m_id: nQP8yCS6h02VhHJqvrj1rA
-    m_scenes: []
+    m_scenes:
+    - {fileID: 11400000, guid: 351650a032cb7aa4bb0d72f3420648b3, type: 2}
     m_sceneBindings:
       m_throw: 1
       m_keys: []
