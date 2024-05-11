@@ -1184,7 +1184,6 @@ GameObject:
   - component: {fileID: 4540169524127468490}
   - component: {fileID: -9139581131682591997}
   - component: {fileID: 2977629988284096966}
-  - component: {fileID: 3586212361940320848}
   m_Layer: 0
   m_Name: Zombie_Normal (default)
   m_TagString: Enemy
@@ -1299,18 +1298,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mRestrainForce: 1000
---- !u!114 &3586212361940320848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028504333613449318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 357667e6ba1a3af479fe968e166dd9cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8539148842809538833
 GameObject:
   m_ObjectHideFlags: 0

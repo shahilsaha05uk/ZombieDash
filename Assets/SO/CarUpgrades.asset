@@ -18,7 +18,7 @@ MonoBehaviour:
       Value:
       - id: 0
         cost: 100
-        DecreaseRate: 0.01
+        DecreaseRate: 0.001
         TimeInterval: 0.01
       - id: 2
         cost: 150

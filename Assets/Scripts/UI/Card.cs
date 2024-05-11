@@ -1,20 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using AYellowpaper.SerializedCollections;
 using EnumHelper;
 using StructClass;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    public delegate void FOnUpgradeButtonClickSignature(ECarPart carComp, int UpgradeID);
-
-    public FOnUpgradeButtonClickSignature OnUpgradeButtonClick;
-    
     [SerializeField] private ECarPart cardPart;
     
     [SerializeField] private DA_UpgradeAsset UpgradeAsset;
@@ -23,8 +14,7 @@ public class Card : MonoBehaviour
     [SerializeField] private Button btn;
     [SerializeField] private TextMeshProUGUI cost;
 
-    private int mCurrentIndex;
-    private int mCurrentMoney;
+    private int mCurrentIndex = 0;
 
     private void Awake()
     {
@@ -39,29 +29,39 @@ public class Card : MonoBehaviour
         {
             Debug.Log($"Upgrade asset is not available for the {cardPart} Button");
         }
-        UpdateCardState(); 
+    }
+    private void OnEnable()
+    {
+        UpdateCardDetails();
     }
 
     private void OnCardButtonClick()
     {
-        OnUpgradeButtonClick?.Invoke(cardPart, mCurrentIndex);
+        int cost = UpgradeAsset.GetUpgradeDetails(cardPart, mCurrentIndex).cost;
+        ResourceComp.SubtractResources(cost);
+
+        UpgradeAsset.Trigger_UpgradeRequest(cardPart, mCurrentIndex);
+
         TotalUpgrades--;
-        
-        UpdateCardState();
+        mCurrentIndex++;
 
-        Debug.Log("Car Button Click: " + cardPart);
+        UpdateCardDetails();
     }
-
-    private void UpdateCardState()
+    private void UpdateCardDetails()
     {
         if(UpgradeAsset == null) return;
-        //int CurrentBalance = 0;
         Upgrade up = UpgradeAsset.GetUpgradeDetails(cardPart, mCurrentIndex);
 
         if (up != null)
         {
-            // TODO: The Current Balance needs to be replaced with the player's money
-            //btn.interactable= (up.cost < CurrentBalance)
+            cost.text = up.cost.ToString();
+            btn.interactable = (up.cost < ResourceComp.GetCurrentResources());
+        }
+        else
+        {
+            cost.text = "(MAX)";
+            btn.interactable = false;
+            btn.onClick.RemoveAllListeners();
         }
     }
 }

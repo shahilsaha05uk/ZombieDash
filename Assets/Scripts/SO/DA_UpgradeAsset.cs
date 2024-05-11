@@ -8,6 +8,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Car", fileName = "DataAssets/DA_Upgrade", order = 2)]
 public class DA_UpgradeAsset : ScriptableObject
 {
+    public delegate void FOnUpgradeRequestSignature(ECarPart Part, int Index);
+    public event FOnUpgradeRequestSignature OnUpgradeRequested;
+
     [SerializedDictionary("Type", "UpgradeList")]
     [SerializeField] private SerializedDictionary<ECarPart, List<Upgrade>> UpgradeList;
 
@@ -27,9 +30,14 @@ public class DA_UpgradeAsset : ScriptableObject
     {
         if (UpgradeList.ContainsKey(part))
         {
-            return (UpgradeList[part].Count - 1 > Index)? UpgradeList[part][Index] : null;
+            return (Index < UpgradeList[part].Count) ? UpgradeList[part][Index] : null;
         }
         return null;
+    }
+
+    public void Trigger_UpgradeRequest(ECarPart part, int Index)
+    {
+        OnUpgradeRequested?.Invoke(part, Index);
     }
 }
 

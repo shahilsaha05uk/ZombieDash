@@ -1,36 +1,40 @@
 using EnumHelper;
 using StructClass;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UpgradeUI : BaseWidget
 {
+    public DA_UpgradeAsset mUpgradeAsset;
     public delegate void FOnPlayButtonCLickSignature();
 
     public FOnPlayButtonCLickSignature OnPlayClick;
-    public delegate void FOnUpgradeSignature(ECarPart carComp, Upgrade upgradeStruct);
-    public FOnUpgradeSignature OnUpgradeClick;
 
     [SerializeField] private Button btnPlay;
     [SerializeField] private TextMeshProUGUI mMoney;
-
-    [SerializeField] private Card mFuelCard;
-    [SerializeField] private Card mNitroCard;
-    [SerializeField] private Card mSpeedCard;
-
     
     private void Awake()
     {
+        if (mUpgradeAsset)
+            mUpgradeAsset.OnUpgradeRequested += OnUpgradeButtonClick;
         btnPlay.onClick.AddListener(OnPlay);
         
         mUiType = EUI.UPGRADE;
-        //mFuelCard.OnUpgradeButtonClick += OnUpgrade;
-        //mSpeedCard.OnUpgradeButtonClick += OnUpgrade;
-       // mNitroCard.OnUpgradeButtonClick += OnUpgrade;
-
     }
+
     protected override void OnEnable()
+    {
+        UpdateMoney();
+    }
+
+    private void OnUpgradeButtonClick(ECarPart Part, int Index)
+    {
+        UpdateMoney();
+    }
+
+    private void UpdateMoney()
     {
         mMoney.text = "£" + ResourceComp.GetCurrentResources();
     }
@@ -40,6 +44,4 @@ public class UpgradeUI : BaseWidget
         Time.timeScale = 1f;
         OnPlayClick?.Invoke();
     }
-
-
 }
