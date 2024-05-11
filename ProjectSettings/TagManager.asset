@@ -7,7 +7,6 @@ TagManager:
   - Checkpoint
   - pyramid
   - plane
-  - Enemy
   layers:
   - Default
   - TransparentFX

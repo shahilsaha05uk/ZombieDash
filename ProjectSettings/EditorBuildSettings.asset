@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/AdvancedSceneManager/ASM - Fallback scene.unity
     guid: 8e855e5b4282732468a517da6bb95020
   - enabled: 1
-    path: Assets/Scenes/PROTOTYPE/Menu.unity
-    guid: d80c362382c7f3543aa3340436c6a851
-  - enabled: 1
     path: Assets/Scenes/PROTOTYPE/PersistentScene.unity
     guid: 7f72a1ccf218d694db379be117efe9e3
+  - enabled: 1
+    path: Assets/Scenes/PROTOTYPE/Menu.unity
+    guid: d80c362382c7f3543aa3340436c6a851
   - enabled: 1
     path: Assets/Scenes/PROTOTYPE/Gmae_Persistent.unity
     guid: bedfec02cbc585b46bc4665d14dd0e02

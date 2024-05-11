@@ -23,4 +23,10 @@ public class ResettableTransform : MonoBehaviour
         transform.SetPositionAndRotation(pos, rot);
         transform.localScale = scale;
     }
+
+    public void ResetObject()
+    {
+        transform.SetPositionAndRotation(pos, rot);
+        transform.localScale = scale;
+    }
 }
