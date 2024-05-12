@@ -52,7 +52,7 @@ public class Car : BaseCar
             WaitTimerCoroutine = StartCoroutine(WaitTimer());
             bStartedWaitingTimer = true;
         }
-        mPlayerHUD.UpdateProgress(mCarManager.progress);
+        mPlayerHUD.UpdateProgress(mCarManager.progress); 
     }
 
     private IEnumerator WaitTimer()
@@ -75,5 +75,4 @@ public class Car : BaseCar
         base.OnReset();
         mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
     }
-
 }
