@@ -8,8 +8,10 @@ namespace WSMGameStudio.Behaviours
 {
     public class Breakable2d : MonoBehaviour
     {
+        public int mParticleCount;
+
         public BreakingForce breakingForce;
-        public GameObject[] brokenPieces;
+        public Piece[] brokenPieces;
 
         public bool breakOnCollision = false;
         public CollisionSettings collisionSettings;
@@ -35,9 +37,12 @@ namespace WSMGameStudio.Behaviours
 
             _renderer.enabled = false;
 
-            foreach (var piece in brokenPieces)
+            int totalPieces = brokenPieces.Length;
+            for (int i = 0; i < mParticleCount; i++)
             {
-                GameObject pieceClone = Instantiate(piece, transform.position, transform.rotation);
+                int randIndex = Random.Range(0, totalPieces);
+
+                Piece pieceClone = Instantiate(brokenPieces[randIndex], transform.position, transform.rotation);
 
                 if (RemoveBrokenPiecesFromScene)
                 {
@@ -50,10 +55,9 @@ namespace WSMGameStudio.Behaviours
                 Rigidbody2D rb = pieceClone.GetComponent<Rigidbody2D>();
                 if (rb != null)
                 {
-                    rb.AddForce(transform.position, ForceMode2D.Impulse);
+                    rb.AddForce(pieceClone.transform.up * breakingForce.power, ForceMode2D.Impulse);
                 }
             }
-
             if (OnBreak != null)
                 OnBreak.Invoke();
         }

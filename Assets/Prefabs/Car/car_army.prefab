@@ -284,6 +284,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510c28999eddeaa418c695bf6e232ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frontJoint: {fileID: 1909625218749775485}
+  rearJoint: {fileID: 2064304931169375897}
+  SuspensionDampRatio: 1
+  SuspensionFrequency: 100
+  SuspensionAngle: 45
+  minRotAngle: -45
+  maxRotAngle: 45
   ID: 0
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
@@ -372,7 +379,7 @@ GameObject:
   - component: {fileID: 21268602}
   - component: {fileID: 5867708015697351660}
   - component: {fileID: 7064047369889720347}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wheel_front
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -507,7 +514,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.0000038146973, y: -0.0000009536743}
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.5
 --- !u!1 &182638
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +527,7 @@ GameObject:
   - component: {fileID: 21297164}
   - component: {fileID: 6789284611104282344}
   - component: {fileID: 7851828781805507138}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wheel_back
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -655,7 +662,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.0000009536743}
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.5
 --- !u!1 &1556888782339466647
 GameObject:
   m_ObjectHideFlags: 0

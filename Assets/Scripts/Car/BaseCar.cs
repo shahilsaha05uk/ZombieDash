@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -25,6 +26,14 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
 
     #region Properties
+
+    [Header("Car Properties")]
+    [SerializeField] private WheelJoint2D frontJoint;
+    [SerializeField] private WheelJoint2D rearJoint;
+    [SerializeField][Range(0,1)] private float SuspensionDampRatio;
+    [SerializeField] private float SuspensionFrequency;
+    [SerializeField] private float SuspensionAngle;
+
     private Coroutine EngineCor;
 
     // Dictionary that stores all the Components connected to the car
@@ -34,6 +43,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     public FOnCarComponentUpdate OnComponentUpdated;
 
     // Privates
+    [Space(20)]
     public int ID;
     protected bool bEngineRunning;
     protected PlayerInputMappingContext mPlayerInput;
@@ -90,9 +100,9 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     protected virtual void Awake()
     {
         mCarManager = GetComponent<CarManager>();
-        
+        transform.rotation = Quaternion.identity;
+
         var trans = transform;
-        
         pos = trans.position;
         rot = trans.rotation;
         scale = trans.localScale;
@@ -106,49 +116,17 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
         }
     }
 
-    public void StartDrive()
+    public void CarInit()
     {
-        
-        mPlayerInput.Enable();
-        OnStartDrive();
-        bEngineRunning = true;
-        EngineCor = StartCoroutine(StartEngine());
-    }
-    public void StopDrive()
-    {
-        bStartedDriving = false;
-        bEngineRunning = false;
-        mPlayerInput.Disable();
-        OnStopDrive();
+        JointSuspension2D susp = new JointSuspension2D();
+        susp.dampingRatio = SuspensionDampRatio;
+        susp.frequency = SuspensionFrequency;
+        susp.angle = SuspensionAngle;
+
+        frontJoint.suspension = susp;
+        rearJoint.suspension = susp;
     }
 
-    protected virtual IEnumerator StartEngine()
-    {
-        WaitForSeconds timeInterval = new WaitForSeconds(0.002f);
-        while (bEngineRunning)
-        {
-            // Ground Check
-            Vector2 position = transform.position;
-            Vector2 direction = Vector2.down;
-            Debug.DrawRay(position, direction * mGroundClearance, Color.cyan, Time.fixedDeltaTime);
-            RaycastHit2D hit = Physics2D.Raycast(position, direction, mGroundClearance, mGroundLayer);
-            bIsOnGround = (hit.collider != null);
-
-            Rotate();
-            mCurrentVelocity = new Vector2(carRb.velocity.x, 0f);
-            mCurrentVelocityMag = mCurrentVelocity.magnitude;
-
-            bIsVelocityPositive = (mCurrentVelocity.x >= 0.1f);
-
-            if (mMoveInput != 0) Accelarate();
-            else Decelarate();
-
-            OnDriving();
-
-            yield return timeInterval;
-        }
-    }
-    // On Spawn
     private void SetupInputComponent()
     {
         mPlayerInput = new PlayerInputMappingContext();
@@ -164,7 +142,56 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
         
         mPlayerInput.Disable();
     }
-    
+
+    #endregion
+
+    #region Drive
+
+    public void StartDrive()
+    {
+
+        mPlayerInput.Enable();
+        OnStartDrive();
+        bEngineRunning = true;
+        EngineCor = StartCoroutine(RunEngine());
+    }
+
+    protected virtual IEnumerator RunEngine()
+    {
+        WaitForSeconds timeInterval = new WaitForSeconds(0.002f);
+        while (bEngineRunning)
+        {
+            // Ground Check
+            Vector2 position = transform.position;
+            Vector2 direction = Vector2.down;
+            Debug.DrawRay(position, direction * mGroundClearance, Color.cyan, Time.fixedDeltaTime);
+            RaycastHit2D hit = Physics2D.Raycast(position, direction, mGroundClearance, mGroundLayer);
+            bIsOnGround = (hit.collider != null);
+
+            Rotate();
+
+            mCurrentVelocity = new Vector2(carRb.velocity.x, 0f);
+            mCurrentVelocityMag = mCurrentVelocity.magnitude;
+
+            bIsVelocityPositive = (mCurrentVelocity.x >= 0.1f);
+
+            if (mMoveInput != 0) Accelarate();
+            else Decelarate();
+
+            OnDriving();
+
+            yield return timeInterval;
+        }
+    }
+
+    public void StopDrive()
+    {
+        bStartedDriving = false;
+        bEngineRunning = false;
+        mPlayerInput.Disable();
+        OnStopDrive();
+    }
+
     #endregion
 
     #region Controls
