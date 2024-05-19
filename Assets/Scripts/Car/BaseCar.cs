@@ -25,6 +25,14 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     private Quaternion rot;
     #endregion
 
+    #region Delegates and Events
+    public delegate void FOnCarComponentUpdate(ECarPart carPart, float value);
+    public FOnCarComponentUpdate OnComponentUpdated;
+
+    public delegate void FOnNitroToggleSignature(bool Value);
+    public event FOnNitroToggleSignature OnNitroToggled;
+    #endregion
+
 
     #region Properties
     [Header("Car Properties")]
@@ -39,9 +47,6 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     // Dictionary that stores all the Components connected to the car
     protected IDictionary<ECarPart, CarComponent> ComponentsDic = new Dictionary<ECarPart, CarComponent>();
     
-    public delegate void FOnCarComponentUpdate(ECarPart carPart, float value);
-    public FOnCarComponentUpdate OnComponentUpdated;
-
     // Privates
     [Space(20)]
     public int ID;
@@ -62,7 +67,8 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     [SerializeField] protected Rigidbody2D frontTireRb;
     [SerializeField] protected Rigidbody2D backTireRb;
     [SerializeField] protected Rigidbody2D carRb;
-    
+
+
     [Space(5)]
     [SerializeField] private float mAccelarationRate = 20f;
     [SerializeField] private float mDecelerationRate = 300f;
@@ -103,7 +109,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
         pos = trans.position;
         rot = trans.rotation;
         scale = trans.localScale;
-        
+
         SetupInputComponent();
 
         if (mVirtualCamera == null)
@@ -206,15 +212,12 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
         if (activateNitro && !ComponentsDic[ECarPart.Nitro].mHasExhausted)
         {
-            // This is to stop the fuel consumption when the nitro starts
-            ComponentsDic[ECarPart.Fuel].StopComponent();
             ComponentsDic[ECarPart.Nitro].StartComponent();
         }
         else
         {
             // This is to start the fuel consumption when the nitro stops
             ComponentsDic[ECarPart.Nitro].StopComponent();
-            ComponentsDic[ECarPart.Fuel].StartComponent();
         }
     }
 
@@ -243,9 +246,11 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
             carRb.AddForce(-carRb.velocity * mDecelerationRate); // Decelerate immediately
         } 
     }
-    
+
+    public float targetRot = 45;
     private void Rotate()
     {
+        if (mRotationInput == 0f) return;
         var rot = -mRotationInput * mRotateSpeed * Time.deltaTime;
         carRb.AddTorque(rot);
     }

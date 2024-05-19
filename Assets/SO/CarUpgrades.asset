@@ -18,29 +18,23 @@ MonoBehaviour:
       Value:
       - id: 0
         cost: 300
-        DecreaseRate: 0.001
-        TimeInterval: 0.055
+        DecreaseRate: 0.01
       - id: 1
         cost: 600
         DecreaseRate: 0.001
-        TimeInterval: 0.1
     - Key: 3
       Value:
       - id: 0
         cost: 100
         DecreaseRate: 0.01
-        TimeInterval: 0.01
       - id: 2
         cost: 150
         DecreaseRate: 0.015
-        TimeInterval: 0.015
     - Key: 2
       Value:
       - id: 0
         cost: 100
         DecreaseRate: 0.01
-        TimeInterval: 0.01
       - id: 2
         cost: 150
         DecreaseRate: 0.015
-        TimeInterval: 0.015
