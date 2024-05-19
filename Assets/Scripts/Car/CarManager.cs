@@ -12,9 +12,9 @@ public struct PlayerData
     public int ZombiesKilled, TotalZombiesKilled;
 }
 
-
 public class CarManager : MonoBehaviour
 {
+    private Rigidbody2D rb;
     private Coroutine CarManagementCor;
     private Car mCar;
 
@@ -31,6 +31,11 @@ public class CarManager : MonoBehaviour
     public float totalDistance{private set; get;}
     public float progress{private set; get;}
 
+    // Rigidbody vals
+    public Vector2 Velocity { private set; get;}
+    public float VelocityMag { private set; get;}
+
+
     // Scores
     public int TotalZombieKills { private set; get; }
     public int ZombieKills { private set; get; }
@@ -40,7 +45,7 @@ public class CarManager : MonoBehaviour
     {
         GameDataPath = "Assets/jsons/gameData.json";
         mCar = GetComponent<Car>();
-
+        rb = GetComponent<Rigidbody2D>();
         startPos = transform.position;
         endPos = GameObject.FindWithTag("Finish").transform.position;
 
@@ -95,6 +100,11 @@ public class CarManager : MonoBehaviour
             distance = Mathf.Abs(endPos.x - transform.position.x);
             // Calculates the progress (distance from the target)
             progress = 1 - (distance / totalDistance);
+
+            // Gets the velocity mag
+            Velocity = rb.velocity;
+            VelocityMag = Velocity.magnitude;
+
             yield return null;
         }
     }

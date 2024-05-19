@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 282886651498949268}
   - component: {fileID: 458892625860153846}
   - component: {fileID: 3500354622236882301}
+  - component: {fileID: 5025017969522437013}
   m_Layer: 0
   m_Name: car_army
   m_TagString: Player
@@ -39,7 +40,6 @@ Transform:
   m_Children:
   - {fileID: 425286}
   - {fileID: 490158}
-  - {fileID: 5352643222626902009}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -289,8 +289,6 @@ MonoBehaviour:
   SuspensionDampRatio: 1
   SuspensionFrequency: 100
   SuspensionAngle: 45
-  minRotAngle: -45
-  maxRotAngle: 45
   ID: 0
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
@@ -298,13 +296,8 @@ MonoBehaviour:
   mAccelarationRate: 2
   mDecelerationRate: 0.1
   mRotateSpeed: 4000
-  mMaxSpeed: 100
+  mMaxSpeed: 80
   mExtraForce: 2
-  mGroundClearance: 5
-  bIsOnGround: 0
-  mGroundLayer:
-    serializedVersion: 2
-    m_Bits: 64
   mVirtualCameraPrefab: {fileID: 5520608137330912916, guid: 2125f5cef16109c4b8038afe530f622e, type: 3}
 --- !u!114 &282886651498949268
 MonoBehaviour:
@@ -318,19 +311,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c1bfaf2e910c474f8829a4403635a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCarRef: {fileID: -3201138244935720356}
-  carRb: {fileID: 333206790732981338}
-  mCurrent: 1
-  mLast: 0
   mDecreaseRate: 0.001
   mTolerance: 0.01
   mTimeInterval: 0.001
-  mPart: 2
   isExhaustiveComponent: 1
-  mHasExhausted: 0
   mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
-  mNitro: {fileID: 1556888782339466647}
-  mNitroImpulse: 25
+  frontTireRb: {fileID: 5867708015697351660}
+  backTireRb: {fileID: 6789284611104282344}
+  mNitroImpulseWhenDriving: 50000
+  mNitroImpulseWhenIdle: 50000
+  mNitroImpulseWhenOnAir: 5
 --- !u!114 &458892625860153846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,16 +333,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 929ce9d58be68a246bc70bb2ed8f9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCarRef: {fileID: -3201138244935720356}
-  carRb: {fileID: 333206790732981338}
-  mCurrent: 1
-  mLast: 0
   mDecreaseRate: 0.001
   mTolerance: 0.01
   mTimeInterval: 0.01
-  mPart: 1
   isExhaustiveComponent: 1
-  mHasExhausted: 0
   mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
   minSpeed: 2
 --- !u!114 &3500354622236882301
@@ -367,6 +351,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679eb0629554384488db4ccf50550ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5025017969522437013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149d0c5d4d396474b8edc99a0603a08d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mGroundClearance: 5
+  mGroundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &126426
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,87 +663,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.0000009536743}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!1 &1556888782339466647
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5352643222626902009}
-  - component: {fileID: 7588081406560931819}
-  m_Layer: 0
-  m_Name: Nitro
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5352643222626902009
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1556888782339466647}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -1.683, y: -0.056, z: 0}
-  m_LocalScale: {x: 0.07, y: 0.53, z: 0.31}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 459658}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!212 &7588081406560931819
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1556888782339466647}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0

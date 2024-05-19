@@ -26,6 +26,5 @@ namespace StructClass
         public int id;
         public int cost;
         public float DecreaseRate;
-        public float TimeInterval;
     }
 }

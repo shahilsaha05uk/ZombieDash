@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using EnumHelper;
 using Interfaces;
 using UnityEngine;
@@ -6,18 +7,21 @@ using UnityEngine;
 public abstract class CarComponent : MonoBehaviour, IResetInterface
 {
     /*NOTE: Every Value needs to be NORMALIZED!!!*/
-    private float mInitial = 1f;
-    [SerializeField] private Car mCarRef;
+    
+    public Car mCarRef { private set; get; }
+    public Rigidbody2D carRb { private set; get; }
 
-    [SerializeField] protected Rigidbody2D carRb;
-    [SerializeField] protected float mCurrent = 1f;
-    [SerializeField] protected float mLast = 0f;
+    private float mInitial = 1f;
+    protected float mCurrent = 1f;
+    protected float mLast = 0f;
+    
     [SerializeField] protected float mDecreaseRate = 0.01f;
     [SerializeField] protected float mTolerance = 0.01f;
     [SerializeField] protected float mTimeInterval = 0.001f;
-    [SerializeField] protected ECarPart mPart;
+    protected ECarPart mPart;
     [SerializeField] protected bool isExhaustiveComponent;
-    public bool mHasExhausted;
+    
+    public bool mHasExhausted { private set; get; }
 
     protected Coroutine mComponentCoroutine;
 
@@ -31,13 +35,18 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
         }
 
         carRb = GetComponent<Rigidbody2D>();
+        mCarRef = GetComponent<Car>();
+        
         if (mCarRef)
         {
             mCarRef.RegisterComponent(mPart, this);
             mCarRef.UpdateCarMetrics(mPart, mCurrent);
             GameManager.OnResetLevel += OnReset;
         }
+        mHasExhausted = false;
     }
+
+
     public virtual void OnReset()
     {
         mHasExhausted = false;
@@ -98,7 +107,6 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
         if(up != null)
         {
             mDecreaseRate = up.DecreaseRate;
-            mTimeInterval = up.TimeInterval;
         }
     }
 }
