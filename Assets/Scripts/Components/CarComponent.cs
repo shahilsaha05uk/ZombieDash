@@ -14,6 +14,7 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
     private float mInitial = 1f;
     protected float mCurrent = 1f;
     protected float mLast = 0f;
+    public int Value { private set; get; }
     
     [SerializeField] protected float mDecreaseRate = 0.01f;
     [SerializeField] protected float mTolerance = 0.01f;
@@ -25,7 +26,7 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
 
     protected Coroutine mComponentCoroutine;
 
-    [SerializeField] private DA_UpgradeAsset mUpgradeAsset;
+    [SerializeField] protected DA_UpgradeAsset mUpgradeAsset;
 
     protected virtual void Start()
     {
@@ -101,12 +102,21 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
             mHasExhausted = true;
         }
     }
-    private void OnUpgradeRequest(ECarPart Part, int Index)
+    protected virtual void OnUpgradeRequest(ECarPart Part, int Index)
     {
-        var up = mUpgradeAsset.GetUpgradeDetails(Part, Index);
-        if(up != null)
+        if (!isExhaustiveComponent)
         {
-            mDecreaseRate = up.DecreaseRate;
+            var up = mUpgradeAsset.GetNonExhaustiveUpgradeDetails(Part, Index);
+            if (up != null)
+                Value = up.Value;
+        }
+        else
+        {
+            var up = mUpgradeAsset.GetUpgradeDetails(Part, Index);
+            if (up != null)
+            {
+                mDecreaseRate = up.DecreaseRate;
+            }
         }
     }
 }

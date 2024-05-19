@@ -21,10 +21,21 @@ namespace StructClass
     }
     
     [System.Serializable]
-    public class Upgrade
+    public abstract class BaseUpgrade
     {
-        public int id;
+        public int ID;
         public int cost;
+
+    }
+    [System.Serializable]
+    public class Upgrade : BaseUpgrade
+    {
         public float DecreaseRate;
+    }
+
+    [System.Serializable]
+    public class NonExhaustiveUpgrade : BaseUpgrade
+    {
+        public int Value;
     }
 }

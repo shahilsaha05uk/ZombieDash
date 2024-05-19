@@ -16,25 +16,30 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value:
-      - id: 0
+      - ID: 0
         cost: 300
-        DecreaseRate: 0.01
-      - id: 1
+        DecreaseRate: 0.0005
+      - ID: 0
         cost: 600
-        DecreaseRate: 0.001
-    - Key: 3
-      Value:
-      - id: 0
-        cost: 100
-        DecreaseRate: 0.01
-      - id: 2
-        cost: 150
-        DecreaseRate: 0.015
+        DecreaseRate: 0.00025
+      - ID: 0
+        cost: 1
+        DecreaseRate: 0.000125
     - Key: 2
       Value:
-      - id: 0
+      - ID: 0
         cost: 100
         DecreaseRate: 0.01
-      - id: 2
+      - ID: 0
         cost: 150
         DecreaseRate: 0.015
+  mNonExhaustiveUpgradeList:
+    _serializedList:
+    - Key: 3
+      Value:
+      - ID: 0
+        cost: 500
+        Value: 85
+      - ID: 0
+        cost: 1000
+        Value: 90

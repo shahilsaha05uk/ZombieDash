@@ -5,12 +5,14 @@ using EnumHelper;
 using Interfaces;
 using StructClass;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Car : BaseCar
 {
     private bool bStartedWaitingTimer = false;
     private Coroutine WaitTimerCoroutine;
     protected PlayerHUD mPlayerHUD;
+    
 
     protected override void Awake()
     {
@@ -28,18 +30,22 @@ public class Car : BaseCar
         }
         mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
 
+        mCarManager.OnGoalReached += OnGoalReached;
         GameManager.OnResetLevel += OnReset;
     }
 
     protected override void OnStartDrive()
     {
         base.OnStartDrive();
+        mController.ToggleInputContext(true);
         mPlayerHUD.ActivatePanel(EPanelType.Hud);
         mCarManager.StartManagement();
     }
 
     protected override void OnStopDrive()
     {
+        mController.ToggleInputContext(false);
+
         mCarManager.StopManagement();
         mCarManager.AwardResources();
         mPlayerHUD.ActivatePanel(EPanelType.Review);
@@ -47,7 +53,7 @@ public class Car : BaseCar
 
     protected override void OnDriving()
     {
-        if (mCurrentVelocity.x <1f && !bStartedWaitingTimer && bStartedDriving)
+        if (mCarManager.Velocity.x <1f && !bStartedWaitingTimer && bStartedDriving)
         {
             WaitTimerCoroutine = StartCoroutine(WaitTimer());
             bStartedWaitingTimer = true;
@@ -58,7 +64,7 @@ public class Car : BaseCar
     private IEnumerator WaitTimer()
     {
         yield return new WaitForSeconds(3f);
-        if (mCurrentVelocity.x < 1f)
+        if (mCarManager.Velocity.x < 1f)
         {
             bStartedWaitingTimer = false;
             StopDrive();
@@ -73,6 +79,14 @@ public class Car : BaseCar
     public override void OnReset()
     {
         base.OnReset();
+        mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
+        mController.ToggleInputContext(false);
+
+    }
+
+    private void OnGoalReached()
+    {
+        mController.ToggleInputContext(false);
         mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
     }
 }
