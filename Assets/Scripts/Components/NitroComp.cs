@@ -13,8 +13,8 @@ public class NitroComp : CarComponent
     private CarManager mCarManager;
     private CheckGroundClearance mGroundClearanceComp;
 
-    [SerializeField] private float mNitroImpulseOnWheels = 5000f;
-    [SerializeField] private float mNitroImpulseOnCarRb = 5f;
+    [SerializeField] private float mNitroImpulseInAir;
+    [SerializeField] private float mNitroImpulseOnCarRb;
     protected override void Start()
     {
         mPart = ECarPart.Nitro;
@@ -39,20 +39,10 @@ public class NitroComp : CarComponent
         WaitForSeconds timeInterval = new WaitForSeconds(mTimeInterval);
         while (mCurrent > 0f)
         {
+            float impulseVal = mGroundClearanceComp.bIsOnGround ? mNitroImpulseOnCarRb : mNitroImpulseInAir;
             UpdateValue(EValueUpdateType.Decrease);     // called in order to update the HUD
 
-            // add force on the car only when the car is in the air; else add the force on the wheels
-            if (!mGroundClearanceComp.bIsOnGround || mCarManager.VelocityMag < 10f)
-            {
-                carRb.AddForce(transform.right * (mNitroImpulseOnCarRb), ForceMode2D.Force);
-            }
-            else
-            {
-                float torqueVal = -mNitroImpulseOnWheels * Time.deltaTime;
-
-                frontTireRb.AddTorque(torqueVal, ForceMode2D.Impulse);
-                backTireRb.AddTorque(torqueVal, ForceMode2D.Impulse);
-            }
+            carRb.AddForce(transform.right * (impulseVal), ForceMode2D.Force);
 
             yield return timeInterval;
         }

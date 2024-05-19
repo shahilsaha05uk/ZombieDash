@@ -14,11 +14,20 @@ public class DA_UpgradeAsset : ScriptableObject
     [SerializedDictionary("Type", "UpgradeList")]
     [SerializeField] private SerializedDictionary<ECarPart, List<Upgrade>> UpgradeList;
 
+    [SerializedDictionary("Type", "NonExhaustive UpgradeList")]
+    [SerializeField] private SerializedDictionary<ECarPart, List<NonExhaustiveUpgrade>> mNonExhaustiveUpgradeList;
+
     public bool GetUpgradeCount(ECarPart Part, out int Count)
     {
         if (UpgradeList.ContainsKey(Part))
         {
             Count = UpgradeList[Part].Count -1;
+            return true;
+        }
+        
+        if(mNonExhaustiveUpgradeList.ContainsKey(Part))
+        {
+            Count = mNonExhaustiveUpgradeList[Part].Count -1;
             return true;
         }
 
@@ -31,6 +40,15 @@ public class DA_UpgradeAsset : ScriptableObject
         if (UpgradeList.ContainsKey(part))
         {
             return (Index < UpgradeList[part].Count) ? UpgradeList[part][Index] : null;
+        }
+        return null;
+    }
+
+    public NonExhaustiveUpgrade GetNonExhaustiveUpgradeDetails(ECarPart part, int Index)
+    {
+        if (mNonExhaustiveUpgradeList.ContainsKey(part))
+        {
+            return (Index < mNonExhaustiveUpgradeList[part].Count) ? mNonExhaustiveUpgradeList[part][Index] : null;
         }
         return null;
     }

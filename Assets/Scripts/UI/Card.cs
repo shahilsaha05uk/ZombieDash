@@ -15,6 +15,9 @@ public class Card : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cost;
 
     private int mCurrentIndex = 0;
+    public bool bNonExhaustivePart;
+
+    private BaseUpgrade upgrade;
 
     private void Awake()
     {
@@ -32,13 +35,14 @@ public class Card : MonoBehaviour
     }
     private void OnEnable()
     {
+        upgrade = GetUpgrade();
         UpdateCardDetails();
     }
 
     private void OnCardButtonClick()
     {
-        int cost = UpgradeAsset.GetUpgradeDetails(cardPart, mCurrentIndex).cost;
-        ResourceComp.SubtractResources(cost);
+        if (UpgradeAsset == null) return;
+        ResourceComp.SubtractResources(GetCost(upgrade));
 
         UpgradeAsset.Trigger_UpgradeRequest(cardPart, mCurrentIndex);
 
@@ -49,19 +53,33 @@ public class Card : MonoBehaviour
     }
     private void UpdateCardDetails()
     {
-        if(UpgradeAsset == null) return;
-        Upgrade up = UpgradeAsset.GetUpgradeDetails(cardPart, mCurrentIndex);
+        if (upgrade != null)
+        {
+            int upCost = GetCost(upgrade);
+            cost.text = upCost.ToString();
+            btn.interactable = (upCost < ResourceComp.GetCurrentResources());
+        }
+        else MaxUpgradeReached();
+    }
 
-        if (up != null)
-        {
-            cost.text = up.cost.ToString();
-            btn.interactable = (up.cost < ResourceComp.GetCurrentResources());
-        }
+    private BaseUpgrade GetUpgrade()
+    {
+        BaseUpgrade up;
+        if (!bNonExhaustivePart)
+            up = UpgradeAsset.GetUpgradeDetails(cardPart, mCurrentIndex);
         else
-        {
-            cost.text = "(MAX)";
-            btn.interactable = false;
-            btn.onClick.RemoveAllListeners();
-        }
+            up = UpgradeAsset.GetNonExhaustiveUpgradeDetails(cardPart, mCurrentIndex);
+
+        return up;
+    }
+    private int GetCost(BaseUpgrade up)
+    {
+        return (up == null)? 0 : up.cost;
+    }
+    private void MaxUpgradeReached()
+    {
+        cost.text = "(MAX)";
+        btn.interactable = false;
+        btn.onClick.RemoveAllListeners();
     }
 }

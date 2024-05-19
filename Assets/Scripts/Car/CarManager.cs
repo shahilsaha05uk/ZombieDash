@@ -5,6 +5,7 @@ using System.IO;
 using AdvancedSceneManager.Core;
 using Facebook.MiniJSON;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public struct PlayerData
 {
@@ -14,27 +15,46 @@ public struct PlayerData
 
 public class CarManager : MonoBehaviour
 {
+    #region Properties
+
+    #region Privates
+    private string mGoalTag = "Finish";
+    private Transform mGoal;
+
     private Rigidbody2D rb;
     private Coroutine CarManagementCor;
     private Car mCar;
-
+    
     private Vector2 startPos;
-    private Vector2 endPos;
 
     private bool bDayComplete;
 
+    #endregion
+
+    #region Delegates
+
+    public delegate void OnGoalReachedSignature();
+    public event OnGoalReachedSignature OnGoalReached;
+
+    #endregion
+
+    #region Physics
     // Physics Properties
     public float nowDistance { private set; get; }
-    public float lastDistance{ private set; get; }
-    public float distanceDifference{private set; get;}
-    public float distance{private set; get;}
-    public float totalDistance{private set; get;}
-    public float progress{private set; get;}
+    public float lastDistance { private set; get; }
+    public float distanceDifference { private set; get; }
+    public float distance { private set; get; }
+    public float totalDistance { private set; get; }
+    public float progress { private set; get; }
 
     // Rigidbody vals
-    public Vector2 Velocity { private set; get;}
-    public float VelocityMag { private set; get;}
+    public Vector2 Velocity { private set; get; }
+    public float VelocityMag { private set; get; }
 
+    #endregion
+
+
+    #endregion
 
     // Scores
     public int TotalZombieKills { private set; get; }
@@ -43,13 +63,14 @@ public class CarManager : MonoBehaviour
     private string GameDataPath;
     private void Start()
     {
+        mGoal = GameObject.FindGameObjectWithTag(mGoalTag).transform;
+
         GameDataPath = "Assets/jsons/gameData.json";
         mCar = GetComponent<Car>();
         rb = GetComponent<Rigidbody2D>();
         startPos = transform.position;
-        endPos = GameObject.FindWithTag("Finish").transform.position;
 
-        totalDistance = Mathf.Abs(endPos.x - startPos.x);
+        totalDistance = Mathf.Abs(mGoal.position.x - startPos.x);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -96,15 +117,23 @@ public class CarManager : MonoBehaviour
     {
         while (!bDayComplete)
         {
-            // Calculates the distance
-            distance = Mathf.Abs(endPos.x - transform.position.x);
-            // Calculates the progress (distance from the target)
-            progress = 1 - (distance / totalDistance);
-
             // Gets the velocity mag
             Velocity = rb.velocity;
             VelocityMag = Velocity.magnitude;
 
+            // Calculates the distance
+            distance = Mathf.Abs(mGoal.position.x - transform.position.x);
+            // Calculates the progress (distance from the target)
+            progress = 1 - (distance / totalDistance);
+
+
+            // when the player is near the goal
+            if(distance < 15f)
+            {
+                // near to the goal
+                Debug.Log("Reached near goal");
+                OnGoalReached?.Invoke();
+            }
             yield return null;
         }
     }
@@ -121,4 +150,5 @@ public class CarManager : MonoBehaviour
             ResourceComp.AddResources(50);
         }
     }
+
 }

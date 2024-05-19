@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1998553341056140172}
   - component: {fileID: 6861548901438307642}
   - component: {fileID: 4262681847665760620}
+  - component: {fileID: 2694741273202430687}
   m_Layer: 8
   m_Name: Bar1
   m_TagString: Untagged
@@ -26,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2523602956482179640}
-  m_LocalRotation: {x: -0, y: -0, z: 0.8601875, w: 0.50997806}
+  m_LocalRotation: {x: 0, y: 0, z: 0.8601862, w: 0.50998014}
   m_LocalPosition: {x: 39.25, y: 43.42, z: 0}
   m_LocalScale: {x: 0.30166307, y: 13.186428, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 118.675}
 --- !u!212 &1998553341056140172
 SpriteRenderer:
@@ -143,7 +144,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 3.9778597
+  m_Mass: 3.9778585
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -158,3 +159,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &2694741273202430687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2523602956482179640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7760f2780d039a74f8ea612e80fc8bd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bResetRigidbody: 1
+  bResetTransforms: 1
+  bResetCollider: 1
+  bResetSpriteRenderer: 0
