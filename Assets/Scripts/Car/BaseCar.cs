@@ -16,6 +16,7 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(CarManager))]
+[RequireComponent(typeof(CheckGroundClearance))]
 public abstract class BaseCar : MonoBehaviour, IResetInterface
 {
     #region Reset Properties
@@ -26,7 +27,6 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
 
     #region Properties
-
     [Header("Car Properties")]
     [SerializeField] private WheelJoint2D frontJoint;
     [SerializeField] private WheelJoint2D rearJoint;
@@ -57,6 +57,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     
     [Space(20)][Header("References")]
     protected CarManager mCarManager;
+    protected CheckGroundClearance mGroundClearanceComp;
 
     [SerializeField] protected Rigidbody2D frontTireRb;
     [SerializeField] protected Rigidbody2D backTireRb;
@@ -71,13 +72,8 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     [SerializeField] private float mMaxSpeed;
     [SerializeField] private float mExtraForce = 0.5f;
 
-    [SerializeField] private float mGroundClearance;
-    [SerializeField] private bool bIsOnGround;
-    private bool bLastGroundCheck;
     protected bool bStartedDriving = false;
     protected bool bIsVelocityPositive = false;
-
-    [SerializeField] private LayerMask mGroundLayer;
 
     [SerializeField] private CinemachineVirtualCamera mVirtualCameraPrefab;
     private CinemachineVirtualCamera mVirtualCamera;
@@ -100,6 +96,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     protected virtual void Awake()
     {
         mCarManager = GetComponent<CarManager>();
+        mGroundClearanceComp = GetComponent<CheckGroundClearance>();
         transform.rotation = Quaternion.identity;
 
         var trans = transform;
@@ -162,12 +159,6 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
         while (bEngineRunning)
         {
             // Ground Check
-            Vector2 position = transform.position;
-            Vector2 direction = Vector2.down;
-            Debug.DrawRay(position, direction * mGroundClearance, Color.cyan, Time.fixedDeltaTime);
-            RaycastHit2D hit = Physics2D.Raycast(position, direction, mGroundClearance, mGroundLayer);
-            bIsOnGround = (hit.collider != null);
-
             Rotate();
 
             mCurrentVelocity = new Vector2(carRb.velocity.x, 0f);
@@ -211,7 +202,9 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     {
         if (!ComponentsDic.ContainsKey(ECarPart.Nitro)) return;
 
-        if (InputValue.ReadValueAsButton() && !ComponentsDic[ECarPart.Nitro].mHasExhausted)
+        bool activateNitro = InputValue.ReadValueAsButton();
+
+        if (activateNitro && !ComponentsDic[ECarPart.Nitro].mHasExhausted)
         {
             // This is to stop the fuel consumption when the nitro starts
             ComponentsDic[ECarPart.Fuel].StopComponent();
@@ -224,24 +217,24 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
             ComponentsDic[ECarPart.Fuel].StartComponent();
         }
     }
-    
+
     #endregion
 
     #region Actions
-    // Action Methods
     private void Accelarate()
     {
         if (ComponentsDic[ECarPart.Fuel].mHasExhausted) return;
 
-        float torqueVal = Mathf.Clamp(mMaxSpeed - mCurrentVelocityMag, 0f, mMaxSpeed) * mAccelarationRate;
-
-        if (bIsOnGround)
+        if (mGroundClearanceComp.bIsOnGround)
         {
-            frontTireRb.AddTorque(-mMoveInput * torqueVal);
-            backTireRb.AddTorque(-mMoveInput * torqueVal);
+            frontTireRb.AddTorque(-mMoveInput * mMaxSpeed);
+            backTireRb.AddTorque(-mMoveInput * mMaxSpeed);
+        }
+        else
+        {
+            carRb.AddForce(transform.right * (mExtraForce * mMoveInput), ForceMode2D.Force);
         }
 
-        carRb.AddForce(Vector2.right * (mExtraForce * mMoveInput), ForceMode2D.Force);
     }
 
     private void Decelarate()
@@ -280,6 +273,5 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
         transform.localScale = scale;
         
         mPlayerInput.Disable();
-
     }
 }

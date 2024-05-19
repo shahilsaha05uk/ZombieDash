@@ -7,5 +7,7 @@
         
         // Zombie Animations
         public static string Trigger_IsDead = "bIsDead";
+        public static string Bool_ShouldPatrol = "bShouldPatrol";
+        public static string Float_SpeedMultiplier = "mSpeedMultiplier";
     }
 }
