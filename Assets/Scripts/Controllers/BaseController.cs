@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class BaseController : MonoBehaviour, ICollectionOpenAsync
 {
+    public AudioSource mAudioSource;
     IEnumerator ICollectionOpenAsync.OnCollectionOpen(SceneCollection collection)
     {
         while (!collection.activeScene.isOpen) { yield return null; }
@@ -16,6 +17,10 @@ public class BaseController : MonoBehaviour, ICollectionOpenAsync
 
     protected virtual void InitController()
     {
-
+        mAudioSource = GetComponent<AudioSource>();
+        if(mAudioSource != null)
+        {
+            mAudioSource.Play();
+        }
     }
 }

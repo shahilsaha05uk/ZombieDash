@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CarController : MonoBehaviour
+public class CarController : BaseController
 {
     private PlayerInputMappingContext mPlayerInput;
     private Car mCar;
@@ -12,8 +12,11 @@ public class CarController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera mVirtualCameraPrefab;
     private CinemachineVirtualCamera mVirtualCamera;
 
-    public AudioSource mBackgroundMusicSource;
-    
+    protected override void InitController()
+    {
+        base.InitController();
+    }
+
     private void Start()
     {
         mCar = GetComponent<Car>();
@@ -24,13 +27,8 @@ public class CarController : MonoBehaviour
             mVirtualCamera = Instantiate(mVirtualCameraPrefab);
             mVirtualCamera.Follow = transform;
         }
-
-        mBackgroundMusicSource = GetComponent<AudioSource>();
-        if (mBackgroundMusicSource)
-        {
-            mBackgroundMusicSource.Play();
-        }
     }
+
     private void SetupInputComponent()
     {
         mPlayerInput = new PlayerInputMappingContext();
