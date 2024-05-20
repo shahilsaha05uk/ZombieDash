@@ -210,7 +210,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 3
   m_LinearDrag: 0.3
   m_AngularDrag: 1
   m_GravityScale: 1
@@ -294,7 +294,7 @@ MonoBehaviour:
   mAccelarationRate: 2
   mDecelerationRate: 0.1
   mRotateSpeed: 3000
-  rotSpeedWhenInAirAndNitro: 6000
+  rotSpeedWhenInAirAndNitro: 12000
   mMaxSpeed: 80
   mExtraForce: 2
 --- !u!114 &282886651498949268
@@ -316,8 +316,8 @@ MonoBehaviour:
   mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
-  mNitroImpulseInAir: 5
-  mNitroImpulseOnCarRb: 20
+  mNitroImpulseInAir: 20
+  mNitroImpulseOnCarRb: 100
 --- !u!114 &458892625860153846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323a7f812f4d6034ea44cc1d4e31eada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mAudioSource: {fileID: 8721280904823723118}
   mVirtualCameraPrefab: {fileID: 5520608137330912916, guid: 2125f5cef16109c4b8038afe530f622e, type: 3}
 --- !u!82 &8721280904823723118
 AudioSource:

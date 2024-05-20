@@ -28,10 +28,6 @@ public class NitroComp : CarComponent
         base.StartComponent();
         mComponentCoroutine= StartCoroutine(Boost());
     }
-    public override void StopComponent()
-    {
-        base.StopComponent();
-    }
     private IEnumerator Boost()
     {
         if (mCurrent <= 0f) yield break;
@@ -39,10 +35,9 @@ public class NitroComp : CarComponent
         WaitForSeconds timeInterval = new WaitForSeconds(mTimeInterval);
         while (mCurrent > 0f)
         {
-            float impulseVal = mGroundClearanceComp.bIsOnGround ? mNitroImpulseOnCarRb : mNitroImpulseInAir;
+            float impulseVal = mGroundClearanceComp.bIsOnGround || mCarManager.VelocityMag < 3f ? mNitroImpulseOnCarRb : mNitroImpulseInAir;
             UpdateValue(EValueUpdateType.Decrease);     // called in order to update the HUD
-
-            carRb.AddForce(transform.right * (impulseVal), ForceMode2D.Force);
+            carRb.AddForce(transform.right * (impulseVal * Time.deltaTime), ForceMode2D.Force);
 
             yield return timeInterval;
         }
