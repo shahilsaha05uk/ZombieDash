@@ -3,31 +3,30 @@ using System.Runtime.CompilerServices;
 using EnumHelper;
 using Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class CarComponent : MonoBehaviour, IResetInterface
 {
-    /*NOTE: Every Value needs to be NORMALIZED!!!*/
-    
+    // publics
     public Car mCarRef { private set; get; }
-    public Rigidbody2D carRb { private set; get; }
+    public Rigidbody2D mCarRb { private set; get; }
+    public bool bHasExhausted { private set; get; }
+    public int mValue { private set; get; }
 
+    // privates
     private float mInitial = 1f;
+    
+    // protected
+    [SerializeField] protected DA_UpgradeAsset mUpgradeAsset;
+    protected Coroutine mComponentCoroutine;
     protected float mCurrent = 1f;
     protected float mLast = 0f;
-    public int Value { private set; get; }
-    
+    protected ECarPart mPart;
     [SerializeField] protected float mDecreaseRate = 0.01f;
     [SerializeField] protected float mTolerance = 0.01f;
     [SerializeField] protected float mTimeInterval = 0.001f;
-    protected ECarPart mPart;
-    [SerializeField] protected bool isExhaustiveComponent;
+    [SerializeField] protected bool bIsExhaustiveComponent;
     
-    public bool mHasExhausted { private set; get; }
-
-    protected Coroutine mComponentCoroutine;
-
-    [SerializeField] protected DA_UpgradeAsset mUpgradeAsset;
-
     protected virtual void Start()
     {
         if (mUpgradeAsset)
@@ -35,7 +34,7 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
             mUpgradeAsset.OnUpgradeRequested += OnUpgradeRequest;
         }
 
-        carRb = GetComponent<Rigidbody2D>();
+        mCarRb = GetComponent<Rigidbody2D>();
         mCarRef = GetComponent<Car>();
         
         if (mCarRef)
@@ -44,13 +43,13 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
             mCarRef.UpdateCarMetrics(mPart, mCurrent);
             GameManager.OnResetLevel += OnReset;
         }
-        mHasExhausted = false;
+        bHasExhausted = false;
     }
 
 
     public virtual void OnReset()
     {
-        mHasExhausted = false;
+        bHasExhausted = false;
         mCurrent = mInitial;
         mLast = 0f;
         mCarRef.UpdateCarMetrics(mPart, mCurrent);
@@ -99,16 +98,16 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
     {
         if(mCurrent <= 0f)
         {
-            mHasExhausted = true;
+            bHasExhausted = true;
         }
     }
     protected virtual void OnUpgradeRequest(ECarPart Part, int Index)
     {
-        if (!isExhaustiveComponent)
+        if (!bIsExhaustiveComponent)
         {
             var up = mUpgradeAsset.GetNonExhaustiveUpgradeDetails(Part, Index);
             if (up != null)
-                Value = up.Value;
+                mValue = up.Value;
         }
         else
         {

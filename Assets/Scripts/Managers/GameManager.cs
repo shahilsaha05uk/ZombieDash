@@ -3,8 +3,8 @@ using UnityEngine;
 public class GameManager : ParentManager
 {
     [SerializeField] private int StartingBalance;
+    
     public delegate void FOnResetLevelSignature();
-
     public static event FOnResetLevelSignature OnResetLevel;
     public static GameManager Instance { get; private set; }
 
