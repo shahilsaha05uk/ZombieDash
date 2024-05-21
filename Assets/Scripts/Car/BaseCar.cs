@@ -127,7 +127,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     #region Actions
     private void Accelarate()
     {
-        if (ComponentsDic[ECarPart.Fuel].mHasExhausted) return;
+        if (ComponentsDic[ECarPart.Fuel].bHasExhausted) return;
 
         if (mGroundClearanceComp.bIsOnGround)
         {
@@ -160,7 +160,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
         mActivateNitro = Value;
 
-        if (mActivateNitro && !ComponentsDic[ECarPart.Nitro].mHasExhausted)
+        if (mActivateNitro && !ComponentsDic[ECarPart.Nitro].bHasExhausted)
         {
             ComponentsDic[ECarPart.Nitro].StartComponent();
         }

@@ -47,7 +47,7 @@ public class FuelComp : CarComponent
         WaitForSeconds timeInterval = new WaitForSeconds(mTimeInterval);
         while (mCurrent > 0.0f)
         {
-            Vector2 vel = carRb.velocity;
+            Vector2 vel = mCarRb.velocity;
             float speedX = vel.x; // Calculate the absolute value of the x component of velocity
 
             if (speedX > minSpeed)
