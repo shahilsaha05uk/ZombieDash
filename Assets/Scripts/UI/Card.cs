@@ -1,5 +1,6 @@
 using EnumHelper;
 using StructClass;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,7 @@ public class Card : MonoBehaviour
 
     private void Awake()
     {
+        ResourceComp.OnResourceUpdated += OnResourceUpdated;
         if (mUpgradeAsset)
         {
             bool success = mUpgradeAsset.GetUpgradeCount(cardPart, out mTotalUpgrades);
@@ -33,6 +35,16 @@ public class Card : MonoBehaviour
             Debug.Log($"Upgrade asset is not available for the {cardPart} Button");
         }
     }
+    private void OnDestroy()
+    {
+        ResourceComp.OnResourceUpdated -= OnResourceUpdated;
+    }
+
+    private void OnResourceUpdated(int CurrentBalance)
+    {
+        UpdateCardDetails();
+    }
+
     private void OnEnable()
     {
         UpdateCardDetails();
@@ -52,8 +64,6 @@ public class Card : MonoBehaviour
 
         mTotalUpgrades--;
         mCurrentIndex++;
-
-        UpdateCardDetails();
     }
     private void UpdateCardDetails()
     {

@@ -28,14 +28,14 @@ public class UIManager : ParentManager
 
     public BaseWidget SpawnWidget(EUI WidgetToInitialise, bool bAddToViewport = true)
     {
-        if (!mWidgetInstanceRef.TryGetValue(WidgetToInitialise, out var value))
+        mWidgetInstanceRef.TryGetValue(WidgetToInitialise, out var value);
+        if (value == null)
         {
             BaseWidget widget = Instantiate(mWidgetList.WidgetClass[WidgetToInitialise], Vector3.zero, Quaternion.identity);
             InitWidget(ref widget, WidgetToInitialise, bAddToViewport);
             return widget;
         }
-
-        return null;
+        else return value;
     }
 
     public BaseWidget SpawnWidget(EUI WidgetToInitialise, Canvas ParentCanvas, bool bAddToViewport = true)

@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 
 public struct PlayerData
 {
-    public float LastDistance, NowDistance, DistanceDifference, TotalDistance, Progress;
+    public int LastDistance, NowDistance, DistanceDifference, TotalDistance, Progress;
     public int ZombiesKilled, TotalZombiesKilled;
 }
 
@@ -99,13 +99,13 @@ public class CarManager : MonoBehaviour
 
         PlayerData pData = new PlayerData
         {
-            Progress = progress,
-            DistanceDifference = distanceDifference,
+            Progress = Mathf.CeilToInt(progress),
+            DistanceDifference = Mathf.CeilToInt(distanceDifference),
             ZombiesKilled = ZombieKills,
-            TotalDistance = totalDistance,
+            TotalDistance = Mathf.CeilToInt(totalDistance),
             TotalZombiesKilled = TotalZombieKills,
-            NowDistance = nowDistance,
-            LastDistance = lastDistance
+            NowDistance = Mathf.CeilToInt(nowDistance),
+            LastDistance = Mathf.CeilToInt(lastDistance)
         };
         string savePlayerData = JsonUtility.ToJson(pData);
         File.WriteAllText(GameDataPath, savePlayerData);

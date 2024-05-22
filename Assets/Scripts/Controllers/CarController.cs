@@ -12,13 +12,10 @@ public class CarController : BaseController
     [SerializeField] private CinemachineVirtualCamera mVirtualCameraPrefab;
     private CinemachineVirtualCamera mVirtualCamera;
 
-    protected override void InitController()
-    {
-        base.InitController();
-    }
-
     private void Start()
     {
+        InitController();
+
         mCar = GetComponent<Car>();
         SetupInputComponent();
 
