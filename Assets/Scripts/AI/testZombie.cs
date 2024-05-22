@@ -1,13 +1,10 @@
 using AYellowpaper.SerializedCollections;
 using Helpers;
 using Interfaces;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.TerrainTools;
 using UnityEngine;
 
-public enum EEnemyState { IDLE, PATROL, DEAD }
-public enum EEnemyType { IdleEnemy, PatrollingEnemy}
+public enum EEnemyState { IDLE, PATROL, DEAD };
+public enum EEnemyType { IdleEnemy, PatrollingEnemy};
 
 public class testZombie : MonoBehaviour, IResetInterface
 {
