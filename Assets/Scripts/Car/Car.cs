@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdvancedSceneManager.Callbacks;
+using AdvancedSceneManager.Models;
 using EnumHelper;
 using Helpers;
 using Interfaces;
@@ -8,7 +10,7 @@ using StructClass;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Car : BaseCar
+public class Car : BaseCar, ICollectionCloseAsync
 {
     private bool bStartedWaitingTimer = false;
     private Coroutine WaitTimerCoroutine;
@@ -91,5 +93,11 @@ public class Car : BaseCar
     {
         mController.ToggleInputContext(false);
         mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
+    }
+
+    public IEnumerator OnCollectionClose(SceneCollection collection)
+    {
+        mPlayerHUD.DestroyWidget();
+        yield return null;
     }
 }

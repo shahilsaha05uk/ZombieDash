@@ -309,11 +309,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c1bfaf2e910c474f8829a4403635a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
   mDecreaseRate: 0.001
   mTolerance: 0.01
   mTimeInterval: 0.001
-  isExhaustiveComponent: 1
-  mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
+  bIsExhaustiveComponent: 0
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
   mNitroImpulseInAir: 20
@@ -330,11 +330,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 929ce9d58be68a246bc70bb2ed8f9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
   mDecreaseRate: 0.001
   mTolerance: 0.01
   mTimeInterval: 0.01
-  isExhaustiveComponent: 1
-  mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
+  bIsExhaustiveComponent: 0
   minSpeed: 2
   mDecreaseRateOnNitroActivated: 0.00001
 --- !u!114 &2282690440469239657
@@ -349,11 +349,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974695dedefb4a942ae1d2b764c7a22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
   mDecreaseRate: 0.01
   mTolerance: 0.01
   mTimeInterval: 0.001
-  isExhaustiveComponent: 0
-  mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
+  bIsExhaustiveComponent: 0
   MaxSpeed: 80
 --- !u!114 &3500354622236882301
 MonoBehaviour:
@@ -406,7 +406,7 @@ AudioSource:
   m_GameObject: {fileID: 107512}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: a24719cedd94a6c43a3802a9ed29c1b9, type: 2}
   m_audioClip: {fileID: 8300000, guid: fede5a3e7783b364e89d222e0c723c00, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1

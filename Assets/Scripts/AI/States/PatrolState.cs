@@ -31,11 +31,6 @@ public class PatrolState : BaseState
     public override void EnterState()
     {
         base.EnterState();
-        if (mRoute == null)
-        {
-            Debug.Assert(mRoute != null);
-            return;
-        }
         mPoints = mRoute.Route;
         bShouldPatrol = true;
         StateCoroutine = StartCoroutine(Patrol());
