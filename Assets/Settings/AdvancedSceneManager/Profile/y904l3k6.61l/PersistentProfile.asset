@@ -100,20 +100,7 @@ MonoBehaviour:
   m_dynamicCollections: []
   m_standaloneDynamicCollection:
     m_id: nQP8yCS6h02VhHJqvrj1rA
-    m_scenes:
-    - {fileID: 11400000, guid: 351650a032cb7aa4bb0d72f3420648b3, type: 2}
-    - {fileID: 11400000, guid: 98941cbf590fa584aba3a093ef4f5574, type: 2}
-    - {fileID: 11400000, guid: cfbc29b46dbb22b46b13f192b185f3b8, type: 2}
-    - {fileID: 11400000, guid: 9ee00315c2962f346901fb2ec9d62223, type: 2}
-    - {fileID: 11400000, guid: 3f4d5e6e1f8ede84c92872d6910bb634, type: 2}
-    - {fileID: 11400000, guid: 11c98dd9f1c002045b3fc0cc4050da6a, type: 2}
-    - {fileID: 11400000, guid: 247131f9e44b37c41b2763bfd6ee11a3, type: 2}
-    - {fileID: 11400000, guid: a4359f7b0bdc6f541a254c65be980a80, type: 2}
-    - {fileID: 11400000, guid: 22178335d997f0348906a14e845da53b, type: 2}
-    - {fileID: 11400000, guid: 722eee97b3c95314f9d9d750d5b49209, type: 2}
-    - {fileID: 11400000, guid: 95878cac1a1ef3a468521a511cb5deb0, type: 2}
-    - {fileID: 11400000, guid: 4be536342cdc56b43ab0cb1b7a8cb443, type: 2}
-    - {fileID: 11400000, guid: 838c64602f22e2e45aac756271cd31c4, type: 2}
+    m_scenes: []
     m_sceneBindings:
       m_throw: 1
       m_keys: []

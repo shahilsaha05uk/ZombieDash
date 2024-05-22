@@ -1,12 +1,9 @@
 using UnityEngine;
-using Facebook.Unity;
-using System;
-using System.Threading;
 using System.Collections.Generic;
+using Facebook.Unity;
 
 public class Socials : MonoBehaviour
 {
-
     private void Awake()
     {
         TryFacebookLogin();
@@ -14,12 +11,7 @@ public class Socials : MonoBehaviour
 
     private void TryFacebookLogin()
     {
-        if (!FB.IsInitialized)
-            FB.Init(OnFBInitialised, OnHideIdentity);   // if not initialised
-        else
-        {
-            FB.ActivateApp();   // if initialised, activate the app
-        }
+        Login();
     }
 
     private void AuthCallback(ILoginResult result)
@@ -39,7 +31,7 @@ public class Socials : MonoBehaviour
     {
         TryFacebookLogin();
 
-        if (FB.IsLoggedIn)
+        if (!FB.IsLoggedIn)
         {
             var perms = new List<string>() { "public_profile", "email" };
             FB.LogInWithReadPermissions(perms, AuthCallback);
@@ -51,7 +43,10 @@ public class Socials : MonoBehaviour
         if (!FB.IsInitialized)
             FB.Init(OnFBInitialised, OnHideIdentity);   // if not initialised
         else
+        {
             FB.ActivateApp();   // if initialised, activate the app
+        }
+
     }
 
 
