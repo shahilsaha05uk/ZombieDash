@@ -29,12 +29,20 @@ public class ReviewPanel : MonoBehaviour
 
     public void OnDayCompleteButtonClick()
     {
+        RevertBackToOriginalPosition();
         GameManager.Instance.DayComplete();
     }
 
     public void OnMenuButtonClick()
     {
+        RevertBackToOriginalPosition();
         LevelManager.Instance.OpenAdditiveScene(ELevel.MENU, true);
+
+    }
+
+    private void RevertBackToOriginalPosition()
+    {
+        GetComponent<Animator>().ResetTrigger(AnimationParametersDictionary.Trigger_Bottom_To_Center_Panel);
     }
 
     public void UpdateValues()

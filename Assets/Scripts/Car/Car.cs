@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using EnumHelper;
+using Helpers;
 using Interfaces;
 using StructClass;
 using UnityEngine;
@@ -48,7 +49,9 @@ public class Car : BaseCar
 
         mCarManager.StopManagement();
         mCarManager.AwardResources();
-        mPlayerHUD.ActivatePanel(EPanelType.Review);
+
+        string param = AnimationParametersDictionary.Trigger_Bottom_To_Center_Panel;
+        mPlayerHUD.ActivatePanelWithAnimation(EPanelType.Review, param, true);
     }
 
     protected override void OnDriving()

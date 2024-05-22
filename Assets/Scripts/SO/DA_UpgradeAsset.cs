@@ -21,7 +21,7 @@ public class DA_UpgradeAsset : ScriptableObject
     {
         if (UpgradeList.ContainsKey(Part))
         {
-            Count = UpgradeList[Part].Count -1;
+            Count = UpgradeList[Part].Count;
             return true;
         }
         

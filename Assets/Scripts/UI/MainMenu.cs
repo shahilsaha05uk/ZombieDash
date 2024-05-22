@@ -12,8 +12,6 @@ public class MainMenu : BaseWidget
     public SceneCollection GamePersistentCollection;
     
     [SerializeField] private Button mPlayButton;
-    [SerializeField] private Button mSettingsButton;
-    [SerializeField] private Button mMuteButton;
 
     protected override void OnEnable()
     {
