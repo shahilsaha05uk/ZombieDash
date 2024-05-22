@@ -35,7 +35,7 @@ public class Socials : MonoBehaviour
         }
     }
 
-    public void OnPlayGamesButtonClick()
+    public void OnFacebookButtonClick()
     {
         TryFacebookLogin();
 
