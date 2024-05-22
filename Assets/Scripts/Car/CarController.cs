@@ -53,6 +53,7 @@ public class CarController : BaseController
 
     private void Move(InputAction.CallbackContext InputValue)
     {
+        Debug.Log("Button input fetched!!");
         mCar.Move(InputValue.ReadValue<float>());
     }
 

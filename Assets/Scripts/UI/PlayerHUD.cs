@@ -5,7 +5,7 @@ using speedometer;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
-
+using UnityEngine.UI;
 
 public enum EPanelType { None, Hud, Upgrade, Review}
 public class PlayerHUD : BaseWidget, IDayCompleteInterface
@@ -21,6 +21,12 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
     [SerializeField] private Speedometer mNitro;
     [SerializeField] private Speedometer mFuel;
     [SerializeField] private DistanceMeter mDistanceMeter;
+
+    [SerializeField] private Button mPedalButton;
+    [SerializeField] private Button mRollClockButton;
+    [SerializeField] private Button mRollAntiClock;
+    [SerializeField] private Button mNitroButton;
+    [SerializeField] private Button mPauseButton;
 
     private void Awake()
     {
