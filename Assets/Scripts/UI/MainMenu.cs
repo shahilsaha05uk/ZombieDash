@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AdvancedSceneManager.Models;
 using EnumHelper;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainMenu : BaseWidget
@@ -12,6 +13,7 @@ public class MainMenu : BaseWidget
     
     [SerializeField] private Button mPlayButton;
     [SerializeField] private Button mSettingsButton;
+    [SerializeField] private Button mMuteButton;
 
     protected override void OnEnable()
     {
@@ -19,12 +21,12 @@ public class MainMenu : BaseWidget
 
         mUiType = EUI.MAIN_MENU;
         mPlayButton.onClick.AddListener(OnPlayButtonClick);
-        mSettingsButton.onClick.AddListener(OnSettingsButtonClick);
 
         Canvas canvas = GetComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceCamera;
         canvas.worldCamera = Camera.main;
     }
+
 
     private void OnPlayButtonClick()
     {

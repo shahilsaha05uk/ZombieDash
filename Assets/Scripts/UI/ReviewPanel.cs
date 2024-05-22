@@ -14,9 +14,17 @@ public class ReviewPanel : MonoBehaviour
     public Field mDifference;
     public Field mMoneyCollected;
 
+    [SerializeField] private Button mDayCompleteButton;
+    [SerializeField] private Button mMainMenuButton;
+
     private void OnEnable()
     {
         UpdateValues();
+    }
+    private void Start()
+    {
+        mDayCompleteButton.onClick.AddListener(OnDayCompleteButtonClick);
+        mMainMenuButton.onClick.AddListener(OnMenuButtonClick);
     }
 
     public void OnDayCompleteButtonClick()
