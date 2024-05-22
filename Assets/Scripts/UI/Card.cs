@@ -8,11 +8,12 @@ public class Card : MonoBehaviour
 {
     [SerializeField] private ECarPart cardPart;
     
-    [SerializeField] private DA_UpgradeAsset UpgradeAsset;
-    [SerializeField] private int TotalUpgrades;
+    [SerializeField] private DA_UpgradeAsset mUpgradeAsset;
+    [SerializeField] private int mTotalUpgrades;
 
     [SerializeField] private Button btn;
-    [SerializeField] private TextMeshProUGUI cost;
+    [SerializeField] private TextMeshProUGUI txtCost;
+    [SerializeField] private TextMeshProUGUI txtName;
 
     private int mCurrentIndex = 0;
     public bool bNonExhaustivePart;
@@ -21,11 +22,12 @@ public class Card : MonoBehaviour
 
     private void Awake()
     {
-        if (UpgradeAsset)
+        if (mUpgradeAsset)
         {
-            bool success = UpgradeAsset.GetUpgradeCount(cardPart, out TotalUpgrades);
+            bool success = mUpgradeAsset.GetUpgradeCount(cardPart, out mTotalUpgrades);
             if(!success) return;
             btn.onClick.AddListener(OnCardButtonClick);
+            txtName.text = cardPart.ToString();
             mCurrentIndex = 0;
         }
         else
@@ -41,12 +43,12 @@ public class Card : MonoBehaviour
 
     private void OnCardButtonClick()
     {
-        if (UpgradeAsset == null) return;
+        if (mUpgradeAsset == null) return;
         ResourceComp.SubtractResources(GetCost(upgrade));
 
-        UpgradeAsset.Trigger_UpgradeRequest(cardPart, mCurrentIndex);
+        mUpgradeAsset.Trigger_UpgradeRequest(cardPart, mCurrentIndex);
 
-        TotalUpgrades--;
+        mTotalUpgrades--;
         mCurrentIndex++;
 
         UpdateCardDetails();
@@ -56,7 +58,7 @@ public class Card : MonoBehaviour
         if (upgrade != null)
         {
             int upCost = GetCost(upgrade);
-            cost.text = upCost.ToString();
+            txtCost.text = upCost.ToString();
             btn.interactable = (upCost < ResourceComp.GetCurrentResources());
         }
         else MaxUpgradeReached();
@@ -66,9 +68,9 @@ public class Card : MonoBehaviour
     {
         BaseUpgrade up;
         if (!bNonExhaustivePart)
-            up = UpgradeAsset.GetUpgradeDetails(cardPart, mCurrentIndex);
+            up = mUpgradeAsset.GetUpgradeDetails(cardPart, mCurrentIndex);
         else
-            up = UpgradeAsset.GetNonExhaustiveUpgradeDetails(cardPart, mCurrentIndex);
+            up = mUpgradeAsset.GetNonExhaustiveUpgradeDetails(cardPart, mCurrentIndex);
 
         return up;
     }
@@ -78,7 +80,7 @@ public class Card : MonoBehaviour
     }
     private void MaxUpgradeReached()
     {
-        cost.text = "(MAX)";
+        txtCost.text = "(MAX)";
         btn.interactable = false;
         btn.onClick.RemoveAllListeners();
     }
