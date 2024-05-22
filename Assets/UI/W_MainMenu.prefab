@@ -815,8 +815,6 @@ MonoBehaviour:
   mUiType: 0
   GamePersistentCollection: {fileID: 4456338747315883038, guid: f3c854a6767aaf04e96e87b655074d60, type: 2}
   mPlayButton: {fileID: 1804540117931974936}
-  mSettingsButton: {fileID: 0}
-  mMuteButton: {fileID: 0}
 --- !u!225 &6314650621932654047
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1089,6 +1087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f99ae95dd0af3c43b1e031df70fe1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMixer: {fileID: 24100000, guid: a24719cedd94a6c43a3802a9ed29c1b9, type: 2}
 --- !u!1 &6031608459123793764
 GameObject:
   m_ObjectHideFlags: 0

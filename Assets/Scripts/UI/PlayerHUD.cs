@@ -94,6 +94,18 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
         }
     }
 
+    public void ActivatePanelWithAnimation(EPanelType Panel, string AnimationName, bool deactivateLastPanel = true)
+    {
+        ActivatePanel(Panel, deactivateLastPanel);
+        
+        if(CanvasMap.ContainsKey(Panel))
+        {
+            CanvasMap[Panel].TryGetComponent<Animator>(out Animator anim);
+            anim.SetTrigger(AnimationName);
+
+        }
+    }
+
     public void DeactivatePanel(EPanelType Panel)
     {
         if (CanvasMap.ContainsKey(Panel))

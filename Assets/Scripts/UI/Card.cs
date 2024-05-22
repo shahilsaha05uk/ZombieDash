@@ -18,8 +18,6 @@ public class Card : MonoBehaviour
     private int mCurrentIndex = 0;
     public bool bNonExhaustivePart;
 
-    private BaseUpgrade upgrade;
-
     private void Awake()
     {
         if (mUpgradeAsset)
@@ -37,14 +35,18 @@ public class Card : MonoBehaviour
     }
     private void OnEnable()
     {
-        upgrade = GetUpgrade();
         UpdateCardDetails();
     }
 
     private void OnCardButtonClick()
     {
-        if (mUpgradeAsset == null) return;
-        ResourceComp.SubtractResources(GetCost(upgrade));
+        if (mUpgradeAsset == null || mTotalUpgrades < 0) return;
+
+        var up = GetUpgrade();
+
+        if (up == null) return;
+        
+        ResourceComp.SubtractResources(up.cost);
 
         mUpgradeAsset.Trigger_UpgradeRequest(cardPart, mCurrentIndex);
 
@@ -55,13 +57,18 @@ public class Card : MonoBehaviour
     }
     private void UpdateCardDetails()
     {
-        if (upgrade != null)
+        var CurrentUpgrade = GetUpgrade();
+        if (CurrentUpgrade != null)
         {
-            int upCost = GetCost(upgrade);
+            int upCost = CurrentUpgrade.cost;
             txtCost.text = upCost.ToString();
-            btn.interactable = (upCost < ResourceComp.GetCurrentResources());
+            ToggleCard((upCost <= ResourceComp.GetCurrentResources()), false);   // activate the button if the upgrade cost is less than the current balance
         }
-        else MaxUpgradeReached();
+        else
+        {
+            txtCost.text = "(MAX)";
+            ToggleCard(false, true);
+        }
     }
 
     private BaseUpgrade GetUpgrade()
@@ -74,14 +81,11 @@ public class Card : MonoBehaviour
 
         return up;
     }
-    private int GetCost(BaseUpgrade up)
+    private void ToggleCard(bool Activate, bool removeListeners)
     {
-        return (up == null)? 0 : up.cost;
-    }
-    private void MaxUpgradeReached()
-    {
-        txtCost.text = "(MAX)";
-        btn.interactable = false;
-        btn.onClick.RemoveAllListeners();
+        btn.interactable = Activate;
+
+        if(removeListeners)
+            btn.onClick.RemoveAllListeners();
     }
 }

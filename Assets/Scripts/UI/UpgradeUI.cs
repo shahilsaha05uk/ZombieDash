@@ -13,6 +13,7 @@ public class UpgradeUI : BaseWidget
     public FOnPlayButtonCLickSignature OnPlayClick;
 
     [SerializeField] private Button btnPlay;
+    [SerializeField] private Button btnMainMenu;
     [SerializeField] private TextMeshProUGUI mMoney;
     
     private void Awake()
@@ -20,8 +21,15 @@ public class UpgradeUI : BaseWidget
         if (mUpgradeAsset)
             mUpgradeAsset.OnUpgradeRequested += OnUpgradeButtonClick;
         btnPlay.onClick.AddListener(OnPlay);
-        
+
+        btnMainMenu.onClick.AddListener(OnMainMenuButtonClick);
+
         mUiType = EUI.UPGRADE;
+    }
+
+    private void OnMainMenuButtonClick()
+    {
+        LevelManager.Instance.OpenAdditiveScene(ELevel.MENU, true);
     }
 
     protected override void OnEnable()
