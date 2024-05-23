@@ -26,6 +26,11 @@ public class UIManager : ParentManager
         mWidgetInstanceRef = new Dictionary<EUI, BaseWidget>();
     }
 
+    public BaseWidget GetWidget(EUI WidgetType)
+    {
+        return mWidgetInstanceRef.TryGetValue(WidgetType, out var value) ? value : null;
+    }
+
     public BaseWidget SpawnWidget(EUI WidgetToInitialise, bool bAddToViewport = true)
     {
         mWidgetInstanceRef.TryGetValue(WidgetToInitialise, out var value);

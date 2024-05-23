@@ -102,6 +102,8 @@ public class CarManager : MonoBehaviour
             NowDistance = Mathf.CeilToInt(nowDistance),
             LastDistance = Mathf.CeilToInt(lastDistance)
         };
+        AchievementManager.Instance.UpdateAchievement(EAchievement.ZombieKiller, TotalZombieKills);
+        
         string savePlayerData = JsonUtility.ToJson(pData);
         File.WriteAllText(GameDataPath, savePlayerData);
 

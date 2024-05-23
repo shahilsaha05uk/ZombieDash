@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public enum EPanelType { None, Hud, Upgrade, Review}
+public enum EPanelType { None, Hud, Upgrade, Review, Pause}
 public class PlayerHUD : BaseWidget, IDayCompleteInterface
 {
     private UpgradeUI mUpgradeUI;
@@ -22,12 +22,14 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
     [SerializeField] private Speedometer mFuel;
     [SerializeField] private DistanceMeter mDistanceMeter;
 
-    [SerializeField] private Button mPedalButton;
-    [SerializeField] private Button mRollClockButton;
-    [SerializeField] private Button mRollAntiClock;
-    [SerializeField] private Button mNitroButton;
-    [SerializeField] private Button mPauseButton;
+    [Space(10)][Header("Player Control Buttons")]
+    public Button mPedalButton;
+    public Button mRollClockButton;
+    public Button mRollAntiClock;
+    public Button mNitroButton;
+    public Button mPauseButton;
 
+    
     private void Awake()
     {
         mUiType = EUI.PLAYERHUD;
@@ -102,7 +104,6 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
         {
             CanvasMap[Panel].TryGetComponent<Animator>(out Animator anim);
             anim.SetTrigger(AnimationName);
-
         }
     }
 

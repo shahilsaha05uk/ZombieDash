@@ -25,7 +25,7 @@ namespace Zombiedash
 {
 public static class GooglePlayServices
 {
-        public const string achievement_tryachievement = "CgkIyJ6xtOkVEAIQAA"; // <GPGSID>
+        public const string achievement_welcome_treat = "CgkIx4fY-4AVEAIQAA"; // <GPGSID>
 
 }
 }
