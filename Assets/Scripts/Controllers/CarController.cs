@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using EnumHelper;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -39,7 +40,15 @@ public class CarController : BaseController
         mPlayerInput.Trigger.Nitro.started += Nitro;
         mPlayerInput.Trigger.Nitro.canceled += Nitro;
 
-        mPlayerInput.Disable();
+        mPlayerInput.UI.Pause.started += Pause;
+        mPlayerInput.Enable();
+    }
+
+    private void Pause(InputAction.CallbackContext obj)
+    {
+        Debug.Log("Button input fetched!!");
+        mCar.PauseGame();
+        Time.timeScale = (Time.timeScale == 0)? 1 : 0;
     }
 
     public void ToggleInputContext(bool Value)
@@ -50,7 +59,6 @@ public class CarController : BaseController
 
     private void Move(InputAction.CallbackContext InputValue)
     {
-        Debug.Log("Button input fetched!!");
         mCar.Move(InputValue.ReadValue<float>());
     }
 
@@ -63,4 +71,5 @@ public class CarController : BaseController
     {
         mCar.Nitro(InputValue.ReadValueAsButton());
     }
+
 }

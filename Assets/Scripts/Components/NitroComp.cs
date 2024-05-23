@@ -37,7 +37,7 @@ public class NitroComp : CarComponent
         {
             float impulseVal = mGroundClearanceComp.bIsOnGround || mCarManager.VelocityMag < 3f ? mNitroImpulseOnCarRb : mNitroImpulseInAir;
             UpdateValue(EValueUpdateType.Decrease);     // called in order to update the HUD
-            mCarRb.AddForce(transform.right * (impulseVal), ForceMode2D.Force);
+            mCarRb.AddForce(Vector2.right * (impulseVal), ForceMode2D.Force);
 
             yield return timeInterval;
         }

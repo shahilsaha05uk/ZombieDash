@@ -100,4 +100,9 @@ public class Car : BaseCar, ICollectionCloseAsync
         mPlayerHUD.DestroyWidget();
         yield return null;
     }
+
+    public void PauseGame()
+    {
+        mPlayerHUD.ActivatePanelWithAnimation(EPanelType.Pause, AnimationParametersDictionary.Trigger_Bottom_To_Center_Panel, false);
+    }
 }

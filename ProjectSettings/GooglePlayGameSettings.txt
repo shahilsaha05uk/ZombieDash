@@ -1,11 +1,11 @@
 lastUpgrade=01101
 proj.pluginVersion=0.11.01
-proj.AppId=749850087240
+proj.AppId=721813898183
 proj.classDir=Assets
-proj.ConstantsClassName=Zombiedash.GooglePlayServices
-and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--Google+Play+game+services+IDs.+Save+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.--%3e%0d%0a%3cresources%3e%0d%0a++%3c%21--app_id--%3e%0d%0a++%3cstring+name%3d%22app_id%22+translatable%3d%22false%22%3e749850087240%3c%2fstring%3e%0d%0a++%3c%21--package_name--%3e%0d%0a++%3cstring+name%3d%22package_name%22+translatable%3d%22false%22%3ecom.zombiedash%3c%2fstring%3e%0d%0a++%3c%21--achievement+tryAchievement--%3e%0d%0a++%3cstring+name%3d%22achievement_tryachievement%22+translatable%3d%22false%22%3eCgkIyJ6xtOkVEAIQAA%3c%2fstring%3e%0d%0a%3c%2fresources%3e
-and.ClientId=749850087240-r771jdakf8ljeg7cjtaq2n3ih1ef4noa.apps.googleusercontent.com
+proj.ConstantsClassName=DeadDrive.GooglePlayServices
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--Google+Play+game+services+IDs.+Save+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.--%3e%0d%0a%3cresources%3e%0d%0a++%3c%21--app_id--%3e%0d%0a++%3cstring+name%3d%22app_id%22+translatable%3d%22false%22%3e721813898183%3c%2fstring%3e%0d%0a++%3c%21--package_name--%3e%0d%0a++%3cstring+name%3d%22package_name%22+translatable%3d%22false%22%3ecom.deaddrive%3c%2fstring%3e%0d%0a++%3c%21--achievement+Welcome+treat--%3e%0d%0a++%3cstring+name%3d%22achievement_welcome_treat%22+translatable%3d%22false%22%3eCgkIx4fY-4AVEAIQAA%3c%2fstring%3e%0d%0a%3c%2fresources%3e
+and.ClientId=721813898183-bqqs4fvanduslf3d1kei1oqh1j274215.apps.googleusercontent.com
 android.SetupDone=true
-and.BundleId=com.zombiedash
+and.BundleId=com.deaddrive
 App.NearbdServiceId=com.zombiedash
 android.NearbySetupDone=true

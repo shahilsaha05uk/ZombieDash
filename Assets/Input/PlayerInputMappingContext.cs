@@ -236,6 +236,24 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenAchievement"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""d8914fad-82c0-400d-b048-dc9ad9916abf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f89934f0-afa1-419e-bb6b-b1130375ac0c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -656,6 +674,28 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""051e6147-5bf8-4346-95d8-10979ed8f042"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenAchievement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""25f10626-3b77-43ff-bca7-826e7a61669d"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -687,6 +727,8 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        m_UI_OpenAchievement = m_UI.FindAction("OpenAchievement", throwIfNotFound: true);
+        m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -858,6 +900,8 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
+    private readonly InputAction m_UI_OpenAchievement;
+    private readonly InputAction m_UI_Pause;
     public struct UIActions
     {
         private @PlayerInputMappingContext m_Wrapper;
@@ -872,6 +916,8 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+        public InputAction @OpenAchievement => m_Wrapper.m_UI_OpenAchievement;
+        public InputAction @Pause => m_Wrapper.m_UI_Pause;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -911,6 +957,12 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
             @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+            @OpenAchievement.started += instance.OnOpenAchievement;
+            @OpenAchievement.performed += instance.OnOpenAchievement;
+            @OpenAchievement.canceled += instance.OnOpenAchievement;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -945,6 +997,12 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
             @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+            @OpenAchievement.started -= instance.OnOpenAchievement;
+            @OpenAchievement.performed -= instance.OnOpenAchievement;
+            @OpenAchievement.canceled -= instance.OnOpenAchievement;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -992,5 +1050,7 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+        void OnOpenAchievement(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

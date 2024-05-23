@@ -1,77 +1,55 @@
 using UnityEngine;
-using System.Collections.Generic;
-using Facebook.Unity;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms;
+using UnityEngine.UI;
 
 public class Socials : MonoBehaviour
 {
+    [SerializeField] private int mWelcomeTreatAmount = 200;
+    
+    public Button mAchievementButton;
+
+    private SignInStatus mInitialAuthenticationStatus;
     private void Awake()
     {
-        TryFacebookLogin();
-    }
-
-    private void TryFacebookLogin()
-    {
-        Login();
-    }
-
-    private void AuthCallback(ILoginResult result)
-    {
-        // AccessToken has the session details
-        var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-
-        Debug.Log(aToken.UserId);
-
-        foreach (string perm in aToken.Permissions)
+        // It tries to log in to the account initiially when the game starts
+        PlayGamesPlatform.Activate();
+        if (!PlayGamesPlatform.Instance.IsAuthenticated())
         {
-            Debug.Log(perm);
+            PlayGamesPlatform.Instance.Authenticate(status => { mInitialAuthenticationStatus = status; });
         }
     }
 
-    public void OnFacebookButtonClick()
+    public void Login()
     {
-        TryFacebookLogin();
-
-        if (!FB.IsLoggedIn)
+        // It tries to log in to log in when the player presses the login button
+        if (mInitialAuthenticationStatus != SignInStatus.Success)
         {
-            var perms = new List<string>() { "public_profile", "email" };
-            FB.LogInWithReadPermissions(perms, AuthCallback);
-        }
-
-    }
-    private void Login()
-    {
-        if (!FB.IsInitialized)
-            FB.Init(OnFBInitialised, OnHideIdentity);   // if not initialised
-        else
-        {
-            FB.ActivateApp();   // if initialised, activate the app
-        }
-
-    }
-
-
-    private void OnHideIdentity(bool isGameShown)
-    {
-        if (!isGameShown)
-        {
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Time.timeScale = 1;
-        }
-    }
-
-    private void OnFBInitialised()
-    {
-        if(FB.IsLoggedIn)
-        {
-            print("fb login success");
-            string s = "client token" + FB.ClientToken + " user id: " + AccessToken.CurrentAccessToken.UserId;
-        }
-        else
-        {
-            print("fb login failed");
+            PlayGamesPlatform.Instance.Authenticate(status =>
+            {
+                // Reward them with some bonus money if they are logging in for the first time.
+                if (status != SignInStatus.Success)
+                {
+                    PlayGamesPlatform.Instance.ManuallyAuthenticate(manualSuccess =>
+                    {
+                        if (manualSuccess == SignInStatus.Success)
+                        {
+                            if (AchievementManager.Instance.UpdateAchievement(EAchievement.WelcomeTreat))
+                            {
+                                ResourceComp.AddResources(mWelcomeTreatAmount);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    if (AchievementManager.Instance.UpdateAchievement(EAchievement.WelcomeTreat))
+                    {
+                        ResourceComp.AddResources(mWelcomeTreatAmount);
+                    }
+                }
+            });
         }
     }
 }
