@@ -24,32 +24,15 @@ public class Socials : MonoBehaviour
     public void Login()
     {
         // It tries to log in to log in when the player presses the login button
-        if (mInitialAuthenticationStatus != SignInStatus.Success)
+        PlayGamesPlatform.Instance.ManuallyAuthenticate(manualSuccess =>
         {
-            PlayGamesPlatform.Instance.Authenticate(status =>
+            if (manualSuccess == SignInStatus.Success)
             {
-                // Reward them with some bonus money if they are logging in for the first time.
-                if (status != SignInStatus.Success)
+                if (AchievementManager.Instance.UpdateAchievement(EAchievement.WelcomeTreat))
                 {
-                    PlayGamesPlatform.Instance.ManuallyAuthenticate(manualSuccess =>
-                    {
-                        if (manualSuccess == SignInStatus.Success)
-                        {
-                            if (AchievementManager.Instance.UpdateAchievement(EAchievement.WelcomeTreat))
-                            {
-                                ResourceComp.AddResources(mWelcomeTreatAmount);
-                            }
-                        }
-                    });
+                    ResourceComp.AddResources(mWelcomeTreatAmount);
                 }
-                else
-                {
-                    if (AchievementManager.Instance.UpdateAchievement(EAchievement.WelcomeTreat))
-                    {
-                        ResourceComp.AddResources(mWelcomeTreatAmount);
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 }

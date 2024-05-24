@@ -16,6 +16,7 @@ public class MainMenu : BaseWidget
     [SerializeField] private Button mPlayButton;
     [SerializeField] private Button mAchievementButton;
     [SerializeField] private Button mLoginButton;
+    [SerializeField] private Button mExitButtonClick;
 
     private void OnEnable()
     {
@@ -23,6 +24,7 @@ public class MainMenu : BaseWidget
         mPlayButton.onClick.AddListener(OnPlayButtonClick);
         mAchievementButton.onClick.AddListener(OnAchievementsButtonClick);
         mLoginButton.onClick.AddListener(OnLoginButtonClick);
+        mExitButtonClick.onClick.AddListener(Application.Quit);
 
         Canvas canvas = GetComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceCamera;

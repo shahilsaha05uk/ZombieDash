@@ -68,8 +68,6 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     private bool mActivateNitro;
 
     #endregion
-
-
     #region Initialisers
 
     protected virtual void Awake()
@@ -112,11 +110,12 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     {
         if (bEngineRunning)
         {
-            // Ground Check
+            // Rolls the player in the air
             Rotate();
 
             bIsVelocityPositive = (mCarManager.Velocity.x >= 0.1f);
 
+            // Accelaration
             if (mMoveInput != 0) Accelarate();
             else Decelarate();
 

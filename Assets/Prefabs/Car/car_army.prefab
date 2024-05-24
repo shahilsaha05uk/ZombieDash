@@ -310,14 +310,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
-  mDecreaseRate: 0.001
+  mDecreaseRate: 0.0025
   mTolerance: 0.01
   mTimeInterval: 0.001
-  bIsExhaustiveComponent: 0
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
-  mNitroImpulseInAir: 10000
-  mNitroImpulseOnCarRb: 10000
+  mNitroImpulseInAir: 7500
+  mNitroImpulseOnCarRb: 7500
 --- !u!114 &458892625860153846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,10 +330,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mUpgradeAsset: {fileID: 11400000, guid: e1351cee727b52d458b38c5936128608, type: 2}
-  mDecreaseRate: 0.001
+  mDecreaseRate: 0.0025
   mTolerance: 0.01
   mTimeInterval: 0.01
-  bIsExhaustiveComponent: 0
   minSpeed: 2
   mDecreaseRateOnNitroActivated: 0.00001
 --- !u!114 &2282690440469239657
@@ -353,8 +351,6 @@ MonoBehaviour:
   mDecreaseRate: 0.01
   mTolerance: 0.01
   mTimeInterval: 0.001
-  bIsExhaustiveComponent: 0
-  MaxSpeed: 80
 --- !u!114 &3500354622236882301
 MonoBehaviour:
   m_ObjectHideFlags: 0

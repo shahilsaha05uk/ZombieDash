@@ -45,15 +45,16 @@ public class UIManager : ParentManager
 
     public BaseWidget SpawnWidget(EUI WidgetToInitialise, Canvas ParentCanvas, bool bAddToViewport = true)
     {
-        if (!mWidgetInstanceRef.TryGetValue(WidgetToInitialise, out var value))
+        if (mWidgetInstanceRef.TryGetValue(WidgetToInitialise, out var value))
+        {
+            return value;
+        }
+        else
         {
             BaseWidget widget = Instantiate(mWidgetList.WidgetClass[WidgetToInitialise], ParentCanvas.transform);
             InitWidget(ref widget, WidgetToInitialise, bAddToViewport);
-
             return widget;
         }
-
-        return null;
     }
     private void InitWidget(ref BaseWidget widget, EUI WidgetToInitialise, bool bAddToViewport)
     {
