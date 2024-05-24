@@ -88,7 +88,14 @@ public class Car : BaseCar, ICollectionCloseAsync
 
     private void OnGoalReached()
     {
+        StartCoroutine(GoalReached());
+    }
+
+    private IEnumerator GoalReached()
+    {
+        yield return new WaitForSeconds(3f);
         mController.ToggleInputContext(false);
+        carRb.velocity = Vector2.zero;
         mPlayerHUD.ActivatePanel(EPanelType.GameComplete);
     }
 

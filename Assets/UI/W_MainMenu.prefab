@@ -988,6 +988,7 @@ MonoBehaviour:
   mPlayButton: {fileID: 1804540117931974936}
   mAchievementButton: {fileID: 7257783982673650948}
   mLoginButton: {fileID: 1739571875962407965}
+  mExitButtonClick: {fileID: 1066696321462173680}
 --- !u!225 &6314650621932654047
 CanvasGroup:
   m_ObjectHideFlags: 0
