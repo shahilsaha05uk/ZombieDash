@@ -50,10 +50,7 @@ public class Car : BaseCar, ICollectionCloseAsync
         mController.ToggleInputContext(false);
 
         mCarManager.StopManagement();
-        mCarManager.AwardResources();
-
-        string param = AnimationParametersDictionary.Trigger_Bottom_To_Center_Panel;
-        mPlayerHUD.ActivatePanelWithAnimation(EPanelType.Review, param, true);
+        mPlayerHUD.ActivatePanel(EPanelType.Review);
     }
 
     protected override void OnDriving()
@@ -92,7 +89,7 @@ public class Car : BaseCar, ICollectionCloseAsync
     private void OnGoalReached()
     {
         mController.ToggleInputContext(false);
-        mPlayerHUD.ActivatePanel(EPanelType.Upgrade);
+        mPlayerHUD.ActivatePanel(EPanelType.GameComplete);
     }
 
     public IEnumerator OnCollectionClose(SceneCollection collection)
@@ -103,6 +100,6 @@ public class Car : BaseCar, ICollectionCloseAsync
 
     public void PauseGame()
     {
-        mPlayerHUD.ActivatePanelWithAnimation(EPanelType.Pause, AnimationParametersDictionary.Trigger_Bottom_To_Center_Panel, false);
+        mPlayerHUD.ActivatePanel(EPanelType.Pause);
     }
 }

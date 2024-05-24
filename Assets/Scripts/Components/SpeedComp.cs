@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class SpeedComp : CarComponent
 {
-    public float MaxSpeed;
-
     protected override void Start()
     {
-        base.Start();
         mPart = ECarPart.Speed;
+        bIsExhaustiveComponent = false;
+        base.Start();
     }
 }

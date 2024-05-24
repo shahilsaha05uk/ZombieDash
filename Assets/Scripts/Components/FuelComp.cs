@@ -18,6 +18,8 @@ public class FuelComp : CarComponent
     {
         mDefaultDecreaseRate = mDecreaseRate;
         mPart = ECarPart.Fuel;
+        bIsExhaustiveComponent = true;
+
         base.Start();
         mCarRef.OnNitroToggled += OnNitroToggled;
 

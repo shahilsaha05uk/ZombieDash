@@ -18,12 +18,11 @@ public class UpgradeUI : BaseWidget
     
     private void Awake()
     {
-        if (mUpgradeAsset)
-            mUpgradeAsset.OnUpgradeRequested += OnUpgradeButtonClick;
         btnPlay.onClick.AddListener(OnPlay);
 
         btnMainMenu.onClick.AddListener(OnMainMenuButtonClick);
 
+        ResourceComp.OnResourceUpdated += UpdateMoney;
         mUiType = EUI.UPGRADE;
     }
 
@@ -32,19 +31,14 @@ public class UpgradeUI : BaseWidget
         LevelManager.Instance.OpenAdditiveScene(ELevel.MENU, true);
     }
 
-    protected override void OnEnable()
+    private void OnEnable()
     {
-        UpdateMoney();
+        UpdateMoney(ResourceComp.GetCurrentResources());
     }
 
-    private void OnUpgradeButtonClick(ECarPart Part, int Index)
+    private void UpdateMoney(int Value)
     {
-        UpdateMoney();
-    }
-
-    private void UpdateMoney()
-    {
-        mMoney.text = "£" + ResourceComp.GetCurrentResources();
+        mMoney.text = "£" + Value;
     }
 
     private void OnPlay()

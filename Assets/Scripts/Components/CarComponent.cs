@@ -7,6 +7,11 @@ using UnityEngine.Serialization;
 
 public abstract class CarComponent : MonoBehaviour, IResetInterface
 {
+    // delegate
+    public delegate void FOnNonExhaustiveCarComponentUpgradeSignature(float Value, ECarPart part);
+
+    public static FOnNonExhaustiveCarComponentUpgradeSignature OnNonExhaustiveCarComponentUpgrade;
+    
     // publics
     public Car mCarRef { private set; get; }
     public Rigidbody2D mCarRb { private set; get; }
@@ -20,12 +25,12 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
     [SerializeField] protected DA_UpgradeAsset mUpgradeAsset;
     protected Coroutine mComponentCoroutine;
     protected float mCurrent = 1f;
-    protected float mLast = 0f;
+    protected float mLast;
     protected ECarPart mPart;
-    [SerializeField] protected float mDecreaseRate = 0.01f;
-    [SerializeField] protected float mTolerance = 0.01f;
-    [SerializeField] protected float mTimeInterval = 0.001f;
-    [SerializeField] protected bool bIsExhaustiveComponent;
+    [SerializeField] protected float mDecreaseRate ;
+    [SerializeField] protected float mTolerance;
+    [SerializeField] protected float mTimeInterval;
+    protected bool bIsExhaustiveComponent;
     
     protected virtual void Start()
     {
@@ -107,7 +112,10 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
         {
             var up = mUpgradeAsset.GetNonExhaustiveUpgradeDetails(Part, Index);
             if (up != null)
+            {
                 mValue = up.Value;
+                OnNonExhaustiveCarComponentUpgrade?.Invoke(mValue, Part);
+            }
         }
         else
         {
