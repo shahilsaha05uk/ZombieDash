@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using EnumHelper;
 using Interfaces;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
@@ -82,6 +83,18 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
         pos = trans.position;
         rot = trans.rotation;
         scale = trans.localScale;
+
+        CarComponent.OnNonExhaustiveCarComponentUpgrade += OnNonExhaustivePartUpgrade;
+    }
+
+    private void OnNonExhaustivePartUpgrade(float value, ECarPart part)
+    {
+        switch (part)
+        {
+            case ECarPart.Speed:
+                mMaxSpeed = value;
+                break;
+        }
     }
 
     #endregion
@@ -92,14 +105,12 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     {
         OnStartDrive();
         bEngineRunning = true;
-        
-        EngineCor = StartCoroutine(RunEngine());
     }
 
-    protected virtual IEnumerator RunEngine()
+
+    private void Update()
     {
-        WaitForSeconds timeInterval = new WaitForSeconds(0.002f);
-        while (bEngineRunning)
+        if (bEngineRunning)
         {
             // Ground Check
             Rotate();
@@ -110,8 +121,6 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
             else Decelarate();
 
             OnDriving();
-
-            yield return timeInterval;
         }
     }
 
@@ -131,12 +140,12 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
         if (mGroundClearanceComp.bIsOnGround)
         {
-            frontTireRb.AddTorque(-mMoveInput * mMaxSpeed);
-            backTireRb.AddTorque(-mMoveInput * mMaxSpeed);
+            frontTireRb.AddTorque(-mMoveInput * mMaxSpeed * Time.deltaTime);
+            backTireRb.AddTorque(-mMoveInput * mMaxSpeed * Time.deltaTime);
         }
         else
         {
-            carRb.AddForce(transform.right * (mExtraForce * mMoveInput), ForceMode2D.Force);
+            carRb.AddForce(transform.right * (mExtraForce * mMoveInput * Time.deltaTime), ForceMode2D.Force);
         }
     }
     private void Decelarate()
@@ -153,6 +162,9 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
         var rot = -mRotationInput * val * Time.deltaTime;
         carRb.AddTorque(rot);
+        
+        print("Rolling " + rot);
+
     }
     protected void ApplyNitro(bool Value)
     {

@@ -19,27 +19,33 @@ MonoBehaviour:
       - ID: 0
         cost: 300
         DecreaseRate: 0.0005
-      - ID: 0
+      - ID: 1
         cost: 600
         DecreaseRate: 0.00025
-      - ID: 0
-        cost: 1
+      - ID: 2
+        cost: 900
+        DecreaseRate: 0.000125
+      - ID: 3
+        cost: 1200
         DecreaseRate: 0.000125
     - Key: 2
       Value:
       - ID: 0
-        cost: 100
-        DecreaseRate: 0.01
-      - ID: 0
-        cost: 150
-        DecreaseRate: 0.015
+        cost: 300
+        DecreaseRate: 0.00025
+      - ID: 1
+        cost: 600
+        DecreaseRate: 0.000125
+      - ID: 2
+        cost: 1000
+        DecreaseRate: 0.0000625
   mNonExhaustiveUpgradeList:
     _serializedList:
     - Key: 3
       Value:
       - ID: 0
         cost: 500
-        Value: 85
-      - ID: 0
+        Value: 4750
+      - ID: 1
         cost: 1000
-        Value: 90
+        Value: 20000

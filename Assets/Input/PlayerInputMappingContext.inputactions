@@ -6,12 +6,12 @@
             "id": "d12b9ff3-b6bd-4ebe-b120-626d90a88390",
             "actions": [
                 {
-                    "name": "Right/Left",
+                    "name": "Right",
                     "type": "Button",
                     "id": "1097dc85-4ec9-4260-aa28-0d59a498bb2f",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -20,7 +20,7 @@
                     "id": "a8d5456a-b620-423a-99b9-09b40fff588c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -32,7 +32,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Right/Left",
+                    "action": "Right",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -43,7 +43,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Right/Left",
+                    "action": "Right",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -54,7 +54,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Right/Left",
+                    "action": "Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -99,12 +99,12 @@
             "actions": [
                 {
                     "name": "Nitro",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "d181dcca-a3bf-40f1-9859-2814b103bd04",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

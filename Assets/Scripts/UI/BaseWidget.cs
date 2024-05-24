@@ -5,6 +5,11 @@ using EnumHelper;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
+public enum EAnimDirection
+{
+    Forward, Backward
+}
+
 [RequireComponent(typeof(CanvasGroup))]
 public abstract class BaseWidget : MonoBehaviour
 {
@@ -13,20 +18,7 @@ public abstract class BaseWidget : MonoBehaviour
     public FOnDestroyWidgetSignature OnWidgetDestroy;
 
     [SerializeField] protected EUI mUiType;
-
-    protected virtual void OnEnable()
-    {
-        
-    }
-
-    public void AddToViewport()
-    {
-        GetComponent<CanvasGroup>().alpha = 1f;
-    }
-    public void RemoveFromViewport()
-    {
-        GetComponent<CanvasGroup>().alpha = 0f;
-    }
+    
     public void DestroyWidget()
     {
         OnWidgetDestroy?.Invoke(mUiType);
@@ -35,5 +27,4 @@ public abstract class BaseWidget : MonoBehaviour
     {
         return this as T;
     }
-
 }

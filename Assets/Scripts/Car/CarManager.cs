@@ -1,12 +1,7 @@
 using System.Collections;
 using System.IO;
+using StructClass;
 using UnityEngine;
-
-public struct PlayerData
-{
-    public int LastDistance, NowDistance, DistanceDifference, TotalDistance, Progress;
-    public int ZombiesKilled, TotalZombiesKilled;
-}
 
 public class CarManager : MonoBehaviour
 {
@@ -19,7 +14,6 @@ public class CarManager : MonoBehaviour
     private Rigidbody2D rb;
     private Coroutine CarManagementCor;
     private Car mCar;
-    
     private Vector2 startPos;
 
     private bool bDayComplete;
@@ -35,13 +29,14 @@ public class CarManager : MonoBehaviour
 
     #region Physics
     // Physics Properties
-    public float nowDistance { private set; get; }
-    public float lastDistance { private set; get; }
-    public float distanceDifference { private set; get; }
-    public float distance { private set; get; }
+    public float mDistanceFromStart{ private set; get; }
+    public float mDistanceDifferenceFromGoal { private set; get; }   // this is the distance of the player from the goal 
+    public float distanceDifferenceFromLastDistance { private set; get; }   // this is the present distance of the player from the last one 
     public float totalDistance { private set; get; }
     public float progress { private set; get; }
 
+    private Vector2 LastPos, CurrentPos;
+    
     // Rigidbody vals
     public Vector2 Velocity { private set; get; }
     public float VelocityMag { private set; get; }
@@ -54,18 +49,18 @@ public class CarManager : MonoBehaviour
     // Scores
     public int TotalZombieKills { private set; get; }
     public int ZombieKills { private set; get; }
+    
+    // Resources
+    private int lastBalanceAdded;
 
-    private string GameDataPath;
     private void Start()
     {
         mGoal = GameObject.FindGameObjectWithTag(mGoalTag).transform;
 
-        GameDataPath = "Assets/jsons/gameData.json";
-        mCar = GetComponent<Car>();
         rb = GetComponent<Rigidbody2D>();
         startPos = transform.position;
-
         totalDistance = Mathf.Abs(mGoal.position.x - startPos.x);
+        LastPos = startPos;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -79,35 +74,29 @@ public class CarManager : MonoBehaviour
     public void StartManagement()
     {
         bDayComplete = false;
-        lastDistance = nowDistance;
         CarManagementCor = StartCoroutine(Managing());
     }
 
     public void StopManagement()
     {
         bDayComplete = true;
-        nowDistance = distance;
-
-        distanceDifference = Mathf.Abs(lastDistance - nowDistance);
-
-        TotalZombieKills += ZombieKills;
-
-        PlayerData pData = new PlayerData
-        {
-            Progress = Mathf.CeilToInt(progress),
-            DistanceDifference = Mathf.CeilToInt(distanceDifference),
-            ZombiesKilled = ZombieKills,
-            TotalDistance = Mathf.CeilToInt(totalDistance),
-            TotalZombiesKilled = TotalZombieKills,
-            NowDistance = Mathf.CeilToInt(nowDistance),
-            LastDistance = Mathf.CeilToInt(lastDistance)
-        };
-        AchievementManager.Instance.UpdateAchievement(EAchievement.ZombieKiller, TotalZombieKills);
         
-        string savePlayerData = JsonUtility.ToJson(pData);
-        File.WriteAllText(GameDataPath, savePlayerData);
+        TotalZombieKills += ZombieKills;
+        
+        // Calculations
+        mDistanceFromStart = Mathf.Abs(transform.position.x - startPos.x);
+        distanceDifferenceFromLastDistance = Mathf.Abs(transform.position.x - LastPos.x);
 
+        // Adding resources to the back
+        AwardResources();
+        
+        // Saving the values
+        AchievementManager.Instance.UpdateAchievement(EAchievement.ZombieKiller, TotalZombieKills);
+        SaveDataManager.Save(CreateSaveData());
+        
+        // Resetting the values
         ZombieKills = 0;
+        LastPos = transform.position;
     }
 
     private IEnumerator Managing()
@@ -119,13 +108,13 @@ public class CarManager : MonoBehaviour
             VelocityMag = Velocity.magnitude;
 
             // Calculates the distance
-            distance = Mathf.Abs(mGoal.position.x - transform.position.x);
+            mDistanceDifferenceFromGoal = Mathf.Abs(mGoal.position.x - transform.position.x);
             // Calculates the progress (distance from the target)
-            progress = 1 - (distance / totalDistance);
+            progress = 1 - (mDistanceDifferenceFromGoal / totalDistance);
 
 
             // when the player is near the goal
-            if(distance < 15f)
+            if(mDistanceDifferenceFromGoal < 15f)
             {
                 // near to the goal
                 Debug.Log("Reached near goal");
@@ -134,18 +123,26 @@ public class CarManager : MonoBehaviour
             yield return null;
         }
     }
-
-
     public void AwardResources()
     {
-        if (distanceDifference > 50)
+        lastBalanceAdded = (distanceDifferenceFromLastDistance > 50) ? 600 : 400;
+
+        lastBalanceAdded = Mathf.CeilToInt(lastBalanceAdded * 1.85f);
+        ResourceComp.AddResources(lastBalanceAdded);
+    }
+
+    private FPlayerData CreateSaveData()
+    {
+        return new FPlayerData
         {
-            ResourceComp.AddResources(100);
-        }
-        else
-        {
-            ResourceComp.AddResources(50);
-        }
+            DistanceCovered = Mathf.CeilToInt(mDistanceFromStart),
+            DistanceLeft = Mathf.CeilToInt(mDistanceDifferenceFromGoal),
+            DistanceDifference = Mathf.CeilToInt(distanceDifferenceFromLastDistance),
+            TotalDistance = Mathf.CeilToInt(totalDistance),
+            AddedBalance = lastBalanceAdded,
+            ZombiesKilled = ZombieKills,
+            TotalZombiesKilled = TotalZombieKills,
+        };
     }
 
 }

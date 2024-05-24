@@ -31,8 +31,8 @@ public class CarController : BaseController
     {
         mPlayerInput = new PlayerInputMappingContext();
 
-        mPlayerInput.Move.RightLeft.started += Move;
-        mPlayerInput.Move.RightLeft.canceled += Move;
+        mPlayerInput.Move.Right.started += Move;
+        mPlayerInput.Move.Right.canceled += Move;
 
         mPlayerInput.Move.Roll.started += Roll;
         mPlayerInput.Move.Roll.canceled += Roll;
@@ -46,7 +46,6 @@ public class CarController : BaseController
 
     private void Pause(InputAction.CallbackContext obj)
     {
-        Debug.Log("Button input fetched!!");
         mCar.PauseGame();
         Time.timeScale = (Time.timeScale == 0)? 1 : 0;
     }
