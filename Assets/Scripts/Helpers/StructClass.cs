@@ -1,37 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
 using EnumHelper;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace StructClass
 {
-    [Serializable]
-    public struct FDirectoryDetails
-    {
-        public string FullDirectory;
-        public string FullDirectoryWithFile;
-        public string FileName;
-        public string Directory;
-    }
-
-    [Serializable]
-    public struct FPlayerData
-    {
-        // Distance-related variables
-        public int DistanceCovered;
-        public int DistanceLeft;
-        public int DistanceDifference;
-        public int TotalDistance;
-
-        // Zombie-related variables
-        public int ZombiesKilled;
-        public int TotalZombiesKilled;
-        
-        //Resources
-        public int AddedBalance;
-    }
-
     public struct FLevelDetails
     {
         public int ID;

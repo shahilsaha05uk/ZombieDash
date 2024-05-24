@@ -28,12 +28,12 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
             ""id"": ""d12b9ff3-b6bd-4ebe-b120-626d90a88390"",
             ""actions"": [
                 {
-                    ""name"": ""Right"",
+                    ""name"": ""Right/Left"",
                     ""type"": ""Button"",
                     ""id"": ""1097dc85-4ec9-4260-aa28-0d59a498bb2f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -42,7 +42,7 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
                     ""id"": ""a8d5456a-b620-423a-99b9-09b40fff588c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 }
             ],
@@ -54,7 +54,7 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Right"",
+                    ""action"": ""Right/Left"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -65,7 +65,7 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PlayerInput"",
-                    ""action"": ""Right"",
+                    ""action"": ""Right/Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -76,7 +76,7 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Right"",
+                    ""action"": ""Right/Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -121,12 +121,12 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
             ""actions"": [
                 {
                     ""name"": ""Nitro"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""d181dcca-a3bf-40f1-9859-2814b103bd04"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -710,7 +710,7 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
 }");
         // Move
         m_Move = asset.FindActionMap("Move", throwIfNotFound: true);
-        m_Move_Right = m_Move.FindAction("Right", throwIfNotFound: true);
+        m_Move_RightLeft = m_Move.FindAction("Right/Left", throwIfNotFound: true);
         m_Move_Roll = m_Move.FindAction("Roll", throwIfNotFound: true);
         // Trigger
         m_Trigger = asset.FindActionMap("Trigger", throwIfNotFound: true);
@@ -790,13 +790,13 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
     // Move
     private readonly InputActionMap m_Move;
     private List<IMoveActions> m_MoveActionsCallbackInterfaces = new List<IMoveActions>();
-    private readonly InputAction m_Move_Right;
+    private readonly InputAction m_Move_RightLeft;
     private readonly InputAction m_Move_Roll;
     public struct MoveActions
     {
         private @PlayerInputMappingContext m_Wrapper;
         public MoveActions(@PlayerInputMappingContext wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Right => m_Wrapper.m_Move_Right;
+        public InputAction @RightLeft => m_Wrapper.m_Move_RightLeft;
         public InputAction @Roll => m_Wrapper.m_Move_Roll;
         public InputActionMap Get() { return m_Wrapper.m_Move; }
         public void Enable() { Get().Enable(); }
@@ -807,9 +807,9 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
         {
             if (instance == null || m_Wrapper.m_MoveActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MoveActionsCallbackInterfaces.Add(instance);
-            @Right.started += instance.OnRight;
-            @Right.performed += instance.OnRight;
-            @Right.canceled += instance.OnRight;
+            @RightLeft.started += instance.OnRightLeft;
+            @RightLeft.performed += instance.OnRightLeft;
+            @RightLeft.canceled += instance.OnRightLeft;
             @Roll.started += instance.OnRoll;
             @Roll.performed += instance.OnRoll;
             @Roll.canceled += instance.OnRoll;
@@ -817,9 +817,9 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
 
         private void UnregisterCallbacks(IMoveActions instance)
         {
-            @Right.started -= instance.OnRight;
-            @Right.performed -= instance.OnRight;
-            @Right.canceled -= instance.OnRight;
+            @RightLeft.started -= instance.OnRightLeft;
+            @RightLeft.performed -= instance.OnRightLeft;
+            @RightLeft.canceled -= instance.OnRightLeft;
             @Roll.started -= instance.OnRoll;
             @Roll.performed -= instance.OnRoll;
             @Roll.canceled -= instance.OnRoll;
@@ -1031,7 +1031,7 @@ public partial class @PlayerInputMappingContext: IInputActionCollection2, IDispo
     }
     public interface IMoveActions
     {
-        void OnRight(InputAction.CallbackContext context);
+        void OnRightLeft(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
     }
     public interface ITriggerActions

@@ -1,42 +1,26 @@
 using System;
 using EnumHelper;
 using Helpers;
-using Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseMenu : BaseWidget
+public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private Button mResumeButtonClick;
     [SerializeField] private Button mMenuButtonClick;
-
-    private BaseAnimatedUI mAnimUI;
-    
-    public delegate void FOnGameResumeSignature();
-    public event FOnGameResumeSignature OnGameResume;
 
     private void Awake()
     {
          mResumeButtonClick.onClick.AddListener(OnResumeButtonClick);
          mMenuButtonClick.onClick.AddListener(OnMenuButtonClick);
     }
-    private void OnEnable()
-    {
-        if (TryGetComponent(out mAnimUI))
-        {
-            mAnimUI.StartAnim(EAnimDirection.Forward);
-            Time.timeScale = 0;
-        }
-    }
-
-    
-    // Button Bonded Methods
     public void OnResumeButtonClick()
     {
         Time.timeScale = 1;
-        mAnimUI.StartAnim(EAnimDirection.Backward);
-        OnGameResume?.Invoke();
+        string param = AnimationParametersDictionary.Trigger_Bottom_To_Center_Panel;
+        GetComponent<Animator>().ResetTrigger(param);
     }
+
     public void OnMenuButtonClick()
     {
         LevelManager.Instance.OpenAdditiveScene(ELevel.MENU, true);

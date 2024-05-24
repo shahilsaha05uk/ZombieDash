@@ -2,7 +2,7 @@
 {
     public enum EUI
     {
-        MAIN_MENU, UPGRADE, PLAYERHUD, PAUSE, REVIEW
+        MAIN_MENU, UPGRADE, PLAYERHUD, PAUSE
     }
 
     public enum ECarPart

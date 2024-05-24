@@ -52,17 +52,18 @@ public class Card : MonoBehaviour
 
     private void OnCardButtonClick()
     {
-        if (mUpgradeAsset == null || mCurrentIndex > mTotalUpgrades) return;
+        if (mUpgradeAsset == null || mTotalUpgrades < 0) return;
 
         var up = GetUpgrade();
 
         if (up == null) return;
         
-        mUpgradeAsset.Trigger_UpgradeRequest(cardPart, mCurrentIndex);
-        
-        mCurrentIndex++;
         ResourceComp.SubtractResources(up.cost);
 
+        mUpgradeAsset.Trigger_UpgradeRequest(cardPart, mCurrentIndex);
+
+        mTotalUpgrades--;
+        mCurrentIndex++;
     }
     private void UpdateCardDetails()
     {
@@ -71,7 +72,7 @@ public class Card : MonoBehaviour
         {
             int upCost = CurrentUpgrade.cost;
             txtCost.text = upCost.ToString();
-            ToggleCard((upCost < ResourceComp.GetCurrentResources()), false);   // activate the button if the upgrade cost is less than the current balance
+            ToggleCard((upCost <= ResourceComp.GetCurrentResources()), false);   // activate the button if the upgrade cost is less than the current balance
         }
         else
         {

@@ -17,8 +17,10 @@ public class MainMenu : BaseWidget
     [SerializeField] private Button mAchievementButton;
     [SerializeField] private Button mLoginButton;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         mUiType = EUI.MAIN_MENU;
         mPlayButton.onClick.AddListener(OnPlayButtonClick);
         mAchievementButton.onClick.AddListener(OnAchievementsButtonClick);
