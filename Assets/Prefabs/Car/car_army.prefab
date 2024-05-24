@@ -293,10 +293,10 @@ MonoBehaviour:
   carRb: {fileID: 333206790732981338}
   mAccelarationRate: 2
   mDecelerationRate: 0.1
-  mRotateSpeed: 3000
-  rotSpeedWhenInAirAndNitro: 12000
-  mMaxSpeed: 80
-  mExtraForce: 2
+  mRotateSpeed: 5000
+  rotSpeedWhenInAirAndNitro: 14900
+  mMaxSpeed: 5000
+  mExtraForce: 4500
 --- !u!114 &282886651498949268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,8 +316,8 @@ MonoBehaviour:
   bIsExhaustiveComponent: 0
   frontTireRb: {fileID: 5867708015697351660}
   backTireRb: {fileID: 6789284611104282344}
-  mNitroImpulseInAir: 20
-  mNitroImpulseOnCarRb: 100
+  mNitroImpulseInAir: 10000
+  mNitroImpulseOnCarRb: 10000
 --- !u!114 &458892625860153846
 MonoBehaviour:
   m_ObjectHideFlags: 0

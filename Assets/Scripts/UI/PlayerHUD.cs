@@ -7,11 +7,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public enum EPanelType { None, Hud, Upgrade, Review, Pause}
+public enum EPanelType { None, Hud, Upgrade, Review, Pause, GameComplete}
 public class PlayerHUD : BaseWidget, IDayCompleteInterface
 {
-    private UpgradeUI mUpgradeUI;
-
     private BaseCar mCarRef;
 
     [SerializedDictionary("Type", "Canvas")]
@@ -22,23 +20,28 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
     [SerializeField] private Speedometer mFuel;
     [SerializeField] private DistanceMeter mDistanceMeter;
 
-    [Space(10)][Header("Player Control Buttons")]
-    public Button mPedalButton;
-    public Button mRollClockButton;
-    public Button mRollAntiClock;
-    public Button mNitroButton;
-    public Button mPauseButton;
-
     
     private void Awake()
     {
         mUiType = EUI.PLAYERHUD;
 
-        mUpgradeUI = CanvasMap[EPanelType.Upgrade].GetComponent<UpgradeUI>();
-        if (mUpgradeUI)
+        if (CanvasMap.TryGetValue(EPanelType.Upgrade, out CanvasGroup upgradeMenu))
         {
-            mUpgradeUI.OnPlayClick += OnPlayClick;
+            if(upgradeMenu.TryGetComponent(out UpgradeUI upgradeUI))
+                upgradeUI.OnPlayClick += OnPlayClick;
         }
+
+        if (CanvasMap.TryGetValue(EPanelType.Pause, out CanvasGroup pauseMenu))
+        {
+            if (pauseMenu.TryGetComponent(out PauseMenu pauseUI))
+                pauseUI.OnGameResume += OnGameResume;
+        }
+    }
+
+    private void OnGameResume()
+    {
+        ActivatePanel(EPanelType.Hud);
+        DeactivatePanel(EPanelType.Pause);
     }
 
     public void Init(ref BaseCar Car, EPanelType PanelToActivate = EPanelType.None)
@@ -65,7 +68,7 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
     {
         switch (carpart)
         {
-            case ECarPart.All_Comp:
+            /*case ECarPart.All_Comp:
                 mNitro.UpdateValue(value);
                 mFuel.UpdateValue(value);
                 break;
@@ -76,7 +79,7 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
                 mNitro.UpdateValue(value);
                 break;
             case ECarPart.Speed:
-                break;
+                break;*/
         }
     }
 
@@ -93,17 +96,6 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
             CanvasMap[Panel].gameObject.SetActive(true);
             CanvasMap[Panel].alpha = 1f;
             mCurrentlyOpenedPanel = Panel;
-        }
-    }
-
-    public void ActivatePanelWithAnimation(EPanelType Panel, string AnimationName, bool deactivateLastPanel = true)
-    {
-        ActivatePanel(Panel, deactivateLastPanel);
-        
-        if(CanvasMap.ContainsKey(Panel))
-        {
-            CanvasMap[Panel].TryGetComponent<Animator>(out Animator anim);
-            anim.SetTrigger(AnimationName);
         }
     }
 

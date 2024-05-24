@@ -1,68 +1,64 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using EnumHelper;
 using Helpers;
+using Interfaces;
+using StructClass;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class ReviewPanel : MonoBehaviour
+public class ReviewPanel : BaseWidget
 {
-    public Field mTotalDistance;
-    public Field mLastDistance;
-    public Field mDifference;
-    public Field mMoneyCollected;
+    
+    [FormerlySerializedAs("mTotalDistance")] public Field mDistanceCoveredField;
+    [FormerlySerializedAs("mDistanceLeft")] public Field mDistanceLeftField;
+    [FormerlySerializedAs("mDifference")] public Field mDifferenceField;
+    [FormerlySerializedAs("mMoneyCollected")] public Field mEarningField;
 
     [SerializeField] private Button mDayCompleteButton;
     [SerializeField] private Button mMainMenuButton;
+    
+    private BaseAnimatedUI mAnimUI;
 
     private void OnEnable()
     {
+        if (TryGetComponent(out mAnimUI))
+        {
+            mAnimUI.StartAnim(EAnimDirection.Forward);
+        }
         UpdateValues();
     }
+
     private void Start()
     {
         mDayCompleteButton.onClick.AddListener(OnDayCompleteButtonClick);
         mMainMenuButton.onClick.AddListener(OnMenuButtonClick);
     }
 
+
     public void OnDayCompleteButtonClick()
     {
-        RevertBackToOriginalPosition();
+        mAnimUI.StartAnim(EAnimDirection.Backward);
         GameManager.Instance.DayComplete();
     }
-
     public void OnMenuButtonClick()
     {
-        RevertBackToOriginalPosition();
         LevelManager.Instance.OpenAdditiveScene(ELevel.MENU, true);
-
     }
-
-    private void RevertBackToOriginalPosition()
-    {
-        GetComponent<Animator>().ResetTrigger(AnimationParametersDictionary.Trigger_Bottom_To_Center_Panel);
-    }
-
+    
     public void UpdateValues()
     {
-        string path = "Assets/jsons/gameData.json";
-
-        if (File.Exists(path))
+        if (SaveDataManager.GetPlayerData(out FPlayerData pData))
         {
-            string loadPlayerData = File.ReadAllText(path);
-            var pData = JsonUtility.FromJson<PlayerData>(loadPlayerData);
-            
             // Update the HUD
-            mTotalDistance.UpdateText(pData.TotalDistance.ToString());
-            mLastDistance.UpdateText(pData.LastDistance.ToString());
-            mDifference.UpdateText(pData.DistanceDifference.ToString());
+            string distanceCovered = $"{pData.DistanceCovered} / {pData.TotalDistance}";
+            mDistanceCoveredField.UpdateText(distanceCovered);
+            mDifferenceField.UpdateText(pData.DistanceDifference.ToString());
+
+            int balanceBeforeAdd = ResourceComp.GetCurrentResources() - pData.AddedBalance;
+            string resourceAdded = $"{balanceBeforeAdd} + {pData.AddedBalance}";
+            mEarningField.UpdateText(resourceAdded);
         }
-        // mTotalDistance.UpdateText();
-       // mLastDistance.UpdateText();
-       // mDifference.UpdateText();
-       // mMoneyCollected.UpdateText();
     }
 }
  
