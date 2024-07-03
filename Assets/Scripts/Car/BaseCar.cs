@@ -24,9 +24,6 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     #endregion
 
     #region Delegates and Events
-    public delegate void FOnCarComponentUpdate(ECarPart carPart, float value);
-    public FOnCarComponentUpdate OnComponentUpdated;
-
     public delegate void FOnNitroToggleSignature(bool Value);
     public event FOnNitroToggleSignature OnNitroToggled;
     #endregion
@@ -34,7 +31,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     #region Properties
     public CarController mController { private set; get; }
 
-    protected IDictionary<ECarPart, CarComponent> ComponentsDic = new Dictionary<ECarPart, CarComponent>();
+    protected IDictionary<ECarPart, CarComponent> mComponentsDic = new Dictionary<ECarPart, CarComponent>();
     private Coroutine EngineCor;
     
     // Privates
@@ -65,9 +62,10 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
     protected bool bStartedDriving = false;
     protected bool bIsVelocityPositive = false;
-    private bool mActivateNitro;
+    private bool bActivateNitro;
 
     #endregion
+    
     #region Initialisers
 
     protected virtual void Awake()
@@ -135,7 +133,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     #region Actions
     private void Accelarate()
     {
-        if (ComponentsDic[ECarPart.Fuel].bHasExhausted) return;
+        if (mComponentsDic[ECarPart.Fuel].bHasExhausted) return;
 
         if (mGroundClearanceComp.bIsOnGround)
         {
@@ -157,7 +155,7 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     {
         if (mRotationInput == 0f) return;
 
-        float val = (!mGroundClearanceComp.bIsOnGround && mActivateNitro) ? rotSpeedWhenInAirAndNitro : mRotateSpeed;
+        float val = (!mGroundClearanceComp.bIsOnGround && bActivateNitro) ? rotSpeedWhenInAirAndNitro : mRotateSpeed;
 
         var rot = -mRotationInput * val * Time.deltaTime;
         carRb.AddTorque(rot);
@@ -167,17 +165,17 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
     }
     protected void ApplyNitro(bool Value)
     {
-        if (!ComponentsDic.ContainsKey(ECarPart.Nitro)) return;
+        if (!mComponentsDic.ContainsKey(ECarPart.Nitro)) return;
 
-        mActivateNitro = Value;
+        bActivateNitro = Value;
 
-        if (mActivateNitro && !ComponentsDic[ECarPart.Nitro].bHasExhausted)
+        if (bActivateNitro && !mComponentsDic[ECarPart.Nitro].bHasExhausted)
         {
-            ComponentsDic[ECarPart.Nitro].StartComponent();
+            mComponentsDic[ECarPart.Nitro].StartComponent();
         }
         else
         {
-            ComponentsDic[ECarPart.Nitro].StopComponent();
+            mComponentsDic[ECarPart.Nitro].StopComponent();
         }
     }
 
@@ -206,18 +204,8 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
     public void RegisterComponent(ECarPart Type, CarComponent Component)
     {
-        if(!ComponentsDic.ContainsKey(Type))ComponentsDic.Add(Type, Component);
+        if(!mComponentsDic.ContainsKey(Type))mComponentsDic.Add(Type, Component);
     }
-    public void UpdateCarMetrics(ECarPart carPart, float value)
-    {
-        OnComponentUpdated?.Invoke(carPart, value);
-    }
-
-    public void UpdateSpeed(int Value)
-    {
-        mMaxSpeed = Value;
-    }
-
     #endregion
     
     #region Overridables
@@ -235,6 +223,5 @@ public abstract class BaseCar : MonoBehaviour, IResetInterface
 
         transform.SetPositionAndRotation(pos, rot);
         transform.localScale = scale;
-
     }
 }

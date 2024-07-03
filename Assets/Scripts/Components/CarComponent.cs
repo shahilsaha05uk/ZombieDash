@@ -45,19 +45,16 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
         if (mCarRef)
         {
             mCarRef.RegisterComponent(mPart, this);
-            mCarRef.UpdateCarMetrics(mPart, mCurrent);
             GameManager.OnResetLevel += OnReset;
         }
         bHasExhausted = false;
     }
-
-
+    
     public virtual void OnReset()
     {
         bHasExhausted = false;
         mCurrent = mInitial;
         mLast = 0f;
-        mCarRef.UpdateCarMetrics(mPart, mCurrent);
     }
     public virtual void StartComponent()
     {
@@ -96,7 +93,6 @@ public abstract class CarComponent : MonoBehaviour, IResetInterface
         if (difference > tolerance || value <= 0.0f)
         {
             mLast = value;
-            mCarRef.UpdateCarMetrics(carPart, value);
         }
     }
     protected virtual void PartExhaust()
