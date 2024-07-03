@@ -293,7 +293,7 @@ MonoBehaviour:
   carRb: {fileID: 333206790732981338}
   mAccelarationRate: 2
   mDecelerationRate: 0.1
-  mRotateSpeed: 5000
+  mRotateSpeed: 8000
   rotSpeedWhenInAirAndNitro: 14900
   mMaxSpeed: 5000
   mExtraForce: 4500

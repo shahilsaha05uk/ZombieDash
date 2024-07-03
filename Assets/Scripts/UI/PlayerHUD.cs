@@ -49,7 +49,6 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
         if (Car != null)
         {
             mCarRef = Car;
-            mCarRef.OnComponentUpdated += OnWidgetUpdateRequest;
         }
         ActivatePanel(PanelToActivate);
     }
@@ -62,25 +61,6 @@ public class PlayerHUD : BaseWidget, IDayCompleteInterface
     public void UpdateProgress(float NormalizedDistance)
     {
         mDistanceMeter.UpdateValue(NormalizedDistance);
-    }
-
-    private void OnWidgetUpdateRequest(ECarPart carpart, float value)
-    {
-        switch (carpart)
-        {
-            /*case ECarPart.All_Comp:
-                mNitro.UpdateValue(value);
-                mFuel.UpdateValue(value);
-                break;
-            case ECarPart.Fuel:
-                mFuel.UpdateValue(value);
-                break;
-            case ECarPart.Nitro:
-                mNitro.UpdateValue(value);
-                break;
-            case ECarPart.Speed:
-                break;*/
-        }
     }
 
     // Panel Togglers
